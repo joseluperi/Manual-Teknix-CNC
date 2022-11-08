@@ -15,7 +15,7 @@ Regla de la Mano Derecha
 
 Los sistemas ortogonales utilizados son dextrógiro, es decir que siguen la regla de la mano derecha.
 
-.. figure:: images/rigthHandRule.png
+.. figure:: images/rightHandRule.png
    :width: 200
    
    Regla de la mano derecha.
