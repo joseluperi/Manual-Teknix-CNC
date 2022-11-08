@@ -9,7 +9,7 @@ El control Teknix CNC posee las siguientes características:
 * Editor de Programas
 * Configuración de Alarmas
 
-Para conocer sobre la definición de la geometría vea :ref:`FundamentosCNC` . Para conocer sobre el uso de los comandos CNC vea :doc:`cncFundamentals`. 
+Para conocer sobre la definición de la geometría vea :doc:`geomFundamentals` . Para conocer sobre el uso de los comandos CNC vea :doc:`cncFundamentals`. 
 Para conocer sobre el uso de las pantallas del usuario vea :doc:`humanMachineInterface`.
 
 Contenido
