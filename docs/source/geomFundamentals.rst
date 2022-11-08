@@ -1,3 +1,2 @@
-
-   Fundamentos Geométricos
-   -----------------------
+Fundamentos Geométricos
+=======================
