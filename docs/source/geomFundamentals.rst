@@ -1,5 +1,3 @@
-.. _geomFundamentals:
-
 Fundamentos Geométricos
 =======================
 
