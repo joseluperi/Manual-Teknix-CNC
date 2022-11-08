@@ -1,4 +1,4 @@
-.. _Fundamentos::
+.. _FundamentosCNC::
 
 Fundamentos de CNC
 ==================
