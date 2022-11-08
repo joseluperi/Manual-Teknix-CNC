@@ -1,22 +1,21 @@
-Welcome to Lumache's documentation!
-===================================
+Bienvenidos al Manual de Usuario del Control Numérico de Teknix !
+=================================================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+En esta documentación podrá encontrar las referencias para el uso del control numérico **Teknix CNC**.
+El control Teknix CNC posee las siguientes características:
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+* Interpretador de Instrucciones
+* Gestor de Herramientas
+* Editor de Programas
+* Configuración de Alarmas
 
-.. note::
 
-   This project is under active development.
 
-Contents
---------
+Contenido
+---------
 
 .. toctree::
 
-   usage
-   api
+   geomFundamentals
+   cncFundamentals
+   humanMachineInterface
