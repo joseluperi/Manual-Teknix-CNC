@@ -8,6 +8,8 @@ En esta sección se describen las pantallas y botones de interfaz para la operac
 Teclado y botones
 -----------------
 
+La 
+
 .. _pantallas:
 
 Pantallas
