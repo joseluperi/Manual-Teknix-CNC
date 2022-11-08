@@ -9,6 +9,10 @@ Sistemas coordenados
 --------------------
 
 A los efectos de que el control pueda interpretar los datos de posición, éstos deben estar referidos a un sistema coordenado de referencia. Normalmente se utilizan sistemas de referencia ortogonales cuyas componentes son los ejes X, Y y Z.
+
+Regla de la Mano Derecha
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 Los sistemas ortogonales utilizados son dextrógiro, es decir que siguen la regla de la mano derecha.
 
 .. image:: images/rigthHandRule.png
@@ -35,8 +39,7 @@ Normalmente para operaciones de torneado el eje del husillo correspode al eje Z.
    Sistema coordenado para torneado. 
    
    
-Regla de la Mano Derecha
-^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 Coordenadas Absolutas
 ^^^^^^^^^^^^^^^^^^^^^
@@ -46,6 +49,23 @@ Coordenadas Relativas
 
 Planos de Trabajo
 ^^^^^^^^^^^^^^^^^
+
+Al programar es necesario especificar el plano en el que se está trabajado para que el sistema de control realizar los cálculos geométricos y pueda utilizar de manera correcta los decalajes de herramientas. 
+El plano de trabajo se definen por medio de los códigos G17, G18 o G19 y su definición queda determinada por los dos ejes del sistema coordenado que lo contienen.
+
+* G17 es el plano definido por los ejes X e Y.
+* G18 es el plano definido por los ejes X e Z.
+* G19 es el plano definido por los ejes Y e Z.
+
+.. image:: images/planesMilling.png
+   :width: 300
+   
+   Planos de trabajo para fresado.
+
+.. image:: images/planesTurning.png
+   :width: 300
+   
+   Planos de trabajo para torneado.
 
 
 .. _centrosCoords:
