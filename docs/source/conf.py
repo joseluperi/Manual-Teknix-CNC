@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'Manual de Ususario Teknix CNC'
+copyright = '2022, Teknix Arg.'
+author = 'Teknix Arg'
 
 release = '0.1'
 version = '0.1.0'
