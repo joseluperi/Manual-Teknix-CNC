@@ -15,8 +15,8 @@ Regla de la Mano Derecha
 
 Los sistemas ortogonales utilizados son dextrógiro, es decir que siguen la regla de la mano derecha.
 
-.. image:: images/rigthHandRule.png
-   :width: 300
+.. figure:: images/rigthHandRule.png
+   :width: 200
    
    Regla de la mano derecha.
    
@@ -26,15 +26,15 @@ Los sistemas ortogonales utilizados son dextrógiro, es decir que siguen la regl
    
 Normalmente para operaciones de fresado el plano horizontal corresponde al plano contenido por los ejes X e Y.
 
-.. image:: images/millingCoordSys.png
-   :width: 300
+.. figure:: images/millingCoordSys.png
+   :width: 200
    
    Sistema coordenado para fresado.
 
 Normalmente para operaciones de torneado el eje del husillo correspode al eje Z.
 
-.. image:: images/turningCoordSys.png
-   :width: 300
+.. figure:: images/turningCoordSys.png
+   :width: 200
    
    Sistema coordenado para torneado. 
    
@@ -57,13 +57,13 @@ El plano de trabajo se definen por medio de los códigos G17, G18 o G19 y su def
 * G18 es el plano definido por los ejes X e Z.
 * G19 es el plano definido por los ejes Y e Z.
 
-.. image:: images/planesMilling.png
-   :width: 300
+.. figure:: images/planesMilling.png
+   :width: 200
    
    Planos de trabajo para fresado.
 
-.. image:: images/planesTurning.png
-   :width: 300
+.. figure:: images/planesTurning.png
+   :width: 200
    
    Planos de trabajo para torneado.
 
