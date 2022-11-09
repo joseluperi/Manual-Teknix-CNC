@@ -52,8 +52,8 @@ Ejemplo para fresado
    :width: 250
    
    P1 corresponde a X20 Y35
-   |P2 corresponde a X50 Y60
-   |P3 corresponde a X70 Y20
+   | P2 corresponde a X50 Y60
+   | P3 corresponde a X70 Y20
 
 Ejemplo para torneado
 
@@ -61,9 +61,9 @@ Ejemplo para torneado
    :width: 250
    
    P1 corresponde a X25 Z-7.5
-   |P2 corresponde a X40 Z-15
-   |P3 corresponde a X40 Z-25
-   |P4 corresponde a X60 Z-35
+   | P2 corresponde a X40 Z-15
+   | P3 corresponde a X40 Z-25
+   | P4 corresponde a X60 Z-35
    
    Nota: se muestra este ejemplo utilizando el modo diametral habilitado.
 
@@ -92,9 +92,9 @@ Ejemplo para torneado
    :width: 250
    
    G90 P1 corresponde a X25 Z-7.5; (respecto al origen de coordenadas)
-   |G91 P2 corresponde a X15 Z-7.5 ; (respecto a P1)
-   |G91 P3 corresponde a Z-10 ; (respecto a P2)
-   |G91 P4 corresponde a X20 Z-10 ; (respecto a P3)
+   | G91 P2 corresponde a X15 Z-7.5 ; (respecto a P1)
+   | G91 P3 corresponde a Z-10 ; (respecto a P2)
+   | G91 P4 corresponde a X20 Z-10 ; (respecto a P3)
    
    Nota: se muestra este ejemplo utilizando el modo diametral habilitado.
 
