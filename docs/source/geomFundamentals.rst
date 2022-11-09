@@ -4,10 +4,10 @@ Fundamentos Geométricos
 En esta sección se muestran las definiciones de sistemas de referencia; coordenadas absolutas y relativas; centros de coordenadas y 
 decalajes que son necesarios para la correcta definición de las posiciones.
 
-.. _sistCoords:
+.. _defCoords:
 
-Sistemas coordenados
---------------------
+Definición de Coordenadas
+----------------------------------
 
 A los efectos de que el control pueda interpretar los datos de posición, éstos deben estar expresados en un sistema coordenado 
 de referencia. Normalmente se utilizan sistemas de referencia ortogonales cuyas componentes son los ejes X, Y y Z.
@@ -29,17 +29,16 @@ Los sistemas ortogonales utilizados son dextrógiros, es decir que siguen la reg
 Normalmente para operaciones de fresado el plano horizontal corresponde al plano contenido por los ejes X e Y.
 
 .. figure:: images/millingCoordSys.png
-   :width: 200
+   :width: 250
    
    Sistema coordenado para fresado.
 
 Normalmente para operaciones de torneado el eje del husillo correspode al eje Z.
 
 .. figure:: images/turningCoordSys.png
-   :width: 200
+   :width: 250
    
    Sistema coordenado para torneado. 
-
 
 Coordenadas Absolutas
 ^^^^^^^^^^^^^^^^^^^^^
@@ -65,6 +64,10 @@ Ejemplo para torneado
    P2 corresponde a X40 Z-15
    P3 corresponde a X40 Z-25
    P4 corresponde a X60 Z-35
+   
+   Nota: se muestra este ejemplo utilizando el modo diametral habilitado.
+
+Para definir la posición en coordenadas absolutas al programar se utiliza el código G90.
 
 Coordenadas Relativas
 ^^^^^^^^^^^^^^^^^^^^^
@@ -83,7 +86,7 @@ Ejemplo para fresado
    P2 corresponde a X30 Y20 ; (respecto a P1)
    P3 corresponde a X20 Y-35 ; (respecto a P2)
 
-Ejemplo paratorneado
+Ejemplo para torneado
 
 .. figure:: images/relativeTurningCoords.png
    :width: 200
@@ -92,8 +95,11 @@ Ejemplo paratorneado
    G91 P2 corresponde a X15 Z-7.5 ; (respecto a P1)
    G91 P3 corresponde a Z-10 ; (respecto a P2)
    G91 P4 corresponde a X20 Z-10 ; (respecto a P3)
+   
+   Nota: se muestra este ejemplo utilizando el modo diametral habilitado.
 
-Nota: Cuando DIAMOF o DIAM90 está activo, la posición se programa con la dimensión del radio con G91.
+Para definir la posición en coordenadas relativas al programar se utiliza el código G91.
+
 
 Planos de Trabajo
 ^^^^^^^^^^^^^^^^^
@@ -115,29 +121,86 @@ El plano de trabajo se definen por medio de los códigos G17, G18 o G19 y su def
    
    Planos de trabajo para torneado.
 
+El eje que no pertenece al plano es el que determina la dirección de avance de la herramienta.
 
-.. _centrosCoords:
+.. _sistemasCoords:
+
+Sistemas de Coordenadas
+-----------------------
+
+En un control numérico se utilizan varios sistemas de coordenadas, que facilitan la definición y el trabajo con la geometría.
+La posición relativa de un sistema respecto a otro se denomina decalaje. Estas definiciones son necesarias para que el control 
+pueda calcular la posición a la que se deben mover los ejes de la máquina para posicionarse en el lugar definido por el usuario.
+
+Sistema Coordenado de Máquina
+"""""""""""""""""""""""""""""
+
+El sistema principal es el sistema de coordenadas de la máquina, éste sistema es fijo y es al cual están referidos otros sistemas de coordendas.
+Para referir la posición al sistema de coordenadas de la máquina al programar se utiliza el código G53.
+
+Sistema Coordenado de Piezas
+""""""""""""""""""""""""""""
+
+Es de utilidad poder definir sistemas de coordenadas locales para poder por ejemplo, posicionarlos sobre los vértices de una pieza. Al programar
+se pueden utilizar los códigos G54 a G59. Cada uno de éstos códigos hace referencia a los distintos sistemas de coordenadas locales.
+En el caso de necesitar más de 6 sistemas de coordenadas locales es posible definir más por medio de cógidos G59.1, G59.2 y así sucesivamente.
+
+.. figure:: images/coordsWorkpiece.png
+   :width: 250
+   
+   Sistemas de referencia de Pieza.
+
+Se denomina decalaje de pieza a la posición relativa entre el sistema coordenado de la máquina y el sistema coordenado de la pieza.
+
+Decalaje de Origen
+""""""""""""""""""
+
+El decalaje de origen determina la posición respecto a la cual las herramientas están definidas.
 
 
-Centros de Coordenadas
-----------------------
+Decalaje Herramientas
+"""""""""""""""""""""
 
+El decalaje de herramienta es la posición del filo de la herramienta respecto al origen o posición de fijación de la misma.
+Es útil definir el decalaje para cada herramienta a los fines de poder realizar cambios de herramientas en un programa de 
+mecanizado y trabajar con el mismo sistema de referencia, en este caso el control numérico realiza los cálculos para posicionar
+adecuadamente los ejes teniendo en cuenta las dimensiones de cada herramienta.
 
-.. _centrosCoords:
+Compensación de Herramientas
+""""""""""""""""""""""""""""
 
+Al utilizar una herramienta para mecanizar, el filo de la herramienta puede tener un desgaste. Esto hace que las piezas mecanizadas, con el tiempo,
+tengan pequeñas diferencias en sus cotas. Normalmente esta diferencia se detecta al medir las piezas producidas periódicamente. Es posible utilizar
+la compensación de herramienta para realizar estas pequeñas correcciones. Al cambiar este valor, el control numérico modifica las posiciones de los 
+ejes para compensar la diferencia.
 
-Posición de Sistemas de Referencia
-----------------------------------
+.. figure:: images/coordsSystems.png
+   :width: 200
+   
+   Sistemas de coordenadas.
 
-.. _decaPieza:
+En la figura se puede observar la relación entre los diferentes sistemas coordenados y los distintos decalajes.
 
-Decalaje de Pieza
------------------
+Transformación entre Sistemas
+"""""""""""""""""""""""""""""
 
-.. _decaHerram:
+La posición de un sistema de coordenadas respecto a otro se puede definir a través de diferentes transformaciones. Estas transformaciones incluyen:
 
-Decalaje de Herramientas
-------------------------
+* Traslaciones
+* Rotaciones
+* Escalado
+* Espejado
 
+.. figure:: images/coordsTransformations.png
+   :width: 200
+   
+   Transformaciones de sistemas de coordenadas.
 
-
+..
+   Sistemas Coordenados Básicos
+..
+   """"""""""""""""""""""""""""
+..
+   Transmit
+..
+   Kinenatic transformation
