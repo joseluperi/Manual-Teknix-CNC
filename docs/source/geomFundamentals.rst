@@ -51,7 +51,7 @@ Ejemplo para fresado
 .. figure:: images/absoluteMillingCoords.png
    :width: 250
    
-   | P1 corresponde a X20 Y35
+   P1 corresponde a X20 Y35
    
    | P2 corresponde a X50 Y60
    
@@ -62,7 +62,7 @@ Ejemplo para torneado
 .. figure:: images/absoluteTurningCoords.png
    :width: 250
    
-   | P1 corresponde a X25 Z-7.5
+   P1 corresponde a X25 Z-7.5
    
    | P2 corresponde a X40 Z-15
    
@@ -87,7 +87,7 @@ Ejemplo para fresado
 .. figure:: images/relativeMillingCoords.png
    :width: 250
    
-   | P1 corresponde a X20 Y35 ; (respecto al origen de coordenadas)
+   P1 corresponde a X20 Y35 ; (respecto al origen de coordenadas)
    
    | P2 corresponde a X30 Y20 ; (respecto a P1)
    
@@ -98,7 +98,7 @@ Ejemplo para torneado
 .. figure:: images/relativeTurningCoords.png
    :width: 250
    
-   | G90 P1 corresponde a X25 Z-7.5; (respecto al origen de coordenadas)
+   G90 P1 corresponde a X25 Z-7.5; (respecto al origen de coordenadas)
    
    | G91 P2 corresponde a X15 Z-7.5 ; (respecto a P1)
    
