@@ -49,21 +49,21 @@ Cuando se utilizan coordenadas absolutas, las posiciones están referidas al ori
 Ejemplo para fresado
 
 .. figure:: images/absoluteMillingCoords.png
-   :width: 200
+   :width: 250
    
    P1 corresponde a X20 Y35
-   P2 corresponde a X50 Y60
-   P3 corresponde a X70 Y20
+   |P2 corresponde a X50 Y60
+   |P3 corresponde a X70 Y20
 
 Ejemplo para torneado
 
 .. figure:: images/absoluteTurningCoords.png
-   :width: 200
+   :width: 250
    
    P1 corresponde a X25 Z-7.5
-   P2 corresponde a X40 Z-15
-   P3 corresponde a X40 Z-25
-   P4 corresponde a X60 Z-35
+   |P2 corresponde a X40 Z-15
+   |P3 corresponde a X40 Z-25
+   |P4 corresponde a X60 Z-35
    
    Nota: se muestra este ejemplo utilizando el modo diametral habilitado.
 
@@ -80,21 +80,21 @@ del punto previo.
 Ejemplo para fresado
 
 .. figure:: images/relativeMillingCoords.png
-   :width: 200
+   :width: 250
    
    P1 corresponde a X20 Y35 ; (respecto al origen de coordenadas)
-   P2 corresponde a X30 Y20 ; (respecto a P1)
-   P3 corresponde a X20 Y-35 ; (respecto a P2)
+   |P2 corresponde a X30 Y20 ; (respecto a P1)
+   |P3 corresponde a X20 Y-35 ; (respecto a P2)
 
 Ejemplo para torneado
 
 .. figure:: images/relativeTurningCoords.png
-   :width: 200
+   :width: 250
    
    G90 P1 corresponde a X25 Z-7.5; (respecto al origen de coordenadas)
-   G91 P2 corresponde a X15 Z-7.5 ; (respecto a P1)
-   G91 P3 corresponde a Z-10 ; (respecto a P2)
-   G91 P4 corresponde a X20 Z-10 ; (respecto a P3)
+   |G91 P2 corresponde a X15 Z-7.5 ; (respecto a P1)
+   |G91 P3 corresponde a Z-10 ; (respecto a P2)
+   |G91 P4 corresponde a X20 Z-10 ; (respecto a P3)
    
    Nota: se muestra este ejemplo utilizando el modo diametral habilitado.
 
@@ -112,12 +112,12 @@ El plano de trabajo se definen por medio de los códigos G17, G18 o G19 y su def
 * G19 es el plano definido por los ejes Y e Z.
 
 .. figure:: images/planesMilling.png
-   :width: 200
+   :width: 250
    
    Planos de trabajo para fresado.
 
 .. figure:: images/planesTurning.png
-   :width: 200
+   :width: 250
    
    Planos de trabajo para torneado.
 
@@ -175,7 +175,7 @@ la compensación de herramienta para realizar estas pequeñas correcciones. Al c
 ejes para compensar la diferencia.
 
 .. figure:: images/coordsSystems.png
-   :width: 200
+   :width: 250
    
    Sistemas de coordenadas.
 
@@ -192,10 +192,12 @@ La posición de un sistema de coordenadas respecto a otro se puede definir a tra
 * Espejado
 
 .. figure:: images/coordsTransformations.png
-   :width: 200
+   :width: 250
    
    Transformaciones de sistemas de coordenadas.
 
+
+   
 ..
    Sistemas Coordenados Básicos
 ..
