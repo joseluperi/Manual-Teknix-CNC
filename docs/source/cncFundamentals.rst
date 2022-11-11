@@ -10,11 +10,12 @@ Estructura del Código G
 
 El lenguaje de código G está conformado por líneas de código, también llamadas bloques. Cada línea puede incluir comandos para realizar varias cosas. Las líneas pueden ser agrupadas en un 
 archivo que define una rutina o pueden ser agrupadas para formar subrutinas o funciones.
-Una línea típica de código consiste en una numeración opcional al comienzo seguida de uno o más términos, también llamados palabras. Un término consiste en una letra seguida de un número 
-o algo que se evalúa y se convierte en un número. Ese término puede dar un comando o proveer un argumento a un comando.
-| Por ejemplo G1 X30 es una línea de código con dos términos. G1 es un comando que solicita el movimiento en línea recta a la velocidad programada a determinado punto, y X30 provee un 
-argumento que especifica que la coordenada X debe ser de 30 en el punto al final del movimiento.
+Una línea típica de código consiste en una numeración opcional al comienzo seguida de uno o más términos, también llamados palabras. Un término consiste en una letra seguida de un número o algo que se evalúa y se convierte en un número. Ese término puede dar un comando o proveer un argumento a un comando.
+
+| Por ejemplo G1 X30 es una línea de código con dos términos. G1 es un comando que solicita el movimiento en línea recta a la velocidad programada a determinado punto, y X30 provee un argumento que especifica que la coordenada X debe ser de 30 en el punto al final del movimiento.
+
 | La mayoría de los comandos empieza con la letra G o con la letra M, que hacen referencia a comandos Generales y Misceláneos respectivamente.
+
 | Los programas no poseen un indicador de inicio y fin. Un programa puede estar en un solo archivo o puede estar repartido
 en varios archivos. Se pueden utilizar los comandos M2 o M30 opcionalmente para indicar el fin de un programas.
 
@@ -29,10 +30,14 @@ Una línea de comando está compuesta de los siguientes elementos, en orden, con
 * Un marcador de fin de línea
 
 Cualquier término que no esté explícitamente permitido producirá un error.
+
 | Los espacios y tabulaciones están permitidos en cualquier parte del código y no modifican el significado del mismo,
 esto hace que algunos aspectos extraños sean correctos. por ejemplo:
+
 | G0X +12. 5Y70 es equivalente a G0 x+12.5 Y70 o G0 X 12.5 Y 70.
+
 | Las líneas vacías también están permitidas, no tienen efecto en el código.
+
 | El uso de maýusculas o minúsculas es indiferente y no cambia el significado.
 
 | El número de línea se forma con la letra N seguido de un número entero, opcionalmente seguido de un punto y otro número entero.
@@ -115,6 +120,7 @@ El lenguage CNC permite el uso de parámetros, lo que en otros lenguajes de prog
 que se describen a continuación. El único valor soportado como parámetros son los números de punto flotante, no hay parámetros con valores lógicos, de texto o enteros en el código G.
 Sin embargo, se pueden utilizar expresiones con operadores lógicos (AND, OR, XOR) y operadores de comparación (EQ, NE, GT, GE, LT, LE) y operadores que soportan aritmética de enteros
 como MOD, ROUND, FUP y FIX.
+
 | Los parámetros difieren en su sintáxis, ámbito (scope), comportamiento cuando no están inicializados, modo, persistencia y propósito de uso.
 
 Sintáxis
