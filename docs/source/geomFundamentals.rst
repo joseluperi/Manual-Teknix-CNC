@@ -152,7 +152,8 @@ Sistema Coordenado de Piezas
 """"""""""""""""""""""""""""
 
 Es de utilidad poder definir sistemas de coordenadas locales para poder por ejemplo, posicionarlos sobre los vértices de una pieza. Al programar
-se pueden utilizar los códigos G54 a G59. Cada uno de éstos códigos hace referencia a los distintos sistemas de coordenadas locales.
+se pueden utilizar los códigos G54 a G59. Cada uno de éstos códigos hace referencia a los distintos sistemas de coordenadas locales, que quedan 
+definidos respecto al sistema de coordenadas de la máquina.
 En el caso de necesitar más de 6 sistemas de coordenadas locales es posible definir más por medio de cógidos G59.1, G59.2 y así sucesivamente.
 
 .. figure:: images/coordsWorkpiece.png
@@ -165,13 +166,14 @@ Se denomina decalaje de pieza a la posición relativa entre el sistema coordenad
 Decalaje de Origen
 """"""""""""""""""
 
-El decalaje de origen determina la posición respecto a la cual las herramientas están definidas.
+El decalaje de origen determina la posición respecto a la cual las herramientas están definidas. Se utiliza en conjunto con la corrección de herramientas
+para poder utilizar diferentes herramientas en un mismo programa. El decalaje de origen sería la posición del porta herramientas respecto al sistema de
+ coordenadas de la máquina cuando los ejes están en la posición 0.
 
+Corrección de Herramientas
+""""""""""""""""""""""""""
 
-Decalaje Herramientas
-"""""""""""""""""""""
-
-El decalaje de herramienta es la posición del filo de la herramienta respecto al origen o posición de fijación de la misma.
+La corrección de herramienta es la posición del filo de la herramienta respecto al origen o posición de fijación de la misma.
 Es útil definir el decalaje para cada herramienta a los fines de poder realizar cambios de herramientas en un programa de 
 mecanizado y trabajar con el mismo sistema de referencia, en este caso el control numérico realiza los cálculos para posicionar
 adecuadamente los ejes teniendo en cuenta las dimensiones de cada herramienta.
@@ -198,13 +200,17 @@ La posición de un sistema de coordenadas respecto a otro se puede definir a tra
 
 * Traslaciones
 * Rotaciones
-* Escalado
-* Espejado
 
 .. figure:: images/coordsTransformations.png
    :width: 250
    
    Transformaciones de sistemas de coordenadas.
+
+..
+   * Escalado
+..
+   
+* Espejado
 
 
    
