@@ -51,11 +51,10 @@ Ejemplo para fresado
 .. figure:: images/absoluteMillingCoords.png
    :width: 250
    
-   P1 corresponde a X20 Y35
-   
-   P2 corresponde a X50 Y60
-   
-   P3 corresponde a X70 Y20
+   Se pueden definir estas posiciones de la siguiente manera::
+      P1 corresponde a X20 Y35
+      | P2 corresponde a X50 Y60
+      | P3 corresponde a X70 Y20
 
 Ejemplo para torneado
 
