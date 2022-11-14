@@ -51,6 +51,8 @@ Ejemplo para fresado
 .. figure:: images/absoluteMillingCoords.png
    :width: 250
    
+   ..
+   
    Se pueden definir estas posiciones de la siguiente manera::
       P1 corresponde a X20 Y35
       | P2 corresponde a X50 Y60
