@@ -404,8 +404,14 @@ Ejemplo de preambulo de modos::
 
    G17 G20 G40 G49 G54 G80 G90 G94
 
-G17 define el plano de trabajo XY, G20 selecciona pulgadas, G40 cancela la compensación diametral, G49 cancela el decalaje por largo de herramienta, G54 para utilizar el sistema
-de coordenadas 1, G80 cancela los ciclos cerrados, G90 define coordenadas absolutas y G94 define avance en distancia/minutos.
+   G17 define el plano de trabajo XY
+   G20 selecciona pulgadas
+   G40 cancela la compensación diametral
+   G49 cancela el decalaje por largo de herramienta
+   G54 para utilizar el sistema de coordenadas 1
+   G80 cancela los ciclos cerrados
+   G90 define coordenadas absolutas 
+   G94 define avance en distancia/minutos.
 
 * No defina demasiadas cosas en una línea
    Si bien la sección :ref:`ordenEjecucionCNC` se muestra para referencia, no tenga en cuenta lo indicado en esta sección para escribir todo en una línea. 
@@ -588,16 +594,34 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 G0 Movimiento Rápido
 --------------------
 
-Ejemplo de preambulo de modos::
+::
 
    G0 ejes
 
-Ejecuta un movimiento coordinado rápido en línea recta, donde todas las posiciones de ejes son opcionales. El G0 es opcional
-si el modo de movimiento es G0. Este comando se usa típicamente para posicionarse en determinado lugar.
+Ejecuta un movimiento coordinado rápido en línea recta, donde todas las posiciones de ejes son opcionales. El *G0* es opcional
+si el modo de movimiento *G0* está activo. Este comando se usa típicamente para posicionarse en determinado lugar.
 
 **Velocidad de Avance Rápido**
 
-**Ejemplo**:
+La velocidad de movimiento rápido se define en el parámetro MAX_VELOCITY del archivo .ini en la sección [TRAJ]. La velocidad máxima
+para los movimientos rápidos puede ser mayor a la máxima velocidad individual de los ejes MAX_VELOCITY durante el movimiento coordinado
+de varios ejes. La velocidad de traslación rápida puede ser menor a la velocidad de movimiento rápido de la trayectoria si algún eje
+limita a ésta.
+
+Si la compensación de herramienta está activa, el movimiento difiere del descripto en el ejemplo, ver sección de :doc:`toolCompensation`.
+
+Si *G53* está definido en la misma línea, el movimiento también se ve modificado; ver sección :ref:`G53 <refG53>` para más información.
+
+La trayectoria de un movimiento rápido *G0* puede verse suavizado en los cambios de dirección y depende de la configuración de :doc:`trajectoryControl`.
+
+Se produce un error si:
+
+   * Hay una letra de eje sin un valor real
+   * Se utiliza una letra de eje que no está configurado
+
+**Ejemplo G0**
+
+::
 
    G90 (modo de coordenadas absolutas)
    G0 X10 Y-23.5 (movimiento lineal rápido desde la posición actual a X10 Y-23.5)
@@ -605,22 +629,316 @@ si el modo de movimiento es G0. Este comando se usa típicamente para posicionar
 
 * Ver las secciones :ref:`G90 <refG90>` y :ref:`M2 <refM2>` para más información.
 
-Si la compensación de herramienta está activa, el movimiento del descripto en el ejemplo, ver :ref:`Compensación de Herramienta <refM2>`
 
 .. _refG1:
 
 G1 Movimiento Lineal
 --------------------
 
+::
+
+   G1 ejes
+
+Ejecuta un movimiento coordinado en línea recta a determinada velocidad de avance (para mecanizar o no), donde todas las posiciones de 
+ejes son opcionales. El *G1* es opcional si el modo de movimiento *G1* está activo. Este comando se usa típicamente para 
+mecanizar trasladandose en una recta desde el punto actual al punto definido.
+
+Si la compensación de herramienta está activa, el movimiento difiere del descripto en el ejemplo, ver sección de :doc:`toolCompensation`.
+
+Si *G53* está definido en la misma línea, el movimiento también se ve modificado; ver sección :ref:`G53 <refG53>` para más información.
+
+Se produce un error si:
+
+   * No se ha definido la velocidad de avance
+   * Hay una letra de eje sin un valor real
+   * Se utiliza una letra de eje que no está configurado
+
+**Ejemplo G1**
+
+.. figure:: images/G1example.png
+   :width: 300
+
+::
+
+   G17 S400 M3 (plano de trabajo XY, velocidad de husillo 400 en sentido de agujas del reloj)
+   G90 (modo de coordenadas absolutas)
+   G0 X20 Y20 Z2 (aproximación a punto inicial)
+   G1 Z-2 F40 (movimiento lineal Z-2 a una velocidad de avance de 40)
+   X80 Y80 Z-15 (mecanizado en línea recta a punto final)
+   G0 Z100 (retiro)
+   M2 (fin de programa)
+
+* Ver las secciones :ref:`G17 <refG17>`, :ref:`S <refS>`, :ref:`M3 <refG90>`, :ref:`G90 <refG90>`, :ref:`F <refF>` y :ref:`M2 <refM2>` para más información.
+
+
 .. _refG2:
 
 G2 G3 Movimiento Arco de Círculo o Helicoidal
 ---------------------------------------------
 
+::
+
+   G2 o G3 ejes distancias (definición de centro y punto final)
+   G2 o G3 ejes R- (definición de radio y punto final)
+   G2 o G3 distancias|R- <P-> (circulos completos)
+
+Estos comandos generan un movimiento con forma de arco de círculo o un movimiento helicoidal a una velocidad de avance definida. 
+
+Opciones para la definición:
+
+* Centro de círculo y punto final en coordenadas absolutas o relativas
+* Radio y centro de círculo
+* Para ambas opciones anteriores el parámetro P- es opcional y permite círculos de varias vueltas
+
+Los ejes del arco de círculo o helicoide deben ser paralelos a los ejes X, Y o Z del sistema de coordenadas de la máquina. El eje
+de rotación (o equivalentemente el plano perpendicular al eje) se selecciona con :ref:`G17 <refG17>` (eje Z, plano XY), :ref:`G18 <refG17>`
+(eje Y, plano XZ) o :ref:`G19 <refG17>` (eje X, plano YZ). 
+
+Si el punto final se encuentra en el mismo plano de trabajo que el punto de inicio (posición actual) el comando resulta en un arco de círculo plano.
+
+.. figure:: images/arc.png
+   :width: 250
+   
+   Arco de Círculo
+
+
+Para programar un helicoide incluya una componente de traslación en la dirección del eje de rotación, por ejemplo si *G17* está activo,
+al incluir una palabra Z- habrá un movimiento perpendicular al plano del arco de círculo. Al ejecutar el movimiento, la componente fuera
+del plano es proporcional al desarrollo del arco de círculo.
+
+.. figure:: images/helix.png
+   :width: 250
+   
+   Helicoide
+
+Para programar un arco de círculo que describa más de una vuelta completa se utiliza el parámetro opcional *P-*, que especifica la cantidad
+de vueltas completas. Si *P* no se define el comportamiento es equivalente a especificar *P1*, esto es, solo una vuelta completa o vuelta 
+parcial se ejecuta. Por ejemplo, para una arco de 180 grados programado con P2, el movimiento resultante será de una revolución y media.
+Es decir por cada valor por encima de 1 resulta una vuelta completa adicional. Se pueden definir movimientos helicoidales de varias vueltas,
+que resultan útiles para mecanizar agujeros o roscas.
+
+Si la compensación de herramienta está activa, el movimiento difiere del descripto en el ejemplo, ver sección de :doc:`toolCompensation`.
+
+El centro del arco de círculo se da en coordenadas absolutas o relativas de acuerdo a los comandos :ref:`G90.1 G91.1 <refG90.1>` respectivamente.
+
+Se produce un error si:
+
+   * No se ha definido la velocidad de avance
+   * La letra P no es un entero
+
+*G2* se utiliza para movimientos en el sentido de las agujas del reloj y *G3* para movimientos en contra del sentido de las agujas del reloj.
+La referencia del sentido se toma respecto a la dirección positiva del eje alrededor del cual el movimiento circular ocurre.
+
+De acuerdo al plano de trabajo activo los sentidos de giro resultan de la siguiente manera:
+
+.. figure:: images/G2G3directionsForPlanes.png
+   :width: 300
+
+**Centro y punto final**
+
+La definición mediante el centro del arco de círculo es más precisa que la definición por medio del radio por lo que su uso es más recomendable.
+
+Se debe definir la posición del punto final y la del centro del círculo, opcionalmente el parámetro de cantidad de vueltas. No hay inconveniente en
+que el punto final coincida con el punto inicial. 
+
+El comando resulta en error si hay una diferencia significativa entre el radio inicial y final, por lo que se recomienda utilizar por lo menos 3 decimales
+para la definición de los puntos.
+
+Se puede definir la posición del centro en coordenadas relativas o absolutas:
+
+   **Definición de posiciones relativas**
+   
+      Se define el centro del círculo como la posición relativa desde el punto de inicio (posición actual). Este modo está activado por defecto.
+      
+      Para arcos que no son múltiplos de 360 grados se debe definir la posición final de por lo menos algún eje Y la posición del centro de
+      por lo menos un eje.
+      
+      Para arcos múltiplos de 360 no es necesario definir la posición final y se debe definir la posición del centro por lo menos en algún eje.
+      El parámetro P es opcional y por defecto es 1.
+      
+      Para más información ver *Coordenadas relativas para arcos* :ref:`G91.1 <refG90.1>`.
+   
+   **Definición de posiciones absolutas**
+   
+      Se define el centro del círculo como la posición absoluta en el sistema de coordenadas activo.
+      
+      Para arcos que no son múltiplos de 360 grados se debe definir la posición final de por lo menos algún eje Y la posición del centro de
+      círculo en ambos ejes.
+      
+      Para arcos múltiplos de 360 no es necesario definir la posición final y se debe definir la posición del centro en ambos ejes.
+      El parámetro P es opcional y por defecto es 1.
+      
+      Para más información ver *Coordenadas absolutas para arcos* :ref:`G90.1  <refG90.1>`
+
+   **Plano XY (G17)**
+
+   ::
+
+      G2 o G3 <X- Y- Z- I- J- P->
+
+      * I- posición en X del centro
+      * J- posición en Y del centro
+      * Z- componente de helicoide
+      * P- número de vueltas
+
+   **Plano XZ (G18)**
+
+   ::
+
+      G2 o G3 <X- Z- Y- I- K- P->
+
+      * I- posición en X del centro
+      * K- posición en Z del centro
+      * Y- componente de helicoide
+      * P- número de vueltas
+
+   **Plano YZ (G19)**
+
+   ::
+
+      G2 o G3 <Y- Z- X- J- J- P->
+
+      * I- posición en Y del centro
+      * K- posición en Z del centro
+      * X- componente de helicoide
+      * P- número de vueltas
+
+   Se produce un error si:
+
+      * No se ha definido la velocidad de avance
+      * No se definió la posición del centro
+      * Cuando el arco es proyectado en el plano de trabajo, la distancia desde la posición inicial al centro y 
+        la distancia desde el punto final al centro difieren más de 0.5 mm o 0.1% del radio.
+
+   El error *El radio al final difiere del radio al inicio* refiere a:
+
+      * *Inicio* - la posición inicial
+      * *Centro* - la posición del centro calculadas utilizando las letras i, j o k
+      * *Fin* - el punto final programado
+      * *r1* - radio desde el punto inicial al centro
+      * *r2* - radio desde el punto final al centro
+
+   **Ejemplos de Centro y punto final**
+
+   Calcular las coordenadas de los arcos a mano puede ser dificil a veces. Una alternativa puede ser realizar el dibujo en un programa de CAD para
+   obtener las coordenadas de los puntos inicial y final y del centro del círculo. 
+   
+      **Ejemplo - Cuarto de Círculo**
+   
+.. figure:: images/exampleG2a.png
+   :width: 300
+
+
+   Se pueden definir este arco de las siguientes maneras::
+
+      G90 (coordenadas absolutas)
+      G18 (plano de trabajo XZ)
+      G0 X 15 Z 10 (punto inicial)
+      (G91.1 activado por defecto)
+      G2 X 40 Z 35 I25 F10
+      M2 (fin de programa)
+
+   ::
+
+      G90 (coordenadas absolutas)
+      G0 X 15 Z 10 (punto inicial)
+      G18 (plano de trabajo XZ)
+      G90.1 (coordenadas absolutas para centro de círculo)
+      G2 X 40 Z 35 I15 K35 F10
+      M2 (fin de programa)
+
+   .
+
+      **Ejemplo - Helicoide**
+   
+.. figure:: images/exampleHelix.png
+   :width: 300
+
+   Se pueden definir este helicoide de la siguiente manera::
+
+      G90 (coordenadas absolutas)
+      G17 (plano de trabajo XY)
+      G0 X 27.5 Y 32.99 Z3 (acercar a punto inicial)
+      G90.1 (coordenadas absolutas para centro de círculo)
+      G3 X 20 Y5 Z -20 I20 J20 P3 F10 (helicoide, centro de arco en (20,20), más dos vueltas completas hasta punto final)
+      M2 (fin de programa)
+
+**Radio y punto final**
+
+   ::
+
+      G2 o G3 <X- Y- Z-> R- <P->
+
+      * R- radio del círculo
+
+No es buena práctica utilizar este tipo de definición - radio y punto final - para describir arcos que sean similares a un círculo o a un semicírculo debido a
+que pequeños cambios en la ubicación del punto final producen cambios muchos más grandes en la ubicación del centro del círculo. El efecto de magnificación
+del error de redondeo puede producir mecanizados fuera de tolerancia. Por ejemplo, errores de ubicación del 1% del punto final produce errores del 7% 
+en un punto a 90 grados. Para arcos similares a un círculo completo, este problema se magnifica. Para otros arcos, desde pequeños ángulos a 165 grados y de
+195 a 345 grados esta opción es aceptable.
+
+En este tipo de definición se debe determinar por lo menos una de las coordenadas del punto final en el plano de trabajo y el radio del círculo. Cuando el 
+arco de círculo se define de esta manera siempre hay dos opciones compatibles, un arco de círculo más corto y un arco de mayor desarrollo. Para diferenciarlos 
+se puede utilizar un valor del radio R positivo para indicar arcos menores a 180 grados mientras que valores negativos del radio indican arcos de más de 180 grados.
+
+   Se produce un error si:
+
+      * Se omiten ambas coordenadas del punto final en el plano de trabajo
+      * El punto final es igual al punto inicial
+
+   **Ejemplo - Radio y punto final**
+
+
+.. figure:: images/exampleG3radius.png
+   :width: 300
+
+   Se pueden definir estos arcos círculo de las siguientes maneras:
+
+   ::
+
+      G90 (coordenadas absolutas)
+      G17 (plano de trabajo XY)
+      G0 X 30 Y 40 (ir a punto inicial)
+      G3 Y 10 R 16 F10 (arco de círculo corto)
+      M2 (fin de programa)
+
+   ::
+
+      G90 (coordenadas absolutas)
+      G17 (plano de trabajo XY)
+      G0 X 30 Y 40 (ir a punto inicial)
+      G3 Y 10 R -16 F10 (arco de círculo largo)
+      M2 (fin de programa)
+
+
+
+
 .. _refG4:
 
 G4 Espera
 ---------
+
+::
+
+   G4 P-
+
+* *P-* tiempo de espera en segundos
+
+El número *P* es el número de segundos que los ejes van a permanecer inmóviles. El valor es un punto flotante por lo que se pueden utilizar fracciones de 
+segundos. El comando *G4* no afecta al refrigerante, husillo ni a las entradas / salidas.
+
+**Ejemplo**
+
+::
+
+   G4 P0.5 (espera 0.5 segundos antes de proceder)
+
+Se produce un error si:
+
+* el número P es negativo o no está especificado
+
+Estos comandos generan 
+
 
 .. _refG5:
 
@@ -923,25 +1241,171 @@ Tabla de Referencia - Códigos M
 +-------------------------------+-------------------------------------------------------------------+
 |  :ref:`M52 <refM52>`          | Control Adaptativo de Avance                                      |
 +-------------------------------+-------------------------------------------------------------------+
+| :ref:`M53 <refM53>`           | Control de Parada de Avance                                       |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M61 <refM61>`           | Definir Número de Herramienta Actual                              |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M62-M65 <refM62>`       | Control de Salidas Digitales                                      |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M66 <refM66>`           | Espera Señal de Entrada                                           |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M67 <refM67>`           | Salidas Analógicas Sincronizadas                                  |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M68 <refM68>`           | Salidas Analógicas Inmediatas                                     |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M70 <refM70>`           | Guardar Estados Modales                                           |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M71 <refM71>`           | Invalidar Estados Modales Guardados                               |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M72 <refM72>`           | Reestablecer Estados Modales                                      |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M71 <refM73>`           | Guardar y Autorestablecer Estados Modales                         |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M98 M99 <refM98>`       | Llamada y Retorno a Subrutinas                                    |
++-------------------------------+-------------------------------------------------------------------+
+| :ref:`M100-M199 <refM100>`    | Códigos M Definidos por el Usuario                                |
++-------------------------------+-------------------------------------------------------------------+
 
-| :ref:`M10 L10 <refM10L10>`    | Definición de Parámetros de Herramienta                           |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M10 L11 <refM10L11>`    | Definición de Parámetros de Herramienta                           |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M10 L20 <refM10L20>`    | Definición de de Sistema Coordinado                               |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M17-M19.1 <refM17>`     | Selección de Plano de Trabajo                                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M20 M21 <refM20>`       | Selección de Unidades                                             |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M28 M28.1 <refM28>`     | Ir a posición Predeterminada                                      |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M30 M30.1 <refM30>`     | Ir a posición Predeterminada                                      |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`M33 <refM33>`           | Movimiento Sincronizado de Husillo                                |
-+-------------------------------+-------------------------------------------------------------------+
 
 
+.. _refM0:
+
+M0 M1 Pausa de Programa
+-----------------------
+
+.. _refM2:
+
+M2 M30 Fin de Programa
+----------------------
+
+.. _refM60:
+
+M60 Pausa de Cambio de Palet
+----------------------------
+
+.. _refM3:
+
+M3 M4 M5 Control de Husillo
+---------------------------
+
+.. _refM6:
+
+M6 Cambio de Herramienta
+------------------------
+
+.. _refM7:
+
+M7 M8 M9 Control de Refrigerante
+--------------------------------
+
+.. _refM19:
+
+M19 Orientación de Husillo
+--------------------------
+
+.. _refM48:
+
+M48 M49 Activar / Desactivar Override de Avance y Husillo
+---------------------------------------------------------
+
+.. _refM50:
+
+M50 Control de Override de Avance
+---------------------------------
+.. _refM51:
+
+M51 Control de Override de Husillo
+----------------------------------
+
+.. _refM52:
+
+M52 Control Adaptativo de Avance
+--------------------------------
+
+.. _refM53:
+
+M53 Control de Parada de Avance
+-------------------------------
+
+.. _refM61:
+
+M61 Definir Número de Herramienta Actual
+----------------------------------------
+
+.. _refM62:
+
+M62-M65 Control de Salidas Digitales
+------------------------------------
+
+.. _refM66:
+
+M66 Espera Señal de Entrada
+---------------------------
+
+.. _refM67:
+
+M67 Salidas Analógicas Sincronizadas
+------------------------------------
+
+.. _refM68:
+
+M68 Salidas Analógicas Inmediatas
+---------------------------------
+
+.. _refM70: 
+
+M70 Guardar Estados Modales
+---------------------------
+
+.. _refM71:
+
+M71 Invalidar Estados Modales Guardados
+---------------------------------------
+
+.. _refM72:
+
+M72 Reestablecer Estados Modales
+--------------------------------
+
+.. _refM73:
+
+M73 Guardar y Autorestablecer Estados Modales
+---------------------------------------------
+
+
+.. _refM98:
+
+M98 M99 Llamada y Retorno a Subrutinas
+--------------------------------------
+
+.. _refM100:
+
+M100-M199 Códigos M Definidos por el Usuario
+--------------------------------------------
+
+
+.. _otrosCodigos:
+
+Otros Códigos 
+=============
+
+.. _refF:
+
+F Definir Velocidad de Avance
+-----------------------------
+
+
+
+.. _refS:
+
+S Definir Velocidad de Husillo
+------------------------------
+
+
+.. _refT:
+
+T Selección de Herramienta
+--------------------------
 
 
 .. _ordenEjecucionCNC:
