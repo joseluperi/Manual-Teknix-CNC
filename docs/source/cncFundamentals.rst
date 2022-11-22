@@ -135,7 +135,9 @@ A los efectos de mantener el formato de los bloques lo más claros posibles es r
 | H           | Función auxiliar                                                       |
 +-------------+------------------------------------------------------------------------+
 
-Nota: Ciertos términos pueden usarse repetidamente en un bloque (ej. G..., M..., H... )
+.. admonition:: Nota
+
+   Ciertos términos pueden usarse repetidamente en un bloque (ej. G..., M..., H... )
 
 Comportamiento Modal
 --------------------
@@ -476,115 +478,115 @@ explícitos pueden ser valores reales. Por ejemplo, *G10 L2* puede ser equivalen
 
 Si L- está escrito en la forma de prototipo el signo - frecuentemente está referido al *número L*, y así para cualquier otra letra.
 
-+-------------------------------+-------------------------------------------------------------------+
-|       Comando                 | Descripción                                                       |
-+===============================+===================================================================+
-|  :ref:`G0 <refG0>`            | Movimiento coordinado rápido                                      |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G1 <refG1>`            | Movimiento coordinado con velocidad de avance                     |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G2 G3 <refG2>`         | Movimiento de Arco de Círculo o Helicoidal                        |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G4 <refG4>`            | Espera                                                            |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G5 <refG5>`            | Spline Cúbico                                                     |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G5.1 <refG5.1>`        | Spline Cuadrático                                                 |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G5.2 <refG5.2>`        | Bloque de NURBS                                                   |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G7 <refG7>`            | Modo Diametral (para torneado)                                    |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G8 <refG8>`            | Modo Radial (para torneado)                                       |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G10 L1 <refG10L1>`     | Definición de Parámetros de Herramienta                           |
-+-------------------------------+-------------------------------------------------------------------+
-|  :ref:`G10 L2 <refG10L2>`     | Definición de de Sistema Coordinado                               |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G10 L10 <refG10L10>`    | Definición de Parámetros de Herramienta                           |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G10 L11 <refG10L11>`    | Definición de Parámetros de Herramienta                           |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G10 L20 <refG10L20>`    | Definición de de Sistema Coordinado                               |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G17-G19.1 <refG17>`     | Selección de Plano de Trabajo                                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G20 G21 <refG20>`       | Selección de Unidades                                             |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G28 G28.1 <refG28>`     | Ir a posición Predeterminada                                      |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G30 G30.1 <refG30>`     | Ir a posición Predeterminada                                      |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G33 <refG33>`           | Movimiento Sincronizado de Husillo                                |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G33.1 <refG33.1>`       | Roscado Rígido                                                    |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G38.n <refG38>`         | Sondeo                                                            |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G40 <refG40>`           | Compensación de Radio de Herramienta Desactivada                  |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G41 G42 <refG41>`       | Compensación de Radio de Herramienta                              |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G41.1 G42.1 <refG41.1>` | Compensación Dinámica de Radio de Herramienta                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G43 <refG43>`           | Compensación de Largo de Herramienta                              |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G43.1 <refG43.1>`       | Compensación Dinámica de Largo de Herramienta                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G43.2 <refG43.2>`       | Compensación Adicional de Largo de Herramienta                    |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G49 <refG49>`           | Cancelar Compensación de Largo de Herramienta                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G52 <refG52>`           | Posición del Sistema de Coordenadas Local                         |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G53 <refG53>`           | Posición en Sistema de Coordenadas de Máquina                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G54-G59.3 <refG54>`     | Selección de Sistema de Coordenadas Local                         |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G61 <refG61>`           | Modo de Posicionamiento Exacto                                    |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G61.1 <refG61.1>`       | Modo de Frenado en Posición Exacta                                |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G64 <refG64>`           | Suavizado de Trayectoria                                          |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G73 <refG73>`           | Ciclo de Perforado con Ruptura de Viruta                          |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G74 <refG74>`           | Ciclo de Roscado Izquierdo con Espera                             |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G76 <refG76>`           | Ciclo de Roscado de Varias Pasadas (Torneado)                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G80 <refG80>`           | Cancelación de Ciclo Cerrado                                      |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G81 <refG81>`           | Ciclo de Perforado                                                |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G82 <refG82>`           | Ciclo de Perforado con Espera                                     |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G83 <refG83>`           | Ciclo de Perforado Profundo                                       |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G84 <refG84>`           | Ciclo de Roscado Derecho con Espera                               |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G85 <refG85>`           | Ciclo de Perforado con Velocidad de Salida                        |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G86 <refG86>`           | Ciclo de Perforado, Freno de Husillo y Velocidad Rápida de Salida |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G89 <refG89>`           | Ciclo de Perforado, Espera y Velocidad de Salida                  |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G90 G91 <refG90>`       | Modo de Distancia Absoluta o Relativa                             |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G90.1 G91.1 <refG90.1>` | Modo de Distancia de Arcos Absoluta o Relativa                    |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G92 <refG92>`           | Definir Posición de Sistema de Coordenadas en Punto Actual        |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G92.1 G92.2 <refG92.1>` | Resetear Posición de Sistema de Coordenadas                       |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G92.3 <refG92.3>`       | Restablecer Posición de Sistema de Coordenadas de G92             |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G93 G94 G95 <refG93>`   | Modo de Avance                                                    |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G96 G97 <refG96>`       | Modo de Control de Husillo                                        |
-+-------------------------------+-------------------------------------------------------------------+
-| :ref:`G98 G99 <refG98>`       | Nivel de Retorno de Ciclos Cerrados                               |
-+-------------------------------+-------------------------------------------------------------------+
++-------------------------------+--------------------------------------------------------------------------+
+|       Comando                 | Descripción                                                              |
++===============================+==========================================================================+
+|  :ref:`G0 <refG0>`            | Movimiento coordinado rápido                                             |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G1 <refG1>`            | Movimiento coordinado con velocidad de avance                            |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G2 G3 <refG2>`         | Movimiento de Arco de Círculo o Helicoidal                               |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G4 <refG4>`            | Espera                                                                   |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G5 <refG5>`            | Spline Cúbico                                                            |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G5.1 <refG5.1>`        | Spline Cuadrático                                                        |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G5.2 <refG5.2>`        | Bloque de NURBS                                                          |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G7 <refG7>`            | Modo Diametral (para torneado)                                           |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G8 <refG8>`            | Modo Radial (para torneado)                                              |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G10 L1 <refG10L1>`     | Definición de Parámetros de Herramienta                                  |
++-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G10 L2 <refG10L2>`     | Definición de de Sistema Coordinado                                      |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G10 L10 <refG10L10>`    | Definición de Parámetros de Herramienta en Punto Actual                  |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G10 L11 <refG10L11>`    | Definición de Parámetros de Herramienta en Punto Actual referido a G59.3 |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G10 L20 <refG10L20>`    | Definición de de Sistema Coordinado                                      |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G17-G19.1 <refG17>`     | Selección de Plano de Trabajo                                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G20 G21 <refG20>`       | Selección de Unidades                                                    |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G28 G28.1 <refG28>`     | Ir a posición Predeterminada                                             |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G30 G30.1 <refG30>`     | Ir a posición Predeterminada                                             |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G33 <refG33>`           | Movimiento Sincronizado de Husillo                                       |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G33.1 <refG33.1>`       | Roscado Rígido                                                           |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G38.n <refG38>`         | Sondeo                                                                   |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G40 <refG40>`           | Compensación de Radio de Herramienta Desactivada                         |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G41 G42 <refG41>`       | Compensación de Radio de Herramienta                                     |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G41.1 G42.1 <refG41.1>` | Compensación Dinámica de Radio de Herramienta                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G43 <refG43>`           | Compensación de Largo de Herramienta                                     |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G43.1 <refG43.1>`       | Compensación Dinámica de Largo de Herramienta                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G43.2 <refG43.2>`       | Compensación Adicional de Largo de Herramienta                           |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G49 <refG49>`           | Cancelar Compensación de Largo de Herramienta                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G52 <refG52>`           | Decalaje temporal del Sistema de Coordenadas Local                       |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G53 <refG53>`           | Posición en Sistema de Coordenadas de Máquina                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G54-G59.3 <refG54>`     | Selección de Sistema de Coordenadas Local                                |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G61 <refG61>`           | Modo de Posicionamiento Exacto                                           |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G61.1 <refG61.1>`       | Modo de Frenado en Posición Exacta                                       |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G64 <refG64>`           | Suavizado de Trayectoria                                                 |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G73 <refG73>`           | Ciclo de Perforado con Ruptura de Viruta                                 |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G74 <refG74>`           | Ciclo de Roscado Izquierdo con Espera                                    |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G76 <refG76>`           | Ciclo de Roscado de Varias Pasadas (Torneado)                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G80 <refG80>`           | Cancelación de Ciclo Cerrado                                             |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G81 <refG81>`           | Ciclo de Perforado                                                       |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G82 <refG82>`           | Ciclo de Perforado con Espera                                            |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G83 <refG83>`           | Ciclo de Perforado Profundo                                              |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G84 <refG84>`           | Ciclo de Roscado Derecho con Espera                                      |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G85 <refG85>`           | Ciclo de Perforado con Velocidad de Salida                               |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G86 <refG86>`           | Ciclo de Perforado, Freno de Husillo y Velocidad Rápida de Salida        |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G89 <refG89>`           | Ciclo de Perforado, Espera y Velocidad de Salida                         |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G90 G91 <refG90>`       | Modo de Distancia Absoluta o Relativa                                    |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G90.1 G91.1 <refG90.1>` | Modo de Distancia de Arcos Absoluta o Relativa                           |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G92 <refG92>`           | Definir Posición de Sistema de Coordenadas en Punto Actual               |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G92.1 G92.2 <refG92.1>` | Resetear Posición de Sistema de Coordenadas                              |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G92.3 <refG92.3>`       | Restablecer Posición de Sistema de Coordenadas de G92                    |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G93 G94 G95 <refG93>`   | Modo de Avance                                                           |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G96 G97 <refG96>`       | Modo de Control de Husillo                                               |
++-------------------------------+--------------------------------------------------------------------------+
+| :ref:`G98 G99 <refG98>`       | Nivel de Retorno de Ciclos Cerrados                                      |
++-------------------------------+--------------------------------------------------------------------------+
 
 
 
@@ -822,12 +824,11 @@ Se puede definir la posición del centro en coordenadas relativas o absolutas:
 
    Calcular las coordenadas de los arcos a mano puede ser dificil a veces. Una alternativa puede ser realizar el dibujo en un programa de CAD para
    obtener las coordenadas de los puntos inicial y final y del centro del círculo. 
-   
-      **Ejemplo - Cuarto de Círculo**
-   
+
+   **Ejemplo - Cuarto de Círculo**
+
 .. figure:: images/exampleG2a.png
    :width: 300
-
 
    Se pueden definir este arco de las siguientes maneras::
 
@@ -847,10 +848,8 @@ Se puede definir la posición del centro en coordenadas relativas o absolutas:
       G2 X 40 Z 35 I15 K35 F10
       M2 (fin de programa)
 
-   .
+   **Ejemplo - Helicoide**
 
-      **Ejemplo - Helicoide**
-   
 .. figure:: images/exampleHelix.png
    :width: 300
 
@@ -886,7 +885,7 @@ se puede utilizar un valor del radio R positivo para indicar arcos menores a 180
       * Se omiten ambas coordenadas del punto final en el plano de trabajo
       * El punto final es igual al punto inicial
 
-   **Ejemplo - Radio y punto final**
+**Ejemplo - Radio y punto final**
 
 
 .. figure:: images/exampleG3radius.png
@@ -898,20 +897,17 @@ se puede utilizar un valor del radio R positivo para indicar arcos menores a 180
 
       G90 (coordenadas absolutas)
       G17 (plano de trabajo XY)
-      G0 X 30 Y 40 (ir a punto inicial)
-      G3 Y 10 R 16 F10 (arco de círculo corto)
+      G0 X30 Y40 (ir a punto inicial)
+      G3 Y10 R16 F10 (arco de círculo corto)
       M2 (fin de programa)
 
    ::
 
       G90 (coordenadas absolutas)
       G17 (plano de trabajo XY)
-      G0 X 30 Y 40 (ir a punto inicial)
-      G3 Y 10 R -16 F10 (arco de círculo largo)
+      G0 X30 Y40 (ir a punto inicial)
+      G3 Y10 R-16 F10 (arco de círculo largo)
       M2 (fin de programa)
-
-
-
 
 .. _refG4:
 
@@ -937,63 +933,274 @@ Se produce un error si:
 
 * el número P es negativo o no está especificado
 
-Estos comandos generan 
-
-
 .. _refG5:
 
 G5 Spline Cúbico
 ----------------
+
+
+
+
 
 .. _refG5.1:
 
 G5.1 Spline Cuadrático
 -----------------------
 
+
+
+
+
 .. _refG5.2:
 
 G5.2 G5.3 Bloque de NURBS
 -------------------------
+
+
+
+
+
+
 
 .. _refG7:
 
 G7 Modo Diametral (para torneado)
 ---------------------------------
 
+::
+
+   G7
+
+El comando *G7* activa el modo diametral para el eje X de un torno. Cuando el modo diametral está activo el eje X se mueve
+a la mitad de la distancia respecto al eje del husillo. Esto hace que se pueda definir como posición la cota que corresponde 
+al diámetro de una pieza. Ver Figura :ref:`G7 G8 <refFigureG7G8>`
+
+
 .. _refG8:
 
 G8 Modo Radial (para torneado)
 ---------------------------------
+
+::
+
+   G8
+
+El comando *G8* activa el modo radial (modo diametral inactivo) para el eje X de un torno. Cuando el modo radial está activo el eje X se mueve
+a la distancia especificada respecto al eje del husillo. Esto hace que al definir como posición una cota, el diámetro de la pieza resulte
+en el doble de la posición especificada. 
+
+   **Ejemplo**
+
+.. _refFigureG7G8:
+
+.. figure:: images/diamOnOffg7g8.png
+   :width: 300
+   
+   Modo diametral activo *G7* y modo radial (modo diametral inactivo) *G8*
+
+   ::
+
+      S2000 M3 (activar husillo)
+      G8 (modo radial)
+      G0 X10 Z0 (posición X = radio)
+      G1 X10 Z-20 F0.5 (posición X = radio)
+      G7 (modo diametral)
+      G1 X50 Z-30 (posición X = diámetro)
+      G1 X50 Z-55 (posición X = diámetro)
 
 .. _refG10L1:
 
 G10 L1 Definición de Parámetros de Herramienta
 ----------------------------------------------
 
-G10 L1 sets the tool table for the P tool number to the values of the words.
+::
 
-A valid G10 L1 rewrites and reloads the tool table.
+   G10 L1 P- ejes <R- I- J- Q->
+
+   * *P-* número de herramienta
+   * *R-* radio de la herramienta
+   * *I-* ángulo frontal (torno)
+   * *J-* ángulo posterior (torno)
+   * *Q-* orientación (torno)
+
+*G10 L1* define las dimensiones de la herramienta *P* en la tabla de herramienta a los valores utilizados en la línea.
+Un comando *G10 L1* redefine los valores y recarga la tabla de herramientas, donde se almacena toda la información sobre la geometría de las mismas.
+
+**Ejemplo**::
+
+   G10 L1 P1 Z1.5 (define el decalaje en dirección Z desde el origen hasta el filo de la herramienta 1 a un valor 1.5)
+   G10 L1 P2 R12.5 Q3 (ejemplo para torneado - define el radio de herramienta con un valor de 12.5 y orientación 3 para la herramienta 2)
+
+Da un error si:
+   
+   * La compensación de herramienta está activa
+   * El número *P* no se especifica
+   * El número *P* no es un número de herramienta válido para la tabla de herramientas
+   * El número P es 0.
+
+Para más información sobre la orientación de herramientas ver la sección :doc:`toolCompensation`.
 
 .. _refG10L2:
 
 G10 L2 Definición de Sistema Coordinado
 ---------------------------------------
 
+::
+
+   G10 L2 P- <ejes R->
+
+   * *P-* sistema coordenado (0-9)
+   * *R-* rotación alrededor del eje Z
+
+*G10 L2* define la posición del sistema de coordenadas *P* a los valores utilizados en la línea. Los valores definidos reemplazarán los valores existentes
+grabados anteriormente para ese sistema de coordenadas. Los valores no especificados permanecerán sin cambios.
+
+Utilice *P0* a *P9* para especificar el sistema de coordenadas.
+
++------------------+---------------------------+-------------------+
+| Valor de *P*     | Sistema de Coordenadas    |    Código G       |
++==================+===========================+===================+
+|         0        |        Activo             |        n/a        |
++------------------+---------------------------+-------------------+
+|         1        |           1               |        G54        |
++------------------+---------------------------+-------------------+
+|         2        |           2               |        G55        |
++------------------+---------------------------+-------------------+
+|         3        |           3               |        G56        |
++------------------+---------------------------+-------------------+
+|         4        |           4               |        G57        |
++------------------+---------------------------+-------------------+
+|         5        |           5               |        G58        |
++------------------+---------------------------+-------------------+
+|         6        |           6               |        G59        |
++------------------+---------------------------+-------------------+
+|         7        |           7               |        G59.1      |
++------------------+---------------------------+-------------------+
+|         8        |           8               |        G59.2      |
++------------------+---------------------------+-------------------+
+|         9        |           9               |        G59.3      |
++------------------+---------------------------+-------------------+
+
+Opcionalmente utilice *R* para indicar la rotación de los ejes XY alrededor del eje Z. El sentido de rotación es
+contrario a las agujas de reloj visto desde la dirección positiva de Z.
+
+Todos las definiciones de ejes son opcionales.
+
+Si el modo de coordenadas incremental está activo (:ref:`G91  <refG90>`) no tiene efecto en el comando *G10 L2*.
+
+Conceptos importantes:
+
+   * *G10 L2 Pn* no cambia de sistema de coordenadas que se está utilizando para definir posiciones, para eso debe utilizar *G54-G59.3*
+   * Cuando una rotación está en efecto, al mover un eje en modo de intervención manual (Jog) moverá solo ese eje en la dirección
+     positiva o negativa pero no en la dirección rotada.
+   * Si hay un decalaje temporal definido mediante :ref:`G52  <refG52>` o hay un decalaje definido mediante :ref:`G92  <refG92>` en 
+     efecto anteriormente a *G10 L2*, permacerán en vigencia luego del comando.
+   * Cuando se programa una rotación mediante *R*, cualquier :ref:`G52  <refG52>` o :ref:`G92  <refG92>` se aplica **luego** de la rotación.
+   * El sistema de coordenadas uya posición se ve afectada por medio de una comando *G10* puede estar activo o inactivo en ese momento. 
+     Si está activo, la nueva posición tiene efecto inmediato.
+
+Da error si:
+
+   * El número *P* no se puede evaluar en un entero en el rango 0 a 9
+   * Se programa un eje que no está definido en la configuración
+
+**Ejemplo**::
+
+   G10 L2 X35.2 Y17.8
+
+En la línea anterior se define la posición del sistema de coordenadas 1 (el que se selecciona con el comando *G54*) a los valores de X = 35.2
+e Y = 17.8. Debido a que solo X e Y se han definido, el origen del sistema de coordenadas se mueve mientras que las otras coordenadas no se mueven.
+
+   
 .. _refG10L10:
 
-G10 L10 Definición de Parámetros de Herramienta
------------------------------------------------
+G10 L10 Definición de Parámetros de Herramienta en Punto Actual
+---------------------------------------------------------------
+
+::
+
+   G10 L10 P- eje <R- I- J- Q->
+
+   * *P-* número de herramienta
+   * *R-* radio de la herramienta
+   * *I-* ángulo frontal (torno)
+   * *J-* ángulo posterior (torno)
+   * *Q-* orientación (torno)
+
+*G10 L10* cambia los valores de decalaje de la herramienta *P* en la tabla de herramientas para que si los decalajes se recargan, con la máquina en 
+la posición actual y los decalajes activos que correspondan al sistema actual (*G5x* y *G52/G92*), las coordenadas actuales para los ejes determinados 
+se conviertan en los valores dados. Los valores que no se especifican en el comando *G10 L10* no serán modificados. Este comando es útil particularmente
+cuando se utiliza un sensor de contacto, como se describe en la sección :ref:`G38 <refG38>`.
+
+**Ejemplo**::
+
+   T1 M6 G43 (carga la herramienta 1 y sus decalajes)
+   G10 L10 P1 Z1.5 (define la posición actual en Z para que sea 1.5)
+   G43 (recarga los decalajes de la tabla ya cambiada)
+   M2 (fin de programa)
+
+* Para más información ver secciones :ref:`T  <refT>`, :ref:`M6  <refM6>`, :ref:`G43  <refG43>` y  :ref:`G43.1  <refG43>`.
+
+Da un error si:
+
+   * La compensación de herramienta está activa
+   * El número *P* no se especifica 
+   * El número *P* no es un número válido de la tabla de herramientas
+   * El número *P* es 0
+
 
 .. _refG10L11:
 
-G10 L11 Definición de Parámetros de Herramienta
------------------------------------------------
+G10 L11 Definición de Parámetros de Herramienta en Punto Actual referido a G59.3
+--------------------------------------------------------------------------------
 
+::
 
+   G10 L11 P- ejes <R- I- J- Q->
+
+   * *P-* número de herramienta
+   * *R-* radio de la herramienta
+   * *I-* ángulo frontal (torno)
+   * *J-* ángulo posterior (torno)
+   * *Q-* orientación (torno)
+
+*G10 L11* es igual a *G10 L10* excepto por que en vez de definir los valores de acuerdo a los decalajes actuales, se definen de manera tal que las 
+coordenadas actuales se conviertan a los valores dados si se recargan los nuevos valores de decalajes y la máquina se posiciona con el sistema de 
+coordenadas *G59.3* sin los decalajes *G52*/*G92*.
+
+Esto permite al usuario definir el sistema de coordenadas *G59.3* de acuerdo a un punto fijo de la máquina y luego usar ese punto independientemente 
+de otros decalajes activos.
+
+Da un error si:
+   
+   * La compensación de herramienta está activa
+   * El número *P* no se especifica 
+   * El número *P* no es un número válido de la tabla de herramientas
+   * El número *P* es 0
+
+   
 .. _refG10L20:
 
 G10 L20 Definición de Sistema Coordinado
 ----------------------------------------
+
+::
+
+   G10 L20 P- ejes
+
+   * *P-* número de herramienta
+
+*G10 L20* es similar a *G10 L2* excepto que en vez de definir el valor en la tabla, define un valor calculado que hace que las coordenadas
+actuales se conviertan en el valor dado.
+
+**Ejemplo**:
+
+   G10 L20 P1 X1.5 (define la posición actual en X como 1.5 para el sistema de coordenadas 1)
+
+Da error si:
+
+   * El número *P* no se puede evaluar en un entero en el rango 0 a 9
+   * Se programa un eje que no está definido en la configuración
 
 
 .. _refG17:
@@ -1001,32 +1208,203 @@ G10 L20 Definición de Sistema Coordinado
 G17-G19.1 Selección de Plano de Trabajo
 ---------------------------------------
 
+Estos comandos seleccionan el plano de trabajo:
+
+   * *G17* - XY (por defecto)
+   * *G18* - ZX
+   * *G19* - YZ
+   * *G17.1* - UV
+   * *G18.1* - WU
+   * *G19.1* - VW
+
+En los planos Uv, Wu y VW no se pueden utilizar los arcos de círculos.
+
+Es una buena práctica seleccionar el plano de trabajo en el preambulo de los archivo de código G.
+
+El efecto de seleccionar el plano de traajo se muestra en las secciones sobre arcos :ref:`G2 G3 <refG2>`, :ref:`G81  <refG81>` y :ref:`G89 <refG89>`.
+
 
 .. _refG20:
 
 G20 G21 Selección de Unidades
 ------------------------------
 
+   * *G20* - para utilizar pulgadas como unidades de longitud
+   * *G21* - para utilizar milímetros como unidades de longitud
+
+Es una buena práctica seleccionar las unidades en el preambulo de los archivo de código G.
 
 .. _refG28:
 
 G28 G28.1 Ir a posición Predeterminada
 --------------------------------------
 
+.. admonition:: Precaución
+   :class: warning
+
+   Solo use *G28* cuando se han referenciado los ejes (homing) a una posición repetible y la posición deseada *G28* ha sido guardada con *G28.1*
+
+*G28* utiliza los valores guardados en los parámetros 5161 - 5169 como los ejes X Y Z A B C U V W como el punto final al cual moverse. Los valores
+de los parámetros son coordenadas de máquinas *absolutas* en las unidades *originales* de la máquina como están especificadas en el archivo .ini.
+Todos los ejes definidos en el archivo .ini serán movilizados cuando se ejecuta el comando *G28*. Si no hay posiciones guardades con *G28.1*, entonces
+todos los ejes se posicionarán en el origen de la máquina.
+
+   * *G28* realiza un movimiento rápido desde la posición actual a la posición *absoluta* definida por los valores de los parámetros 5161-5169
+   * *G28 ejes* realiza un movimiento rápido a la posición definida en *ejes* inluyendo los decalajes, luego hace un movimiento rápido a la posición
+     *absoluta* definida por los valores de los parámetros 5161-5169. Cualquier *eje* no especificado no se moverá
+   * *G28.1* guarda la posición *absoluta* actual en los parámetros 5161-5169
+
+**Ejemplo**::
+
+   G28 Z2.5 (movimiento rápido a Z2.5 luego a la posición Z especificada en #5163)
+
+Da un error si:
+
+   * La compensación de herramienta está activa
+
+
 .. _refG30: 
 
 G30 G30.1 Ir a posición Predeterminada
 --------------------------------------
+
+.. admonition:: Precaución
+   :class: warning
+
+   Solo use *G30* cuando se han referenciado los ejes (homing) a una posición repetible y la posición deseada *G30* ha sido guardada con *G30.1*
+
+El comando *G30* funciona igual al comando *G28* pero utiliza los valores guardados en los parámetros 5181 - 5189 como los ejes X Y Z A B C U V W como el punto final al cual moverse.
+Los valores de los parámetros son coordenadas de máquinas *absolutas* en las unidades *originales* de la máquina como están especificadas en el archivo .ini.
+Todos los ejes definidos en el archivo .ini serán movilizados cuando se ejecuta el comando *G30*. Si no hay posiciones guardades con *G30.1*, entonces
+todos los ejes se posicionarán en el origen de la máquina.
+
+.. admonition:: Nota
+
+   Los parametros *G30* son usados para mover la herramienta cuando se utiliza el comando *M6* si *TOOL_CHANGE_AT_G30=1* está definido en la sección *[EMCIO]* del archivo .ini.
+
+   * *G30* realiza un movimiento rápido desde la posición actual a la posición *absoluta* definida por los valores de los parámetros 5181-5189
+   * *G30 ejes* realiza un movimiento rápido a la posición definida en *ejes* inluyendo los decalajes, luego hace un movimiento rápido a la posición
+     *absoluta* definida por los valores de los parámetros 5181-5189. Cualquier *eje* no especificado no se moverá
+   * *G30.1* guarda la posición *absoluta* actual en los parámetros 5181-5189
+
+**Ejemplo**::
+
+   G30 Z2.5 (movimiento rápido a Z2.5 luego a la posición Z especificada en #5183)
+
+Da un error si:
+
+   * La compensación de herramienta está activa
+
 
 .. _refG33:
 
 G33 Movimiento Sincronizado de Husillo
 --------------------------------------
 
+::
+
+   G33 X- Y- Z- K- $-
+
+   * K- distancia por revolución de husillo
+
+El comando *G33* se utiliza para movimientos sincronizados de husillo en una dirección definida por XYZ, donde *K* determina la distancia que se mueve en esa dirección 
+por cada revolución del husillo. Por ejemplo, empezando en *Z=0*, *G33 Z-1 K.0625* produce un movimiento de un pulgada (de estar activo *G20*) en dirección *Z* para 16 
+revoluciones de husillo. Este comando podría ser parte de un programa para producir un roscado de 16 TPI (filetes por pulgada).
+
+El argumento opcional *$* define cuál husillo es el que se sincroniza (por defecto el 0). Por ejemplo *G33 Z10 K1 $1* hará que el husillo 1 se mueva en sincronía con el valor
+del testigo (pin) de HAL *spindle.N.revs*.
+
+El movimiento sincronizado de husillo espera a los testigos (pins) de índice de husillo y husillo en velocidad, por lo que deben estar ambos activos. *G33* mueve el extremo
+al punto final programado. El comando *G33* puede ser utilizado para realizar roscas cónicas.
+
+Todos las palabras de ejes son opcionales, por lo menos una debe ser utilizada.
+
+.. note::
+
+   El valor *K* sigue la dirección descripta por *X- Y- Z-*. *K* no es paralera a Z si los valores X o Y del punto final del punto final son usados, por ejemplo para roscas cónicas.
+
+**Información Técnica**
+
+Al principio de un movimiento *G33*, el controlador utiliza la velocidad del husillo y los límites de aceleración de la máquina para calcular el tiempo de aceleración en la dirección
+XYZ luego de que el testigo se active y determina la cantidad de grados que deberá rotar el husillo durante ese tiempo. Luego adiciona ese ángulo al testigo de posición y calcula 
+la posición XYZ usando el ángulo corregido del husillo. Eso significa que la ubicación XYZ llegará a la posición adecuada al terminar de acelerar a la velocidad correcta, y que
+podrá empezar a mecanizar adecuadamente el roscado.
+
+**Conexiones de HAL**
+
+El testigo (pin) de HAL *spindle.N.at-speed* debe tener valor *Verdadero* (true) para que empiece el movimiento. Adicionalmnete *spindle.N.revs* debe incrementarse en 1 para cada
+revolución del husillo y el testigo *spindle.N.index-enable* debe estar conectado a un contador de encoder que resetea al *index-enable* en cada revolución.
+
+**Ejemplo**::
+
+   G90 (modo de coordenadas absolutas)
+   G0 X1 Z0.1 (movimiento rápido)
+   S100 M3 (arranca giro de husillo)
+   G33 Z-2 K0.125 (mover eje Z a -2 a una velocidad de 0.125 por revolución)
+   G0 X1.25 (movimiento rápido fuera de línea de trabajo)
+   Z0.1 (movimiento rápido a la posición de inicio en Z)
+   M2 (fin de programa)
+
+Para más información ver secciones :ref:`G90 <refG90>`, :ref:`G0 <refG0>` y :ref:`M2 <refM2>`.
+
+Da un error si:
+
+   * Se omiten todas las palabras de ejes
+   * El husillo no está en movimiento cuando el comando se ejecuta
+   * El movimiento lineal requerido excede los límites de velocidad de la máquina debido a la velocidad del husillo
+
+
 .. _refG33.1:
 
 G33.1 Roscado Rígido
 ---------------------
+
+::
+
+   G33.1 X- Y- Z- K- I- $-
+
+   * *K-* distancia por revolución de husillo
+   * *I-* multiplicador de velocidad para retorno rápido, opcional
+   * *$-* selector del husillo, opcional|
+
+.. admonition:: Precaución
+   :class: warning
+
+   Para roscado en Z solamente posicione previamente la ubicación de los ejes XY antes de llamar *G33.1* y solo utilice la palabra Z en el comando *G33.1*. Si las coordenadas
+   especificadas no son las coordenadas actuales cuando se ejecuta *G33.1* 
+
+El comando *G33.1* se utiliza para roscado rígido (movimiento de husillo sincronizado con retorno), donde *K-* define la distancia de avance por cada revolución del husillo.
+
+El roscado rígido posee la siguiente secuencia:
+
+   #. Un movimiento desde la coordenada actual a la coordenada especificada, sincronizado con el husillo seleccionado y con el avance especificado, comenzando de acuerdo al pulso
+   de ubicación del husillo.
+   #. Al alcanzar el punto final un comando para invertir el giro del husillo y retroceder a una velocidad más elevada definida por el multiplicador.
+   #. Continuación del movimiento coordinado más allá de la coordenada especificada hasta que el husillo efectivamente frene e invierta el giro.
+   #. Continuación del movimiento coordinado de vuelta a la coordenada original
+   #. Al alcanzar la coordenada original, un nuevo comando para invertir el giro del husillo
+   #. Continuación del movimiento coordinado más allá de la coordenada original hasta que el husillo efectivamente frene e invierta el giro.
+   #. Un movimiento *No sincronizado* de vuelta a la coordenada inicial.
+
+Los movimientos sincronizados de husillo esperan al pulso de ubicación del husillo de forma que múltiples pasadas *G33.1* coinciden en su ubicación.
+
+Todas las palabras de ejes son opcionales, pero por lo menos una debe utilizarse.
+
+**Ejemplo**::
+
+   G90 (modo de coordenadas absolutas)
+   G0 X1 Y1 Z0.1 (movimiento rapido a punto inicial)
+   S1000 M3 (arranca giro de husillo)
+   G33.1 Z-0.75 K0.05 (roscado rígido de 20 filetes por pulgada de 0.75 de profundidad)
+   M2 (fin de programa)
+
+* Para más información ver secciones :ref:`G90 <refG90>`, :ref:`G0 <refG0>` :ref:`M2 <refM2>`.
+
+Da un error si:
+
+   * Se omiten todas las palabras de ejes
+   * El husillo no está en movimiento cuando el comando se ejecuta
+   * El movimiento lineal requerido excede los límites de velocidad de la máquina debido a la velocidad del husillo
 
 .. _refG38:
 
@@ -1034,15 +1412,30 @@ G38.n Sondeo
 ------------
 
 
+
+
+
 .. _refG40:
 
 G40.n Compensación de Radio de Herramienta Desactivada
 ------------------------------------------------------
 
+
+
+
+
+
 .. _refG41:
 
 G41 G42 Compensación de Radio de Herramienta
 --------------------------------------------
+
+
+
+
+
+
+
 
 
 .. _refG41.1:
@@ -1052,10 +1445,19 @@ G41.1 G42.1 Compensación Dinámica de Radio de Herramienta
 
 
 
+
+
+
+
+
 .. _refG43:
 
 G43 Compensación de Largo de Herramienta
 -----------------------------------------
+
+
+
+
 
 
 .. _refG43.1:
@@ -1063,10 +1465,17 @@ G43 Compensación de Largo de Herramienta
 G43.1 Compensación Dinámica de Largo de Herramienta 
 ---------------------------------------------------
 
+
+
+
+
+
 .. _refG43.2:
 
 G43.2 Compensación Adicional de Largo de Herramienta 
 ----------------------------------------------------
+
+
 
 
 
