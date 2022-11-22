@@ -1282,10 +1282,10 @@ todos los ejes se posicionarán en el origen de la máquina.
 
    Los parametros *G30* son usados para mover la herramienta cuando se utiliza el comando *M6* si *TOOL_CHANGE_AT_G30=1* está definido en la sección *[EMCIO]* del archivo .ini.
 
-   * *G30* realiza un movimiento rápido desde la posición actual a la posición *absoluta* definida por los valores de los parámetros 5181-5189
-   * *G30 ejes* realiza un movimiento rápido a la posición definida en *ejes* inluyendo los decalajes, luego hace un movimiento rápido a la posición
-     *absoluta* definida por los valores de los parámetros 5181-5189. Cualquier *eje* no especificado no se moverá
-   * *G30.1* guarda la posición *absoluta* actual en los parámetros 5181-5189
+* *G30* realiza un movimiento rápido desde la posición actual a la posición *absoluta* definida por los valores de los parámetros 5181-5189
+* *G30* *ejes* realiza un movimiento rápido a la posición definida en *ejes* inluyendo los decalajes, luego hace un movimiento rápido a la posición *absoluta* definida 
+  por los valores de los parámetros 5181-5189. Cualquier *eje* no especificado no se moverá
+* *G30.1* guarda la posición *absoluta* actual en los parámetros 5181-5189
 
 **Ejemplo**::
 
