@@ -214,6 +214,9 @@ Es un error escribir código G del grupo 1 y código G del grupo 0 en la misma l
 en una línea (al ser definido en alguna línea anterior) y el comando del grupo 0 que hace referencia al eje en la misma línea, la actividad del código G del grupo 1 se suspende
 para esa línea. 
 
+
+.. _refComentarios:
+
 Comentarios
 -----------
 
@@ -493,8 +496,6 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 |  :ref:`G5.1 <refG5.1>`        | Spline Cuadrático                                                        |
 +-------------------------------+--------------------------------------------------------------------------+
-|  :ref:`G5.2 <refG5.2>`        | Bloque de NURBS                                                          |
-+-------------------------------+--------------------------------------------------------------------------+
 |  :ref:`G7 <refG7>`            | Modo Diametral (para torneado)                                           |
 +-------------------------------+--------------------------------------------------------------------------+
 |  :ref:`G8 <refG8>`            | Modo Radial (para torneado)                                              |
@@ -545,7 +546,7 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G61 <refG61>`           | Modo de Posicionamiento Exacto                                           |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G61.1 <refG61.1>`       | Modo de Frenado en Posición Exacta                                       |
+| :ref:`G61.1 <refG61.1>`       | Modo de Frenado en Posición Preciso                                      |
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G64 <refG64>`           | Suavizado de Trayectoria                                                 |
 +-------------------------------+--------------------------------------------------------------------------+
@@ -938,8 +939,42 @@ Se produce un error si:
 G5 Spline Cúbico
 ----------------
 
+::
 
+   G5 X- Y- <I- J-> P- Q-
 
+* *I-* Coordenada relativa en X desde el punto inicial al primer punto de control
+* *J-* Coordenada relativa en Y desde el punto inicial al primer punto de control
+* *P-* Coordenada relativa en X desde el punto final al segundo punto de control
+* *Q-* Coordenada relativa en Y desde el punto final al segundo punto de control
+
+*G5* crea una curva del tipo B-spline cúbica en el plano XY sólo con los ejes X e Y. Tanto P como Q deben ser especificados para todo comando *G5*.
+
+Para el primer comando *G5* de una serie de comandos *G5*, tanto I como J deben ser especificados. Para los comandos *G5* subsecuentes, es posible
+especificar ambos, I y J, o ninguno de los dos. Si I y J no se especifican, la dirección inicial de la curva coincidirá con la dirección final de la
+curva previa (como si los parámetros I y J fueran iguales y opuestas de los parámetros P y Q anteriores).
+
+Por ejemplo, para programar una curva con forma de N:
+
+**Ejemplo de spline cúbico inicial**::
+
+   G90 G17
+   G0 X0 Y0
+   G5 I0 J3 P0 Q-3 X1 Y1
+
+Un segundo segmento de con forma de N que se concatena suavemente con el primero puede programarse sin especificar I y J.
+
+**Ejemplo de spline cúbico subsecuente**::
+
+   G5 P0 Q-3 X2 Y2
+
+Da un error si:
+
+   * No se especifican ambos valores de P y Q
+   * Solo se especifica un valor de I o J
+   * I y J no se especifican en el primero de una serie de comandos *G5*
+   * Se define algún eje que no sea X e Y
+   * El plano de trabajo activo no es G17
 
 
 .. _refG5.1:
@@ -947,19 +982,29 @@ G5 Spline Cúbico
 G5.1 Spline Cuadrático
 -----------------------
 
+::
 
+   G5.1 X- Y- I- J-
 
+* *I-* Coordenada relativa en X desde el punto inicial al punto de control
+* *J-* Coordenada relativa en Y desde el punto inicial al punto de control
 
+*G5.1* crea una curva tipo B-spline cuadrática en el plano XY sólo con los ejes X e Y. No especificar I o J da un eje no 
+especificado, por lo que ambos valores deben ser definidos.
 
-.. _refG5.2:
+Por ejemplo, si se desea programar una parábola que pase por el origen y por los puntos X-2 Y4 y X2 Y4:
 
-G5.2 G5.3 Bloque de NURBS
--------------------------
+**Ejemplo de spline cuadrático**::
 
+   G90 G17
+   G0 X-2 Y4
+   G5.1 X2 I2 J-8
 
+Da un error si:
 
-
-
+   * Si ambos valores de I o J no se especifican o son 0
+   * Se define algún eje que no sea X e Y
+   * El plano de trabajo activo no es G17
 
 
 .. _refG7:
@@ -1319,7 +1364,7 @@ al punto final programado. El comando *G33* puede ser utilizado para realizar ro
 
 Todos las palabras de ejes son opcionales, por lo menos una debe ser utilizada.
 
-.. note::
+.. admonition:: Nota
 
    El valor *K* sigue la dirección descripta por *X- Y- Z-*. *K* no es paralera a Z si los valores X o Y del punto final del punto final son usados, por ejemplo para roscas cónicas.
 
@@ -1370,15 +1415,15 @@ G33.1 Roscado Rígido
 .. admonition:: Precaución
    :class: warning
 
-   Para roscado en Z solamente posicione previamente la ubicación de los ejes XY antes de llamar *G33.1* y solo utilice la palabra Z en el comando *G33.1*. Si las coordenadas
-   especificadas no son las coordenadas actuales cuando se ejecuta *G33.1* 
+   Para roscado en Z solamente posicione previamente la ubicación de los ejes XY antes de llamar *G33.1* y solo utilice la palabra Z en el comando
+   *G33.1*. Si las coordenadas especificadas no son las coordenadas actuales cuando se ejecuta *G33.1* para el roscado, el movimiento no se producirá
+   sólo en el eje Z, sino que será un movimiento coordinado, sincronizado con el husillo, desde la posición actual a la posición especificada y de vuelta.
 
 El comando *G33.1* se utiliza para roscado rígido (movimiento de husillo sincronizado con retorno), donde *K-* define la distancia de avance por cada revolución del husillo.
 
 El roscado rígido posee la siguiente secuencia:
 
-   #. Un movimiento desde la coordenada actual a la coordenada especificada, sincronizado con el husillo seleccionado y con el avance especificado, comenzando de acuerdo al pulso
-   de ubicación del husillo.
+   #. Un movimiento desde la coordenada actual a la coordenada especificada, sincronizado con el husillo seleccionado y con el avance especificado, comenzando de acuerdo al pulso de ubicación del husillo.
    #. Al alcanzar el punto final un comando para invertir el giro del husillo y retroceder a una velocidad más elevada definida por el multiplicador.
    #. Continuación del movimiento coordinado más allá de la coordenada especificada hasta que el husillo efectivamente frene e invierta el giro.
    #. Continuación del movimiento coordinado de vuelta a la coordenada original
@@ -1411,8 +1456,42 @@ Da un error si:
 G38.n Sondeo
 ------------
 
+::
 
+   G38.n ejes
 
+   * *G38.2* - sonda hacia la pieza, parar en caso de contacto, señal de error si falla
+   * *G38.3* - sonda hacia la pieza, parar caso de en contacto
+   * *G38.4* - sonda en contra de la pieza, parar al perder contacto, señal de error si falla
+   * *G38.5* - sonda en contra de la pieza, parar al perder contacto
+
+.. admonition:: Importante
+
+   No se puede utilizar la sonda o sensor de contacto hasta que la máquina esté configurada para trabajar con una señal de 
+   entrada para la sonda. Esta señal debe estar conectada al testigo *motion.probe-input* en el archivo .hal. El comando *G38.n* 
+   utiliza el testigo (pin) *motion.probe-input* para determinar cuando el sensor ha hecho (o ha perdido) contacto. *Verdadero*
+   para sondas de contacto normal cerrado (tocando), *Falso* para sondas de contacto normal abierto.
+
+Utilice el comando *G38.n* para implementar operaciones con sensores de contacto. Las palabras de ejes son opcionales, salvo que 
+es necesario utiliza por lo menos una. Las posiciones de ejes definen el punto de destino hacia el que se moverá la sonda, empezando
+por la posición actual. Si la sonda no hace contacto (o no deja de hacer contacto) al llegar a destino *G38.2* o *G38.4* emiten un 
+error.
+
+En respuesta a este comando la máquina mueve el punto de control (que debería estar en el centro de la esfera de la sonda) en línea
+recta a la presente velocidad de avance hacia el punto programado. El movimiento se frena (dentro de los límites de aceleración) 
+cuando el punto programado es alcanzado, o cuando se produce un cambio en el estado de la sonda, lo que ocurra primero.
+
+Se puede utilizar un comentario con el formato *(PROBEOPEN filename.txt)* para abrir el archivo *filename.txt* y guardad los valores 
+de las 9 coordenadas XYZABCUVW de cada procedimiento satisfactorio de búsqueda de contacto. El archivo debe ser cerrrado con 
+*(PROBECLOSE)*. Para más información ver la sección de :ref:`refComentarios`.
+
+Da un error si:
+
+   * La posición actual es la misma que el punto programado
+   * No se utiliza alguna palabra de eje
+   * La compensación de herramienta está activa
+   * La velocidad de avance es nula
+   * La sonda ya está en el estado objetivo (activa para *G38.3* por ejemplo)
 
 
 .. _refG40:
@@ -1420,9 +1499,27 @@ G38.n Sondeo
 G40.n Compensación de Radio de Herramienta Desactivada
 ------------------------------------------------------
 
+::
 
+   G40
 
+El comando *G40* desactiva la compensación de herramienta. Si la compensación de herramienta estaba activo, para que tenga efecto el siguiente
+movimiento debe ser un movimiento lineal con un desplazamiento mayor al diámetro de la herramienta. En caso de no estar activo es posible 
+utilizar este comando.
 
+**Ejemplo de G40**::
+
+   ; la posición actual es X1 luego de un movimiento compensado
+   G40 (desactivar la compensación)
+   G0 X14 (movimiento linea más largo que el diámetro de herramienta)
+   M2 (fin de programa)
+
+* Para más información ver secciones :ref:`G0 <refG0>` y :ref:`M2 <refM2>`
+
+Da un error si:
+
+   * Se utiliza un comando *G2/G3* a continuación de *G40*
+   * El movimiento linealluego de desactivar la compensación es menor al diámetro de la herramienta.
 
 
 .. _refG41:
@@ -1430,12 +1527,50 @@ G40.n Compensación de Radio de Herramienta Desactivada
 G41 G42 Compensación de Radio de Herramienta
 --------------------------------------------
 
+::
 
+   G41 <D-> (a la izquierda de la trayectoria programada)
+   G42 <D-> (a la derecha de la trayectoria programada)
 
+* *D-* número de herramienta
 
+La palabra *D* es opcional, si no se define el radio de la herramienta cargada actual será utilizado (si no hay herramienta cargada y no se 
+especifica la palabra *D* se utiliza un radio igual a cero).
 
+Si se define la palabra *D*, hace referencia al número de herramienta del cuál se selecciona el radio de compensación. Normalmente es el número
+de herramienta a utilizar (en cuyo caso el uso de la palabra *D* es redundante y no necesita ser utilizada), pero podría ser cualquier número 
+válido de herramienta.
 
+.. admonition:: Nota
 
+   El comando *G41/G42* *D0* es especial. Su comportamiento difiere si la máquina tiene un cambiador de herramientas que permita cambios 
+   aleatorios o no (ver sección de Cambios de Herramienta REFERENCIA ). En máquinas con cambiadores de herramientas 
+   no aleatorios el comando *G41/G42* *D0* aplica el decalaje de la herramienta que está en uso o el decalaje nulo si no hay una herramienta
+   cargada. En máquinas que tienen cambiadores aleatorios *G41/G42* *D0* aplica el decalaje de la herramienta T0 de la tabla de herramientas
+   (o da error si la herramienta T0 no está definida en la tabla de herramientas).
+
+Para activar la compensación de herramienta a la izquierda de la trayectoria utilice el comando *G41*. Este comando corre la ubicación real 
+de la herramienta para que el filo se ubique sobre la línea programada, ubicándola a la izquierda visto desde el extremo positivo del eje 
+perpendicular al plano.
+
+Para activar la compensación de herramienta a la derecha de la trayectoria utilice el comando *G42*. Este comando corre la ubicación real 
+de la herramienta para que el filo se ubique sobre la línea programada, ubicándola a la derecha visto desde el extremo positivo del eje 
+perpendicular al plano.
+
+El largo del movimiento debe ser igual omayor al radiode la herramienta. El movmimiento puede ser un movimiento rápido.
+
+La compensación de herramienta puede ser realizado si el plano XY o el XZ está activos.
+
+Los comandos *M100-M199* están permitidos al estar activa la compensación de herramienta.
+
+El comportamiento de un centro de mecanizado cuando la compensación de herramienta está activa se describe en la sección
+:doc:`toolCompensation`.
+
+Da un error si:
+
+   * El número *D* no es válido o es 0
+   * El plano YZ está activo
+   * Se utiliza un comando para activar la compensación de herramienta cuando ya está activa
 
 
 .. _refG41.1:
@@ -1443,11 +1578,21 @@ G41 G42 Compensación de Radio de Herramienta
 G41.1 G42.1 Compensación Dinámica de Radio de Herramienta
 ---------------------------------------------------------
 
+::
 
+   G41.1 D- <L-> (a la izquierda de la trayectoria programada)
+   G42.1 D- <L-> (a la derecha de la trayectoria programada)
 
+Los comandos *G41.1* y *G42.1* funcionan de la misma manera que los comandos *G41* y *G42* con la funcionalidad
+agregada de poder programar el diámetro de la herramienta. La palabra *L* tiene por defecto el 0 si no se 
+especifica.
 
+Da un error si:
 
-
+   * El plano YZ está activo
+   * El número *L* no está en el rango de 0 a 9
+   * El número *L* es usado cuando el plano XZ no está activo
+   * Se utiliza un comando para activar la compensación de herramienta cuando ya está activa
 
 
 .. _refG43:
@@ -1455,9 +1600,38 @@ G41.1 G42.1 Compensación Dinámica de Radio de Herramienta
 G43 Compensación de Largo de Herramienta
 -----------------------------------------
 
+::
 
+   G43 <H->
 
+* *H-* número de herramienta (opcional)
 
+El comando *G43* activa la compensación de largo de herramienta. *G43* cambia los movimientos subsiguientes al desplazar 
+la posición de los ejes una magnitud igual a largo de la herramienta. Este comando no causa movimiento alguno. La próxima vez
+que se mueva un eje con compensación el eje se desplaza a la ubicación compensada.
+
+Un comando *G43* sin la palabra *H* utiliza la herramienta cargada en el último comando *Tn* *M6*.
+
+El comando *G43* *Hn* utiliza el decalaje de la herramienta número *n*. 
+
+.. admonition:: Nota
+
+   El comando *G43* *H0* es especial. Su comportamiento difiere si la máquina tiene un cambiador de herramientas que permita cambios 
+   aleatorios o no (ver sección de Cambios de Herramienta REFERENCIA ). En máquinas con cambiadores de herramientas 
+   no aleatorios el comando *G43* *H0* aplica el largo de la herramienta que está en uso o un largo nulo si no hay una herramienta
+   cargada. En máquinas que tienen cambiadores aleatorios *G43* *H0* aplica el largo de la herramienta T0 de la tabla de herramientas
+   (o da error si la herramienta T0 no está definida en la tabla de herramientas).
+
+**Ejemplo G43 H-**::
+
+   G43 H1 (selecciona los decalajes utilizando los valores de la herramienta 1 de la tabla de herramientas)
+
+Da un error si:
+
+   * El número *H* no es un entero
+   * El número *H* es negativo
+   * El número *H* no es un número válido de herramienta 
+      (notar que el número 0 es válido en máquinas con cambiadores no aleatorios)
 
 
 .. _refG43.1:
@@ -1465,9 +1639,29 @@ G43 Compensación de Largo de Herramienta
 G43.1 Compensación Dinámica de Largo de Herramienta 
 ---------------------------------------------------
 
+::
 
+   G43.1 ejes
 
+* El comando *G43.1* *ejes* modifica los movimientos subsiguientes al reemplazar el/los decalaje/s de ejes.
+  Este comando no causa movimiento alguno. La próxima vez que se mueva un eje con compensación el eje se desplaza a la ubicación compensada.
 
+**Ejemplo G43.1**::
+
+   G90 (coordenadas absolutas)
+   T1 M6 G43 (carga la herramienta 1 y el largo de herramienta, Z está en la cordenada 0 de máquina y DRO muestra Z1.5)
+   G43.1 Z0.25 (cambia el decalaje de la herramienta en 0.25, ahora DRO muestra Z1.25)
+   M2 (fin de programa)
+
+* Para más información ver secciones :ref:`G90 <refG90>`, :ref:`T <refT>` y :ref:`M6 <refM6>`
+
+Da error si:
+
+   * El movimiento se programa en la misma línea que *G43.1*
+
+.. admonition: Nota
+
+   *G43.1* no modifica los datos de la tabla de herramientas
 
 
 .. _refG43.2:
@@ -1475,8 +1669,34 @@ G43.1 Compensación Dinámica de Largo de Herramienta
 G43.2 Compensación Adicional de Largo de Herramienta 
 ----------------------------------------------------
 
+::
 
+   G43.2 H-
 
+* G43.2 aplica un decalaje de largo de herramienta adicional y simultáneo
+
+**Ejemplo G43.2**::
+
+   G90 (coordenadas absolutas)
+   T1 M6 (carga la herramienta 1)
+   G43 (o G43 H1 - reemplaza todos los decalajes de herramientas con el decalaje de la herramienta 1)
+   G43.2 H10 (también suma los decalajes de la herramienta 10)
+   M2 (fin de programa)
+
+Se puede sumar un número arbitrario de decalajes utilizando el comando *G43.2* varias veces. No se realizan suposiciones
+sobre cuales son decalajes geométricos y cuales son decalajes por desgaste de la herramienta, o si se utiliza o no uno solo 
+para cada tipo.
+Como los otros comandos *G43*, *G43.2* no causa movimiento alguno. La próxima vez que se realice un movimiento coordinado de 
+ejes, la posición de la punta de la herramienta será compensada en el punto final.
+
+Da error si:
+
+   * *H* no se especifica
+   * El número de herramienta no existe en la tabla de herramientas
+
+.. admonition: Nota
+
+   *G43.2* no modifica los datos de la tabla de herramientas
 
 
 .. _refG49:
@@ -1484,11 +1704,47 @@ G43.2 Compensación Adicional de Largo de Herramienta
 G49 Cancelar Compensación de Largo de Herramienta 
 -------------------------------------------------
 
+* G49 cancela la compensación de largo de herramienta
+
+Es válido programar este comando utilizando el mismo decalaje que ya está en uso. Es válido también programar este comando 
+utilizando un largo de herramienta nulo si no hay alguno en uso.
 
 .. _refG52:
 
 G52 Posición del Sistema de Coordenadas Local
 ---------------------------------------------
+
+::
+
+   G52 ejes
+
+*G52* es utilizado en una parte de un programa como un decalaje temporario del sistema coordenado local, referido al sistema
+coordenado de la pieza.
+Un ejemplo de uso se da cuando se mecanizan varias veces la misma geometría en diferentes ubicaciones de una pieza. Para cada
+geometría, *G52* determina un punto de referencia local dentro del sistema coordinado de la pieza y se llama a un subprograma 
+para mecanizar la geometría en una posición relativa a ese punto de referencia.
+*G52 ejes* se utiliza para programar el decalaje de esos *ejes* para los sistemas de referencia de la pieza desde *G54* a 
+*G59.3*. Como un decalaje local, *G52* se aplica adicionalmente luego del decalaje del sistema de referencia de la pieza, incluida
+la rotación. Por ende, la geometría será mecanizada identicamente en cada parte, independientemente de la orientación de la pieza. 
+
+.. admonition:: Precaución
+   :class: warning
+
+   Como un decalaje temporario, la definición en otros interpretadores No es persistente luego del reset de la máquina, un código *M02*
+   o *M30*. Sin embargo en este controlador, *G52* comparte los parámetros con *G92*, lo que implica que la definición Es persistente. 
+   Ver la sección de :ref:`Precauciones sobre Persistencia de G92 <refG92>`
+
+.. admonition:: Precaución
+   :class: warning
+
+   *G52* y *G92* comparten los registros para la definición. Por lo tanto *G52* sobreescribe cualquier configuración mediante *G92*, y *G52*
+   tendrá una definición persistente al reset de máquina cuando *G92* esté definido como persistente. Estas interacciones pueden resultar en 
+   decalajes no previstos. Ver la sección de :ref:`Interacción entre G52 y G92 <refG92>`
+
+Programar *G52 X10 Y25* cambia el decalaje del sistema coordenado de pieza actual, movíendolo 10 en la dirección X y 25 en la dirección Y.
+Los ejes que no estén definidos en el comando, tal como el eje Z en el ejemplo previo, no se verán afectados, por lo que el decalaje *G52 Z*
+permanecerá en efecto, de lo contrario el decalaje en Z será nulo.
+El decalaje temporario puede ser cancelado con *G52 X0 Y0*.
 
 
 .. _refG53:
@@ -1496,19 +1752,76 @@ G52 Posición del Sistema de Coordenadas Local
 G53 Posición en Sistema de Coordenadas de Máquina
 -------------------------------------------------
 
+::
+   G53 ejes
+
+*G53* realiza un movimiento lineal referido al sistema de coordenadas de la máquina en la misma línea en que se definen las coordenadas del 
+la posición a la cual moverse. *G53 no es modal y debe ser definido en cada línea. En contraste para *G0* o *G1* no se requiere que se utilicen
+en cada línea si uno de ellos está activo.
+Por ejemplo, *G53 G0 X0 Y0 Z0* provocará un movimiento al origen de coordenadas de la máquina aún si hay un sistema de 
+coordenadas con decalaje activo.
+
+::
+   G53 G0 X0 Y0 Z0 (movimiento lineal rápido al origen de máquina)
+   G53 X2 (movimiento lineal rápido a la coordenada absoluta X2)
+
+Da error si:
+
+   * *G53* se utliliza sin *G0* o *G1* activos
+   * *G53* se utiliza con la compensación de herramienta activo
+
 .. _refG54:
 
 G54-G59.3 Selección de Sistema de Coordenadas Local
 ---------------------------------------------------
 
+* *G54* - Selección del sistema de coordenadas 1
+* *G55* - Selección del sistema de coordenadas 2
+* *G56* - Selección del sistema de coordenadas 3
+* *G57* - Selección del sistema de coordenadas 4
+* *G58* - Selección del sistema de coordenadas 5
+* *G59* - Selección del sistema de coordenadas 6
+* *G59.1* - Selección del sistema de coordenadas 7
+* *G59.2* - Selección del sistema de coordenadas 8
+* *G59.3* - Selección del sistema de coordenadas 9
 
+Los sistemas de coordenadas guardan las posiciones de decalajes y rotación de los ejes en los siguientes parámetros.
+
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+| Selección   | SC  |    X   |    Y   |    Z   |    A   |    B   |    C   |    U   |    V   |    W   |    R   |
++=============+=====+========+========+========+========+========+========+========+========+========+========+
+|     G54     |  1  |  5221  |  5222  |  5223  |  5224  |  5225  |  5226  |  5227  |  5228  |  5229  |  5230  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G55     |  2  |  5241  |  5242  |  5243  |  5244  |  5245  |  5246  |  5247  |  5248  |  5249  |  5250  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G56     |  3  |  5261  |  5262  |  5263  |  5264  |  5265  |  5266  |  5267  |  5268  |  5269  |  5270  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G57     |  4  |  5281  |  5282  |  5283  |  5284  |  5285  |  5286  |  5287  |  5288  |  5289  |  5290  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G58     |  5  |  5301  |  5302  |  5303  |  5304  |  5305  |  5306  |  5307  |  5308  |  5309  |  5310  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G59     |  6  |  5321  |  5322  |  5323  |  5324  |  5325  |  5326  |  5327  |  5328  |  5329  |  5330  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G59.1   |  7  |  5341  |  5342  |  5343  |  5344  |  5345  |  5346  |  5347  |  5348  |  5349  |  5350  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G59.2   |  8  |  5361  |  5362  |  5363  |  5364  |  5365  |  5366  |  5367  |  5368  |  5369  |  5370  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+|     G59.3   |  9  |  5381  |  5382  |  5383  |  5384  |  5385  |  5386  |  5387  |  5388  |  5389  |  5390  |
++-------------+-----+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+
+Da error si:
+
+* Se selecciona un sistema de coordenadas mientras la compensación de herramientas está activa
 
 
 .. _refG61:
 
-G61 Modo de Posicionamiento Exacto
-----------------------------------
+G61 Modo de Posicionamiento Preciso
+-----------------------------------
 
+*G61* se utiliza para activar el posicionamiento preciso. Los movimientos serán más lentos o se detendrán de acuerdo a 
+lo necesario a los efectos de llegar a la posición definida por cada punto. Si dos movimientos son colineares el movimiento
+no se deterndrá.
 
 
 .. _refG61.1:
@@ -1516,10 +1829,43 @@ G61 Modo de Posicionamiento Exacto
 G61.1 Modo de Frenado en Posición Exacta
 ----------------------------------------
 
+*G61.1* provoca la detención del movimiento en todos los tramos sobre el punto final de cada segmento.
+
 .. _refG64:
 
 G64 Suavizado de Trayectoria
 ----------------------------
+
+::
+   *G64 <P- <Q->>
+
+* *P* - Tolerancia del suavizado de trayectoria
+* *Q* - Tolerancia para algoritmo de direcciones sucesivas
+
+El comando *G64*, sin parámetros *P* ni *Q*, realizará el movimiento con la velocidad más alta posible, sin considerar cuanto se
+aleja el movimiento del punto programado.
+
+* *G64* P- <Q-> - realizará los movimiento con una trayectoria suavizado con tolerancia, es decir que el movimiento entre tramos
+diferentes no se detendrá, sino que la trayectoria se suaviza en torno al punto intermedio, y la velocidad en esa transcición será
+la más alta posible sujeta a las restricciones que le imponen las tolerancias utilizadas. La velocidad especificada será reducida
+si es necesario para mantener las tolerancias especificadas. 
+La tolerancia *P* indica la máxima desviación posible de la trayectoria en el entorno del punto intermedio respecto a la geometría 
+definida por los comandos de movimiento. Cuando se especifica la tolerancia *P* es posible definir adicionalmente el parámetro de 
+tolerancia *Q*. Cuando se especifican ambos parámetros de tolerancia, para una serie de movimientos lineales consecutivos con la misma
+especificación de velocidad, se activa un algoritmo que bajo las condiciones correcta puede unificar diferentes tramos en uno solo. 
+En los movimientos *G2*/*G3* en el plano XY (G17), si distancia máxima entre el arco y la recta que une sus extremos es menor a la 
+tolerancia *P*, se reemplaza el arco por dos tramos rectos con suavizado con el algoritmo y el parámetro *Q*. De esta forma los movimientos
+entre línea-arco, arco-arco y arc-línea, tal como línea-línea se pueden procesar con ese algoritmo. Esto implica una mejora en ciertos casos
+para la ejecución de movimientos de contorno al simplificar la trayectoria.
+Es válido programar este comando cuando el modo está ya activo. Para más información sobre la trayectoria ver la sección :doc:`trajectoryControl`.
+
+Si *Q* no se especifica el comando tendrá el mismo comportamiento pero con el valor de *P* especificado.
+
+Ejemplo de G64 P-::
+
+   G64 P0.15 (activar el suavizado con una tolerancia de 0.15 unidades)
+
+Es una buena práctica incluir las especificaciones del suavizado de trayectoria en el preámbulo del Código G.
 
 
 .. _refG73:
@@ -1592,6 +1938,31 @@ G90.1 G91.1 Modo de Distancia de Arcos Absoluta o Relativa
 
 G92 Definir Posición de Sistema de Coordenadas en Punto Actual
 --------------------------------------------------------------
+
+
+
+
+**Los comandos G92**
+
+
+
+
+**Definiendo valores de G92**
+
+
+
+
+
+**Precauciones sobre Persistencia de G92**
+
+
+
+
+**Precauciones de Interacción entre G52 y G92**
+
+
+
+
 
 .. _refG92.1:
 
