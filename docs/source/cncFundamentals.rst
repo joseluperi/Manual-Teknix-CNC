@@ -37,7 +37,7 @@ Una línea de comando está compuesta de los siguientes elementos, en orden, con
 | El número de línea se forma con la letra N seguido de un número entero, opcionalmente seguido de un punto y otro número entero. 
   Por ejemplo, N103 y N103.12 son números de línea válidos. Pueden estar repetidos y estar definidos en orden creciente o no, aunque 
   la práctica usual es evitarlos o en caso de utilizarlos definirlos en orden creciente. 
-| Los términos están formados por cualquier letra de las que se muestarn en la siguente tabla: 
+| Los términos están formados por cualquier letra de las que se muestran en la siguente tabla: 
 
 +-------+-----------------------------------------------------------------------+
 | Letra |  Significado                                                          |
@@ -552,9 +552,9 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G73 <refG73>`           | Ciclo de Perforado con Ruptura de Viruta                                 |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G74 <refG74>`           | Ciclo de Roscado Izquierdo con Espera                                    |
+| :ref:`G74 <refG74>`           | Ciclo de Roscado (Tapping) Izquierdo con Huelgo                          |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G76 <refG76>`           | Ciclo de Roscado de Varias Pasadas (Torneado)                            |
+| :ref:`G76 <refG76>`           | Ciclo de Roscado (Threading) de Varias Pasadas                           |
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G80 <refG80>`           | Cancelación de Ciclo Cerrado                                             |
 +-------------------------------+--------------------------------------------------------------------------+
@@ -564,7 +564,7 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G83 <refG83>`           | Ciclo de Perforado Profundo                                              |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G84 <refG84>`           | Ciclo de Roscado Derecho con Espera                                      |
+| :ref:`G84 <refG84>`           | Ciclo de Roscado (Tapping) Derecho con Espera                            |
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G85 <refG85>`           | Ciclo de Perforado con Velocidad de Salida                               |
 +-------------------------------+--------------------------------------------------------------------------+
@@ -576,11 +576,11 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G90.1 G91.1 <refG90.1>` | Modo de Distancia de Arcos Absoluta o Relativa                           |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G92 <refG92>`           | Definir Posición de Sistema de Coordenadas en Punto Actual               |
+| :ref:`G92 <refG92>`           | Definir Decalaje de Sistema de Coordenadas en Punto Actual               |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G92.1 G92.2 <refG92.1>` | Resetear Posición de Sistema de Coordenadas                              |
+| :ref:`G92.1 G92.2 <refG92.1>` | Resetear Decalaje de Sistema de Coordenadas G92                          |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G92.3 <refG92.3>`       | Restablecer Posición de Sistema de Coordenadas de G92                    |
+| :ref:`G92.3 <refG92.3>`       | Restablecer Decalaje de Sistema de Coordenadas G92                       |
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G93 G94 G95 <refG93>`   | Modo de Avance                                                           |
 +-------------------------------+--------------------------------------------------------------------------+
@@ -1062,11 +1062,11 @@ G10 L1 Definición de Parámetros de Herramienta
 
    G10 L1 P- ejes <R- I- J- Q->
 
-   * *P-* número de herramienta
-   * *R-* radio de la herramienta
-   * *I-* ángulo frontal (torno)
-   * *J-* ángulo posterior (torno)
-   * *Q-* orientación (torno)
+* *P-* número de herramienta
+* *R-* radio de la herramienta
+* *I-* ángulo frontal (torno)
+* *J-* ángulo posterior (torno)
+* *Q-* orientación (torno)
 
 *G10 L1* define las dimensiones de la herramienta *P* en la tabla de herramienta a los valores utilizados en la línea.
 Un comando *G10 L1* redefine los valores y recarga la tabla de herramientas, donde se almacena toda la información sobre la geometría de las mismas.
@@ -1094,8 +1094,8 @@ G10 L2 Definición de Sistema Coordinado
 
    G10 L2 P- <ejes R->
 
-   * *P-* sistema coordenado (0-9)
-   * *R-* rotación alrededor del eje Z
+* *P-* sistema coordenado (0-9)
+* *R-* rotación alrededor del eje Z
 
 *G10 L2* define la posición del sistema de coordenadas *P* a los valores utilizados en la línea. Los valores definidos reemplazarán los valores existentes
 grabados anteriormente para ese sistema de coordenadas. Los valores no especificados permanecerán sin cambios.
@@ -1166,11 +1166,11 @@ G10 L10 Definición de Parámetros de Herramienta en Punto Actual
 
    G10 L10 P- eje <R- I- J- Q->
 
-   * *P-* número de herramienta
-   * *R-* radio de la herramienta
-   * *I-* ángulo frontal (torno)
-   * *J-* ángulo posterior (torno)
-   * *Q-* orientación (torno)
+* *P-* número de herramienta
+* *R-* radio de la herramienta
+* *I-* ángulo frontal (torno)
+* *J-* ángulo posterior (torno)
+* *Q-* orientación (torno)
 
 *G10 L10* cambia los valores de decalaje de la herramienta *P* en la tabla de herramientas para que si los decalajes se recargan, con la máquina en 
 la posición actual y los decalajes activos que correspondan al sistema actual (*G5x* y *G52/G92*), las coordenadas actuales para los ejes determinados 
@@ -1203,11 +1203,11 @@ G10 L11 Definición de Parámetros de Herramienta en Punto Actual referido a G59
 
    G10 L11 P- ejes <R- I- J- Q->
 
-   * *P-* número de herramienta
-   * *R-* radio de la herramienta
-   * *I-* ángulo frontal (torno)
-   * *J-* ángulo posterior (torno)
-   * *Q-* orientación (torno)
+* *P-* número de herramienta
+* *R-* radio de la herramienta
+* *I-* ángulo frontal (torno)
+* *J-* ángulo posterior (torno)
+* *Q-* orientación (torno)
 
 *G10 L11* es igual a *G10 L10* excepto por que en vez de definir los valores de acuerdo a los decalajes actuales, se definen de manera tal que las 
 coordenadas actuales se conviertan a los valores dados si se recargan los nuevos valores de decalajes y la máquina se posiciona con el sistema de 
@@ -1233,7 +1233,7 @@ G10 L20 Definición de Sistema Coordinado
 
    G10 L20 P- ejes
 
-   * *P-* número de herramienta
+* *P-* número de herramienta
 
 *G10 L20* es similar a *G10 L2* excepto que en vez de definir el valor en la tabla, define un valor calculado que hace que las coordenadas
 actuales se conviertan en el valor dado.
@@ -1350,7 +1350,7 @@ G33 Movimiento Sincronizado de Husillo
 
    G33 X- Y- Z- K- $-
 
-   * K- distancia por revolución de husillo
+* K- distancia por revolución de husillo
 
 El comando *G33* se utiliza para movimientos sincronizados de husillo en una dirección definida por XYZ, donde *K* determina la distancia que se mueve en esa dirección 
 por cada revolución del husillo. Por ejemplo, empezando en *Z=0*, *G33 Z-1 K.0625* produce un movimiento de un pulgada (de estar activo *G20*) en dirección *Z* para 16 
@@ -1408,9 +1408,9 @@ G33.1 Roscado Rígido
 
    G33.1 X- Y- Z- K- I- $-
 
-   * *K-* distancia por revolución de husillo
-   * *I-* multiplicador de velocidad para retorno rápido, opcional
-   * *$-* selector del husillo, opcional|
+* *K-* distancia por revolución de husillo
+* *I-* multiplicador de velocidad para retorno rápido, opcional
+* *$-* selector del husillo, opcional|
 
 .. admonition:: Precaución
    :class: warning
@@ -1460,10 +1460,10 @@ G38.n Sondeo
 
    G38.n ejes
 
-   * *G38.2* - sonda hacia la pieza, parar en caso de contacto, señal de error si falla
-   * *G38.3* - sonda hacia la pieza, parar caso de en contacto
-   * *G38.4* - sonda en contra de la pieza, parar al perder contacto, señal de error si falla
-   * *G38.5* - sonda en contra de la pieza, parar al perder contacto
+* *G38.2* - sonda hacia la pieza, parar en caso de contacto, señal de error si falla
+* *G38.3* - sonda hacia la pieza, parar caso de en contacto
+* *G38.4* - sonda en contra de la pieza, parar al perder contacto, señal de error si falla
+* *G38.5* - sonda en contra de la pieza, parar al perder contacto
 
 .. admonition:: Importante
 
@@ -1811,7 +1811,7 @@ Los sistemas de coordenadas guardan las posiciones de decalajes y rotación de l
 
 Da error si:
 
-* Se selecciona un sistema de coordenadas mientras la compensación de herramientas está activa
+   * Se selecciona un sistema de coordenadas mientras la compensación de herramientas está activa
 
 
 .. _refG61:
@@ -1837,10 +1837,10 @@ G64 Suavizado de Trayectoria
 ----------------------------
 
 ::
-   *G64 <P- <Q->>
+   G64 <P- <Q->>
 
-* *P* - Tolerancia del suavizado de trayectoria
-* *Q* - Tolerancia para algoritmo de direcciones sucesivas
+* *P-* tolerancia del suavizado de trayectoria
+* *Q-* tolerancia para algoritmo de direcciones sucesivas
 
 El comando *G64*, sin parámetros *P* ni *Q*, realizará el movimiento con la velocidad más alta posible, sin considerar cuanto se
 aleja el movimiento del punto programado.
@@ -1873,122 +1873,839 @@ Es una buena práctica incluir las especificaciones del suavizado de trayectoria
 G73 Ciclo de Perforado con Ruptura de Viruta
 --------------------------------------------
 
+::
+
+   G73 X- Y- Z- R- Q- <L->
+
+* *R-* posición de retracción en el eje Z
+* *Q-* incremento relativo en el eje Z
+* *L-* repeticiones
+
+El comando *G73* produce un ciclo de perforado o fresado con ruptura de viruta. Este ciclo toma el valor de *Q-* que representa el incremento 
+de la posición a lo largo del eje Z.
+
+# Movimiento preliminar
+   * Si la posición en el eje Z es menor al valor de *R-*, el eje Z realiza un movimiento lineal rápido para tomar el valor de *R-*
+   * Desplazamiento al valor de las coordenadas X e Y
+# Desplazamiento en el eje Z a la velocidad de avance actual hacia abajo, por el valor definido por *Q-* o a la posición *Z-*, el de menor profundidad
+# Desplazamiento corto rápido hacia arriba
+# Repetición de los pasos 2 y 3 hasta que se logra la posición Z en el paso 2
+# Desplazamiento rápido en Z a la posición *R-*
+
+Da error si::
+
+   * El número *Q* es negativo o nulo
+   * El número *R* no se especifica
+
 
 .. _refG74:
 
-G74 Ciclo de Roscado Izquierdo con Espera
------------------------------------------
+G74 Ciclo de Roscado (Tapping) Izquierdo con Huelgo
+---------------------------------------------------
+
+::
+
+   G74 (X- Y- Z-) o (U- V- W-) R- L- P- $-
+
+El ciclo *G74* se utiliza típicamente para realizar roscados con una herramienta de roscado (macho) con un mandril flotate, es decir que permite un cierto juego en la
+dirección axial. Al llegar al final del roscado ejecuta una espera.
+
+La secuencia de movimientos es la siguiente:
+
+   # Movmiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Anula overrides de velocidad y velocidad de avance
+   # Frena el husillo seleccionado, definido por el parámetro *$*
+   # Activa la rotación del husillo en el sentido de las agujas del reloj
+   # Espera por *P* segundos
+   # Mueve el eje Z a la velocidad de avance actual a la posición de despeje
+   # Activa la velocidad y velocidad de avance a los valores previos
+
+El paso de la rosca resulta del valor de la velocidad de avance F dividido la velocidad de rotación del husillo S. 
+Por ejemplo con valores S100 y F125 daría un paso de 1.25 mm por revolución.
+
 
 .. _refG76:
 
-G76 Ciclo de Roscado de Varias Pasadas (Torneado)
--------------------------------------------------
+G76 Ciclo de Roscado (Threading) de Varias Pasadas 
+--------------------------------------------------
+
+::
+
+   G76 P- Z- I- J- R- K- Q- H- E- L- $-
+
+* *P-* paso de la rosca en unidades de distancia por revolución
+* *Z-* posición final del roscado. AL final de ciclo la herramienta quedará en esta posición
+
+Las posiciones se definen relativas una la línea de referencia definida por la posición X inicial y la direcciónn Z.
+
+.. figure:: images/thread.png
+   :width: 250
+
+.. admonition:: Nota
+   :class: note
+
+   Cuando el modo diametral está activo *G7* los valores de *I*, *J* y *K* son medidas de diámetros. Cuando el modo radial está activo *G8* los valores de *I*, *J* 
+   y *K* son medidas de radios. 
+
+* *I-* posición relativa de la cresta de los filetes de la rosca respecto a la línea de referencia. Para roscas externas se utilizan valores negativos 
+   mientras que para roscas internas se utilizan valores positivos.
+* *J-* profundidad de corte inicial, con valor positivo. El primer corte del roscado se ubicará a una distancia *J* 
+   de la posición de la cresta de los filetes.
+* *K-* profundidad del filete de la rosca, con valor positivo. La posición de corte final del roscado se ubicará a una distancia *J* de la posición de la 
+   cresta de los filetes.
+
+   **Especificaciones Opcionales**
+
+* *$-* número de husillo con el que se sincronizará el movimiento (por defecto 0). Por ejemplo si se utiliza *$1* el movimiento programado empezará cuando se 
+active el *splindel.1.index-enable* y procederá en sincronía con el valor *spindle.1.revs*.
+* *R-* factor de reducción de profundidad. *R1.0* define profundidades de corte constantes en las sucesivas pasadas. *R2.0* se utiliza para que el área de corte sea 
+constante. Valores entre 1.0 y 2.0 implican profundidades decrecientes pero áreas crecientes. Valores mayores a 2.0 implican áreas decrecientes. Tenga en cuenta que 
+valores de reducción altos causarán una gran cantidad de pasadas.
+* *Q-* ángulo de deslizamiento compuesto en grados, describe la dirección de avance relativo entre sucesivas pasadas respecto a la línea de referencia. Se utiliza 
+para que un un lado de la herramienta remueva más material que el otro. Un valor de *Q* positivo causa que el lado de ataque corte más material. Los valores que
+típicamnete se utilizan son de 29 a 30.
+* *H-* número de pasadas de repaso adicionales. Es la cantidad de pasadas en la posición final para repaso de la rosca, si no se desean pasadas adicionales de puede 
+programar *H0*.
+* *E-* distancia a lo largo de la línea de referencia utilizada para la entrada y/o salida en ángulo. El ángulo será tal que la última pasada retrocede la profundidad 
+del filete sobre la distancia definida por *E*. *E0.2* dará un ángulo para los primeros/últimos 0.2 unidades de longitud a lo largo de la rosca. Para un ángulo de 
+45 grados programe la entrada/salida con valores iguales de *E* y *K*.
+* *L-* especifica cuales extremos tendrán ángulo de entrada/salida. Utilice *L0* para rosca sin entrada/salida en ángulo valor por defecto), *L1* para ángulo de 
+entrada, *L2* para ángulo de salida y *L3* para ángulo de entrada y de salida.
+
+La herramienta se mueve a las posiciones de X y Z antes de ejecutar el comando G76. La posición en X determina la línea de referencia y la posición de Z marcará el 
+inicio del roscado.
+El movimiento se frenará brevemente para sincronizar antes de cada pasada, por lo que se requiere una ranura para la entrada, salvo que en el comienzo de la rosca 
+esté fuera del material a roscar o se utilice un ángulo de entrada.
+Salvo que se utilice un ángulo de salida, el movimiento no estará sincronizado con la velocidad del husillo y se realizará con un movimiento lineal rápido. Cuando 
+la velocidad del husillo es baja, el movimiento de salida tomará solo una fracción de una revolución. Si la velocidade del husillo se incrementa luego de 
+varias pasadas las salidas sucesivas tomarán una proporción mayor de una revolución, resultando en profundidades de corte mayores. Esto puede evitarse 
+utilizando una ranura para la salida o dejando constante la velocidad durante el roscado.
+La posición final de la herramienta será el final de la línea de referencia. Un movimiento en Z de seguridad será necesario en roscados internos para extraer la 
+herramienta del agujero. 
+
+Da error si:
+
+   * El plano activo no es XZ
+   * Se especifican otros ejes como *X-* o *Y-*
+   * El valor de reducción es menor a 1.0
+   * *P-*, *J-*, *K-* o *H-* son negativos
+   * *E-* es mayor a la mitad de la longitud de la línea de referencia
+
+**Conexiones HAL**
+
+Los testigos (pins) *spindle.N.at-speed* y *encoder.n.phaze-Z* para el husillo deben estar conectados en el archivo HAL antes de ejecutar *G76*.
+
+**Información Técnica**
+
+EL ciclo cerrado *G76* está basado en el comando *G33* de movimiento sincronizado de husillo.
+
+**Ejemplo de G76**
+
+::
+
+   G0 Z-0.5 X0.2
+   G76 P0.05 Z-1 I-.075 J0.008 K0.045 Q29.5 L2 E0.045
+
+.. figure:: images/g76Example.png
+   :width: 250
+
+   Figura de ejemplo de G76
+
+.. _refCannedCycles
+
+Ciclos Cerrados
+---------------
+
+Los ciclos cerrados se definen con los comandos entre *G81* y *G89*, mientras que la cancelación de ciclo cerrado se hace con el comando *G80*.
+Todos los ciclos cerrados se ejecutan respecto al plano de trabajo seleccionado. En la mayoría de las descripciones de esta sección se asume que 
+el plano de trabajo es el XY. El comportamiento para otros planos es análogo, con el debido cambio en el uso de los ejes.
+Por ejemplo, en el plano *G17.1*, las operaciones del ciclo cerrado se realizarán en el eje W, y las posiciones o incrementos se realizarán en los ejes
+U y V. En este caso deberá sustituir U, V y W por X, Y y Z en las instrucciones dadas.
+Los ejes rotativos no están permitidos en los ciclos cerrados. Cuando un plano de trabajo está definido en los ejes XYZ, las palabras de ejes UVW no están
+permitidas y viceversa.
+
+**Palabras en Común**
+
+Todos los ciclos cerrados usan los grupos X, Y, Z o U, V, W dependiendo del plano de trabajo seleccionado y las palabras *R*. Las palabras *R*, que generalmente 
+hacen referencia a la posición de retracción, es perpendicular al plano de trabajo (eje Z para plano XY). Algunos ciclos cerrados utilizan argumentos adicionales.
+
+**Palabras permanentes**
+
+Para los ciclos cerrados, cuando el mismo ciclo se utiliza en diferentes líneas de código secuencialmente, hay palabras que deben definirse en la primera línea pero
+que no es necesario utilizarlos en las siguientes líneas. A estos parámetros se los llama palabras permanentes. Su valor se mantiene en el resto de las líneas de código si 
+no se cambia su valor explícitamente. El valor de *R* es siempre permanente. 
+
+En el modo de distancia incremental, X, Y y R son tratados como incrementos desde la posición actual y el valor de Z como un incremente desde la posición Z antes de que el 
+movimiento en Z ocurra. En el modo de distancia absoluta, X, Y, R y Z refieren en posiciones absolutas en el sistema coordenado actual.
+
+**Repetición de Ciclo**
+
+El parámetro opcional L representa el número de repeticiones. L=0 no está permitido. Si se utiliza esta opción, normalmente se utiliza el modo incremental de distancia, para que 
+la misma secuencia de movimientos se repita en posiciones igualmente espaciadas. Cuando el valor de *L-* es mayor que 1 en el modo incremental con el plano XY seleccionado, las 
+posiciones de X e Y se determinan sumando los valores de X e Y dados a las posiciones iniciales (en la primera repetición) o a los valores de fin de ciclo anterior (en las siguientes
+repeticiones). Por ende, si se programa *L10* se realizarán 10 repeticiones. El primer ciclo estará a una distancia X e Y de la posición original. Las posiciones R y Z no cambiarán 
+durante las repeticiones. El número L no es permanente. En modo de distancias absolutas, L mayor a 1 implica realizar el mismo ciclo en la misma posición. Si se omite la definición de 
+L equivale a realizar el cilo 1 vez.
+
+**Modo de Retracción**
+
+La altura a la que se retrae el movimiento da cada ciclo (llamada altura de despeje) es determinada por el modo de retracción, ya sea a la posición original de Z (si ésta está arriba de la 
+posición R y el modo de retracción es *G98*) o a la posición determinada por R. Ver la sección :ref:`G98 G99 <refG98>`.
+
+**Errores de Ciclos Cerrados**
+
+Da error si:
+
+   * No hay alguna palabras de eje
+   * Se utilizan palabras de ejes de ambos grupos (XYZ) o (UVW)
+   * Se requiere un número P y el número P es negativo
+   * Se utiliza un número L que no se puede evaluar a un entero positivo
+   * Se utiliza un movimiento de algún eje rotativos
+   * La velocidad de avance inversa está activa durante un ciclo cerrado
+   * La compensación de herramienta está activa durante un ciclo cerrado
+
+Si el plano XY está activo, el número Z es permanente y da un error si
+
+   * El número Z no está definido y el mismo ciclo cerrado no estaba activo previamente
+   * El número R es menor al número Z
+
+Si otros planos están activos, las condiciones de error son análogas a las descriptas para el plano XY.
+
+**Movimientos preliminares e intermedios**
+
+Los movimientos preliminares son un conjunto de movimientos comunes a todas los ciclos cerrados de fresado.
+Si la posición en el eje Z es menor al valor de *R-*, el eje Z realiza un movimiento lineal rápido para tomar el valor de *R-*
+Esto sucede solo una vez, independientemente del valor de *L*.
+Adicionalmente, al inicio del primer ciclo y en cada repetición, se realiza uno o los dos movimientos siguientes:
+
+# Desplazamiento rápido en el plano XY al valor de las coordenadas X e Y dados
+# Desplazamiento rápido a la posición *R*, si es que no está en esa posición
+
+**¿Porqué usar Ciclos Cerrados?**
+
+Es conveniente usar ciclos cerrados por lo menos por dos razones importantes. La primera razón es la simplicidad del código. Por ejemplo, la ejecución de un agujero 
+podría requerir varias líneas de código para programarlo.
+
+El ejemplo siguiente muestra cómo un ciclo cerrado se puede utilizar para ejecutar 8 agujeros con 5 líneas de código.
+
+.. admonition:: Nota
+   :class: note
+
+   Los números de línea no son necesarios pero se utilizan para hacer referencia a los ejemplos
+
+Ejemplo para 8 Agujeros::
+
+   N100 G90 G0 X0 Y0 Z0 (desplazarse al origen)
+   N110 G1 F10 X0 G4 P0.1
+   N120 G91 G81 X1 Y0 Z-1 R1 L4 (ciclo cerrado de perforado)
+   N130 G90 G0 X0 Y1
+   N140 Z0
+   N150 G91 G81 X1 Y0 Z-0.5 R1 L4 (ciclo cerrado de perforado)
+   N160 G80 (cancelar ciclo cerrado)
+   N170 M2 (fin de programa)
+
+.. figure:: images/canned8holes.png
+   :width: 250
+
+Ejemplo para 12 Agujeros::
+
+   N1000 G90 G0 X0 Y0 Z0 (desplazarse al origen)
+   N1010 G1 F50 X0 G4 P0.1
+   N1020 G91 G81 X1 Y0 Z-0.5 R1 L4 (ciclo cerrado de perforado)
+   N1030 X0 Y1 R0 L3 (repetición de ciclo cerrado)
+   N1040 X-1 Y0 L3 (repetición de ciclo cerrado)
+   N1050 X0 Y-1 L2 (repetición de ciclo cerrado)
+   N1060 G80 (cancelar ciclo cerrado)
+   N1070 G90 G0 X0 (rapid move home)
+   N1080 Y0
+   N1090 Z0
+   N1100 M2 (fin de programa)
+
+En este ejemplo se muestra el uso del párametro *L* para repetir un conjunto de ciclos de perforado en las líneas de 
+cógido subsiguientes dentro del modo *G81*. Aquí se realizan 12 agujeros utilizando 5 líneas de código en el modo de ciclo cerrado.
+
+.. figure:: images/canned12holes.png
+   :width: 250
+
+La segunda razón para utilizar ciclos cerrados es que todos ellos producen movimientos preliminares y de fin de ciclo que se pueden anticipar y controlar
+independientemente del punto de inicio del ciclo cerrado.
+
 
 .. _refG80:
 
 G80 Cancelación de Ciclo Cerrado
 --------------------------------
 
+*G80* cancela el modo de movimientos de ciclos cerrados. *G80* es parte del grupo modal 1, por lo que al programar cualquier otro código G del grupo modal se 
+cancela el ciclo cerrado.
+
+Da error si:
+
+   * Se utilizan palabras de ejes cunado *G80* está activo.
+
+Ejemplo de G80::
+
+   G90 G81 X1 Y1 Z1.5 R2.8 (ciclo cerrado en coordenadas absolutas)
+   G80 (cancelar ciclo cerrado)
+   G0 X0 Y0 Z0 (movimiento lineal rápido al origen)
+
+El código siguiente produce la misma posición final y modo de máquina que el código anterior.
+
+::
+
+   G90 G81 X1 Y1 Z1.5 R2.8 (ciclo cerrado en coordenadas absolutas)
+   G0 X0 Y0 Z0 (cancela modo de ciclo cerrado y desplaza al origen)
+
+La ventaja del primer código es resulta más evidente que el comando *G80* cancela el modo *G81*. En el primer código se debe programar el modo movimiento 
+nuevamente con *G0* o cualquier otra palabra G de movimiento.
+
+Si el modo de ciclo cerrado no se cancela con *G80* u otro comando, el ciclo cerrado intentará repetirse utilizando el siguiente bloque de código que contenga
+alguna palabra X, Y o Z. El siguiente archivo perfora (G81) una serie de 8 agujeros.
+
+Ejemplo 1 de G80::
+
+   N100 G90 G0 X0 Y0 Z0 (coordinate home)
+   N110 G1 X0 G4 P0.1
+   N120 G81 X1 Y0 Z0 R1 (canned drill cycle)
+   N130 X2
+   N140 X3
+   N150 X4
+   N160 Y1 Z0.5
+   N170 X3
+   N180 X2
+   N190 X1
+   N200 G80 (turn off canned cycle)
+   N210 G0 X0 (rapid move home)
+   N220 Y0
+   N230 Z0
+   N240 M2 (program end)
+
+.. admonition:: Nota
+   :class: note
+
+   Notar que la posición en Z cambia luego de los primeros 4 agujeros. También que es posible mover el puntero a una línea específica de código,
+   ésta es una de las pocas situaciones en las que es útil definir los números de líneas de código.
+
+.. figure:: images/exampleG80.png
+   :width: 250
+
+La utilización de *G80* en la l+inea N200 es opcional pero sin ésta es más dificil observar que los bloques entre N120 y N200 perteneces a un
+ciclo cerrado.
+
+
 .. _refG81:
 
 G81 Ciclo de Perforado
 ----------------------
+
+::
+
+   G81 (X- Y- Z-) or (U- V- W-) R- L-
+
+El ciclo *G81* se utiliza para realizar perforaciones y ejecuta las siguientes funciones:
+
+   # Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Movimiento en el eje Z a la velocidad de avance actual a la posición Z*
+   # Movimiento rápido a la posición de despeje de Z
+
+**Ejemplo 1 de G81 con posición absoluta**
+
+Suponga que la posición actual es (X1, Y2, Z3) y se ejecuta la siguiente línea::
+
+   G90 G98 G81 X4 Y5 Z1.5 R2.8
+
+Ésta línea llama al ciclo cerrado *G81* con posicionamiento absoluto *G90* y el modo de retracción *G98* una vez, por lo que se produce:
+
+   # Movimiento rápido paralelo al plano XY a X4, Y5
+   # Movimiento rápido del eje Z a Z2.8
+   # Movimiento del eje Z a velocidad de avance a Z1.5
+   # Movimiento rápido del eje Z a Z3 
+
+.. figure:: images/exampleG81a.png
+   :width: 250
+
+**Ejemplo 2 de G81 con posición relativa**
+
+Suponga que la posición actual es (X1, Y2, Z3) y se ejecuta la siguiente línea::
+
+   G91 G98 G81 X4 Y5 Z-0.6 R1.8 L3
+
+Ésta línea llama al ciclo cerrado *G81* con posicionamiento relativo *G91* y el modo de retracción *G98* solicitando que el ciclose repita 3 veces.
+La posición inicial en el eje X será 5 (=1+4), en el eje Y será 7 (=2+5), la posición de despeje de Z será 4.8 (1.8+3) y la posición en Z será 
+4.2 (=1.8+3). La posición anterior de Z es 3.
+
+El movimiento preliminar será un movimiento rápido en el eje Z a (X1, Y2, Z4.8), debido a que la posición anterior de Z (3) es menor al despeje en Z (4.8).
+
+La primer repetición consiste en 3 movimientos:
+
+   # Movimiento rápido paralelo al plano XY a X5 Y7
+   # Movimiento en el eje Z a velocidad de avance a Z4.2
+   # Movimiento rápido en el eje Z a Z4.8
+
+La segunda repetición consiste en 3 movimientos. La posición X se modifica a 9 (=5+4) y la posición en Y igual a 12 (=7+5):
+
+   # Movimiento rápido paralelo al plano XY a X9 Y12 Z4.8
+   # Movimiento en el eje Z a velocidad de avance a X9 Y12 Z4.2
+   # Movimiento rápido en el eje Z a X9 Y12 Z4.8
+
+La tercera repetición consiste en 3 movimientos. La posición X se modifica a 13 (=9+4) y la posición en Y igual a 17 (=12+5):
+
+   # Movimiento rápido paralelo al plano XY a X13 Y17 Z4.8
+   # Movimiento en el eje Z a velocidad de avance a X Y12 Z4.2
+   # Movimiento rápido en el eje Z a X13 Y17 Z4.8
+
+
+.. figure:: images/exampleG81b.png
+   :width: 250
+
+**Ejemplo 3 de G81 con posición relativa**
+
+Suponga que se ejecuta la primera línea con comando G81 pero con la posición desde es (X0, Y0, Z0)::
+
+   G90 G98 G81 X4 Y5 Z1.5 R2.8
+
+En este ejemplo la posición en Z anterior es menor al valor de R, no se modifica los movimientos, pero debido a que el valor inicial de Z es menor
+que el valor especificado de R, se producirá un movimiento preliminar en el eje Z. 
+
+.. figure:: images/exampleG81c.png
+   :width: 250
+
+**Ejemplo 4 de G81 con posición absoluta R > Z**
+
+Para la siguiente línea de comando, iniciando desde el origen (X0, Y0, Z0)::
+
+   G91 G98 G81 X4 Y5 Z-0.6 R1.8 L3
+
+El interpretador adiciona a la coordenada Z0 el número R1.8 y realiza un movimiento rápido a esa posición. Luego de este movimiento inicial
+el ejemplo produce el mismo resultado que en el ejemplo 3 con la profundidad final de Z de 0.6 por abajo del valor R.
+
+.. figure:: images/exampleG81d.png
+   :width: 250
+
+**Ejemplo 5 de G81 con posición relativa R > Z**
+
+Para la siguiente línea de comando, iniciando desde el origen (X0, Y0, Z0)::
+
+   G90 G98 G81 X4 Y5 Z-0.6 R1.8
+
+El interpretador adiciona a la coordenada Z0 el número R1.8 y realiza un movimiento rápido a esa posición, como en el ejemplo 4.
+Luego del movimiento inicial en Z realiza un movimiento rápido a X4 Y5, por lo que la profundidad en Z está 0.6 por debajo del 
+valor R. La función de repetición ejecutaría el movimiento en Z a la misma ubicación.
+
 
 .. _refG82:
 
 G82 Ciclo de Perforado con Espera
 ----------------------------------
 
+::
+
+   G82 (X- Y- Z-) or (U- V- W-) R- L- P-
+
+El ciclo *G82* se utiliza para realizar perforaciones con un tiempo de espera en el fondo del agujero. Realizando:
+
+   # Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Movimiento en el eje Z a la velocidad de avance actual a la posición Z*
+   # Espera por un tiempo de P segundos
+   # Movimiento rápido a la posición de despeje de Z
+
+El movimiento del ciclo cerrado *G82* es igual al del ciclo *G81* pero con el tiempo de espera al llegar al fondo del agujero. El tiempo
+de espera queda definido por el parámetro *P-* del comando *G82*.
+
 
 .. _refG83:
 
 G83 Ciclo de Perforado Profundo
 -------------------------------
+
+::
+
+   G83 (X- Y- Z-) or (U- V- W-) R- L- Q-
+
+El ciclo cerrado *G83* se utiliza para realizar perforaciones profundas con ruptura de viruta. Las retracciones de este ciclo limpian el agujero 
+de virutas y cortan las virutas largas (comunes al perforar aluminio). Este ciclo utiliza el número *Q* que representa una distancia incremental
+de perforado a lo largo del eje Z. La/s retracción/es se realiza al plano de retracción incluso si está activo *G98* durante el perforado. La 
+retracción final respetará las instrucciones de *G98*/*G99* en efecto. El comando *G83* funciona de manera similar a *G81* con el egregado de las
+reracciones durante el ciclo para limpieza de virutas. Los movimientos que realiza son los siguientes:
+
+   # Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Movimiento en el eje Z a la velocidad de avance actual una distancia definida en *Q* o a la posición *Z*, la que sea de menor profundidad
+   # Movimiento rápido en el eje Z al plano de retracción especificado por el valor de *R*
+   # Movimiento rápido en el eje Z hasta la cota ya mecanizada.
+   # Repetición de los pasos 2, 3 y 4 hasta la posición especificada por *Z*
+   # Movimiento rápido para despeje del eje Z
+
+Da un error si:
+
+   * El número *Q* es negativo o nulo
+
+
 .. _refG84:
 
-G84 Ciclo de Roscado Derecho con Espera
+G84 Ciclo de Roscado (Tapping) Derecho con Espera
 ---------------------------------------
+
+::
+
+   G84 (X- Y- Z-) o (U- V- W-) R- L- P- $-
+
+El ciclo *G84* se utiliza típicamente para realizar roscados con una herramienta de roscado (macho) con un mandril flotate, es decir que permite un cierto juego en la
+dirección axial. Al llegar al final del roscado ejecuta una espera.
+
+La secuencia de movimientos es la siguiente:
+
+   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Anula overrides de velocidad y velocidad de avance
+   # Frena el husillo seleccionado, definido por el parámetro *$*
+   # Activa la rotación del husillo en el sentido de las agujas del reloj
+   # Espera por *P* segundos
+   # Mueve el eje Z a la velocidad de avance actual a la posición de despeje
+   # Activa la velocidad y velocidad de avance a los valores previos
+
+El paso de la rosca resulta del valor de la velocidad de avance F dividido la velocidad de rotación del husillo S. 
+Por ejemplo con valores S100 y F125 daría un paso de 1.25 mm por revolución.
+
 
 .. _refG85:
 
 G85 Ciclo de Perforado con Velocidad de Salida
 ----------------------------------------------
 
+::
+
+   G85 (X- Y- Z-) or (U- V- W-) R- L-
+
+El comando *G85* se utiliza para perforado o repasado, aunque también se puede utilizar para fresado. Realiza los siguientes movimientos:
+
+   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
+   # Retracción del eje Z a la velocidad de avance actual al valor *R* si es menor a la posición inicial Z
+   # Retracción a la velocidad de desplazamiento
+
+
 .. _refG86: 
 
 G86 Ciclo de Perforado, Freno de Husillo y Velocidad Rápida de Salida
 ---------------------------------------------------------------------
+
+::
+
+   G86 (X- Y- Z-) or (U- V- W-) R- L- P- $-
+
+El comando *G86* se utiliza para perforado. Al llegar al final del roscado ejecuta una espera. Realiza los siguientes movimientos:
+
+   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
+   # Espera por *P* segundos
+   # Frena el husillo (seleccionado por el parámetro $)
+   # Retracción rápida del eje Z a la posición de despeje
+   # Activa el giro del husillo en la dirección que giraba anteriormente
+
+Da error si:
+
+   * El husillo no está girando antes de la ejecución del ciclo
+
 
 .. _refG89:
 
 G89 Ciclo de Perforado, Espera y Velocidad de Salida
 ----------------------------------------------------
 
+::
+
+   G89 (X- Y- Z-) or (U- V- W-) R- L- P-
+
+El comando *G89* se utiliza para perforado. Al llegar al final del roscado ejecuta una espera. Realiza los siguientes movimientos:
+
+   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   # Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
+   # Espera por *P* segundos
+   # Retracción del eje Z a la velocidad de avance actual a la posición de despeje
+
+
 .. _refG90:
 
 G90 G91 Modo de Distancia Absoluta o Relativa
 ---------------------------------------------
+
+   * *G90* se utiliza para activar el modo de definición de posiciones en distancias absolutas. En este modo los valores definidos para los ejes 
+    (X, Y, Z, A, B, C, U, V, W) generalmente representan posiciones respecto al sistema de coordenadas activo. Las exepciones a esta regla se 
+    describen explícitamente en la sección :ref:`G80 G89 <refCannedCycles>`.
+
+   * *G91* se utiliza para activar el modo de definición de posiciones relativos. En este modo las posiciones representan incrementos referidoa a 
+    la posición actual.
+
+**Ejemplo de G90**
+
+::
+
+   G90 (activar modo de posición absoluta)
+   G0 X2.5 (movimiento rápido a la coordenada X2.5 incluyendo los decalajes activos)
+
+**Ejemplo de G90**
+
+::
+
+   G91 (activar modo de posición relativa)
+   G0 X2.5 (movimiento rápido a lo largo del eje X una distancia de 2.5 desde la posición actual)
+
 
 .. _refG90.1:
 
 G90.1 G91.1 Modo de Distancia de Arcos Absoluta o Relativa
 ----------------------------------------------------------
 
+   * *G90.1* se utiliza para activar el modo de posiciones absolutas para los valores de I, J y K. Cuando *G90.1* está activo tanto I como J deben 
+   especificarse en los comandos *G2* y *G3* para el plano XY, o tnato los parámetros J y K deben especificarse para el plano XZ.
+   
+   * *G91.1* se utiliza para activar el modo de posiciones relatvas para los valores de I, J y K. El comando *G91.1* retorna el modo de funcionamiento 
+   de los valores I, J y K a su comportamiento por defecto.
+
+
+
 .. _refG92:
 
-G92 Definir Posición de Sistema de Coordenadas en Punto Actual
+G92 Definir Decalaje de Sistema de Coordenadas en Punto Actual
 --------------------------------------------------------------
 
+::
+
+   G92 ejes
 
 
+.. admonition:: Precaución
+   :class: warning
+
+   Sólo utilice *G92* luego de que la máquina ha sido posicionada en el punto deseado
+
+*G92* hace que el punto en el que se encuentra la máquina tenga las coordenadas especificadas en los ejes incluidos en el comando, sin ejecutar movimiento. 
+Se puede especificar sólo un eje o todos, los decalajes de los ejes que no se especifican serán nulos.
+
+Cuando se ejecuta *G92* el origen de todos los sistemas de coordenadas (G53 a G59.3) se mueven la misma distancia. Los valores se modifican de tal forma que 
+el punto en el que se encuentra la máquina adoptará los valores definidos por el comando en los ejes especificados.
+
+*G92* utiliza los valores guardados en los parámetros 5211a 5219 como valores de decalaje de X Y Z A B C U V W para cada eje. Los valores de los parámetros 
+son coordenadas de máquina absolutas en las unidades originales, definidas en el archivo *ini*. Si un eje no ha sido definido en el comando *G92* el decalaje 
+será nulo.
+
+Por ejemplo, suponiendo que la posición actual es X=4 y no hay un comando *G92* activo. Si se ejecuta *G92 X7*, los origenes de todos los sistemas de coordenadas
+se mueven -3 en X para que el punto actual tenga un valor de X=7. Este valor de -3 es guardado en en parámetro 5211.
+
+Si el modo de posición incremental G91 está activo no tiene efecto en el comando *G92*.
+
+Los decalajes G92 pueden estar ya activos cunado se ejecuta el comando *G92*. Si esto sucede el decalaje es reemplazado con un nuevo valor que hace que el punto
+actual tenga las coordenadas especificadas.
+
+Da un error si:
+
+   * Se omiten todos los ejes en la definición
+
+Este controlador guarda los decalajes G92 y los reutiliza la próxima vez que se corre un programa. Para prevenir esto se puede utilizar el comando *G92.1) para 
+borrar los valores o *G92.2* para desactivarlos.
+
+Este comando está relacionado con el comando *G52*, para más información ver la sección :ref:`G52 <refG52>`
 
 **Los comandos G92**
 
+*G92* es utilizado típicamente en dos maneras conceptualmente diferentes: como un *Decalaje del sistema de coordenadas global* o como un *decalaje local del sistema de coordendas*.
+El grupo de comandos *G92* incluye los comandos:
 
+   * *G92* Este comando, cuando se especifican ejes, cambia los valores de decalaje
+   * *G92.1* Este comando sobreescribe los valores a 0 de las variables G92
+   * *G92.2* Este comando suspende el efecto pero no cambia los valores de las variables G92
+   * *G92.3* Este comando activa los decalajes que fueron suspendidos
 
+Como un decalaje global, *G92* es utilizado para mover todos los sistemas de coordenadas de piezas desde *G54* a *G59.3*. Un ejemplo de este uso es cuando se mecanizan diferentes
+partes idénticas en una bancada con posiciones conocidas en un dispositivo de agarre pero la posición del dispositivo puede cambiar entre corridas o máquinas. Cada posición relativa
+de las piezas en el dispositivo se maneja con los decalajes *G54* a *G59.3* y la posición del dispositivo se maneja con el comando *G92*. Luego, para cada parte, se selecciona el 
+sistema coordenado local y se ejecuta el programa de mecanizado de la pieza.
+
+.. admonition:: Nota
+   :class: Note
+
+   El comando *G10 R-* para rotar el sistema de coordenadas de una pieza es específico de los interpretadores *rs274ngc, y el decalaje *G92* se aplica luego de la rotación. Cuando se utiliza
+   *G92* como un decalaje global, las rotaciones de los sistemas coordenados pueden tener resultados inesperados.
+
+Como un decalaje local del sistema de coordenadas, *G92* es utilizado como un decalaje temporal dentro del sistema de coordenadas de la pieza. Un ejemplo de este uso es cuando se 
+mecaniza una pieza con varias geometrías idénticas en diferentes posiciones. Para cada geometría se utiliza un punto de referencia diferente mediante *G92* y se ejecuta un subprograma
+para cada punto de referencia.
+
+.. admonition:: Nota
+   :class: Note
+
+   Se recomienda evitar el uso de *G92* para programar como sistena de coordenadas local en partes de un programa. En vez de esto utilice el comando *G52* para definir el decalaje local de 
+   una manera más intuitiva cuando se conoce el decalaje deseado del sistema de coordenadas de la pieza pero se desconoce la posición de la herramienta.
+
+Ejecutar el comando *G92 X0 Y0 Z0* graba la posición de la herramienta actual a las coordenadas X0, Y0 y Z0, sin ejecutar movimiento. *G92* no trabaja referido a las coordenadas absolutas de máquina,
+trabaja referido a la posición actual.
+
+El comando *G92* también trabaja referido a la posición actual incluyendo las modificaciones de otros decalajes que estén activos al ejecutar *G92*. Tenga en cuenta que el decalaje *G54* puede 
+cancelar el efecto de *G92* y por ende dar a entender que no hay decalajes activos. Sin embargo el decalaeje *G92* puede estar activo para los otros sistemas de coordenadas.
+
+Por defecto, los decalajes *G92* son restaurados al iniciar la máquina. Los programadores que desean un comportamiento tipo Fanuc, donde los valores de *G92* son anulados al inicio de la máquina y 
+luego del reinicio o fin del programa, desactive la persistencia de *G92* cambiando la instrucción *DISABLE_G92_PERSISTENCE = 1* en la sección *[RS274NGC]* del archivo .ini.
+
+.. admonition:: Nota
+   :class: Note
+
+   Es una buena práctica borrar los decalajes *G92* al finalizar su uso con *G92.1* o *G92.2*. Cuando se inicia el controlador con la persistencia de *G92* activada (por defecto) los decalajes de 
+   *G92* se aplicarán cuando se hace el referenciado (homing) de los ejes. Ver la sección de *Precauciones sobre Persistencia de G92* más abajo.
 
 **Definiendo valores de G92**
 
-
-
-
+Los comandos *G92* trabajan con la posición de ejes actual y suman o substraen para que la coordenada actual de eje coincida con los valores dados en la instrucción *G92*. El efecto funciona aún cuando 
+hay decalajes activos.
+Por lo tanto si el eje X actualmente muestra la posición 2.0 y se ejecuta el comando *G92 X0* se modificará el decalaje a -2.0 para que la posición actual sea nula. Si en cambio se ejecuta el comando 
+*G92 X2* hará que el decalaje sea 0.0 y la posición mostrada no cambie. Ejecutar *G92 X5.0* hará que el decalaje sea 3.0 y la posición mostrada pase a ser 5.0.
 
 **Precauciones sobre Persistencia de G92**
 
+Por defecto los valores de decalajes de *G92* serán guardados en un archivo de base de datos y serán restaurados en el prendido o reinicio de la máquina. Los parámetrs de G92 son:
 
++----------------+------------------------------------------+
+|      5210      | Bandera de Activo / Desactivo (1/0)      |
++----------------+------------------------------------------+
+|      5211      | Decalaje de eje X                        |
++----------------+------------------------------------------+
+|      5212      | Decalaje de eje Y                        |
++----------------+------------------------------------------+
+|      5213      | Decalaje de eje Z                        |
++----------------+------------------------------------------+
+|      5214      | Decalaje de eje A                        |
++----------------+------------------------------------------+
+|      5215      | Decalaje de eje B                        |
++----------------+------------------------------------------+
+|      5216      | Decalaje de eje C                        |
++----------------+------------------------------------------+
+|      5217      | Decalaje de eje U                        |
++----------------+------------------------------------------+
+|      5218      | Decalaje de eje V                        |
++----------------+------------------------------------------+
+|      5219      | Decalaje de eje W                        |
++----------------+------------------------------------------+
 
+Si se muestran valores inesperados de las posiciones al ejecutar un comando de movimiento, como resultado de haber guardado valores de decalaje en un programa
+anterior y no borrar al terminar de utilizalos, ejecute el comando *G92.1* en la interfaz gráfica para borrar los decalajes guardados.
+
+Si hay valores de decalajes de *G92* guardados en el archivo cunado el controlador se inicia, estos valores se aplicarán a los valores que tengan los ejes en ese momento.
+Si esta posición es el origen y este origen es el centro de coordenadas de máquina estará correctamente definido. Una vez que se referenciaron los ejes utilizando los 
+interruptores de límite o utilizando posiciones conocidas y ejecutando un comando de referencia de ejes, los decalajes *G92* serán aplicados. 
+Si tiene un comando *G92 X1* en efecto cuando realiza el referencias del eje X, la pantalla mostrará *X: 1.0* en vez del valor esperado *X: 0.0* debido a que el comando *G92* 
+fue aplicado al origen de la máquina. Si ejecuta el comando *G92.1* y la pantalla muestra ahora todos valores nulos de posición, tenía un comando *G92* activo de una corrida anterior.
+A no ser que la intensión sea utilizar los decalajes *G92* en el próximo programa, una buena práctica es programar un comando *G92.1* al fin de cualquier código G que utilice 
+decalajes *G92*.
 
 **Precauciones de Interacción entre G52 y G92**
 
-
-
+Los comandos *G52* y *G92* comparten los registros de decalajes. A no ser que la persistencia de *G92* está desactivada en el achivo .ini, el decalaje *G52* también será 
+persistente luego de un reinicion de máquina, *M02* o *M03*. Sea conciente que un decalaje *G52* que esté activo durante una terminación inesperada de un programa puede resultar
+en valores inesperados de decalajes.
 
 
 .. _refG92.1:
 
-G92.1 G92.2 Resetear Posición de Sistema de Coordenadas
--------------------------------------------------------
+G92.1 G92.2 Resetear Decalaje de Sistema de Coordenadas G92
+-----------------------------------------------------------
+
+* *G92.1* desactiva los decalajes *G92* y sobreescribe sus valores 5211 - 5219 a valores a cero.
+* *G92.2* desactiva los decalajes *G92* pero mantiene los valores 5211 - 5219 existentes.
+
+.. admonition:: Nota
+   :class: Note
+
+   *G92.1* solo modifica a cero los decalajes *G92*, para cambiar los decalajes de los sistemas de coordenadas *G53* a *G59.3* utilice los comandos :ref:`G10 L2 <refG10L2>` 
+   o :ref:`G10 L20 <refG10L20>`
+
 
 .. _refG92.3:
 
-G92.3 Restablecer Posición de Sistema de Coordenadas de G92
------------------------------------------------------------
+G92.3 Restablecer Decalaje de Sistema de CoordenadasG92
+-------------------------------------------------------
+
+* *G92.3* activa los decalajes de *G92* con los valores guardados en los parámetros 5211 a 5219
+
+Se pueden grabar los valores de decalajes en un programa y utilizarlos en otro. Programe el comando *G92* en el primer programa. Esto guardará los valores en los parámetros 5211 a 5219.
+No utilice *G92.1* en el resto del programa. Los valores guardados se pueden utilizar en el segundo programa utilizando el comando *G92.3*.
+
 
 .. _refG93:
 
 G93 G94 G95 Modo de Avance
 --------------------------
 
+* *G93* indica el modo de definición de la velocidad de avance por inversa del tiempo. En este modo el valor de F significa que el movimiento deberá ser completado en 1 dividido el valor de F minutos.
+ Por ejemplo, si el número F es 2.0, el movimiento tendrá que ser completado en medio minuto o 30 segundos.
+
+Cuando el modo de avance de inversa del tiempo está activo, se deberá especificar el valor F en cada línea que implique movimiento a velocidad de avance (*G1*, *G2* o *G3*) y cualquier valor 
+de F que no esté en una línea que no tiene *G1*, *G2* o *G3* es ignorado. Este modo no afecta a los movimientos rápidos *G0*.
+
+* *G94* es el modo de definición de velocidad de avance en unidades por minuto. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por minuto, ya sea pulgada por 
+minuto o milímetros por minuto dependiendo las unidades de longitud seleccionadas. Para ejes de rotación, la velocidad de avance se define en grados por minuto.
+
+* *G95* es el modo de definición de velocidad de avance en unidades por revolución. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por revolución de husillo,
+dependiendo de las unidades seleccionadas y el tipo de eje que se desplaza. *G95* no es aplicable a roscado, para lo que se debe utilizar *G33* o *G67*. *G95* requiere que el testigo *spindle.N.speed-in* 
+esté conectado. El husillo al cual se sincroniza el movimiento se determina con el valor de $.
+
+Da error si:
+
+   * Si el modo por inversa del tiempo (*G93*) está activo y se utiliza un comando *G1*, *G2* o *G3* (explícitamente o implícitamente) y la línea no defina el valor de F
+   * Si no se especifica un nuevo valor al cambiar a *G94* o *G95*
+
 .. _refG96:
 
 G96 G97 Modo de Control de Husillo
 ----------------------------------
+
+::
+
+   G96 <D-> S- <$-> (Modo de velocidad superficial constante)
+   G97 S- <$-> (Modo de revoluciones por minuto RPM)
+
+   * *D* Velocidad máxima de husillo en RPM
+   * *S* Velocidad superficial
+   * *$* Husillo para el cual la velocidad se define
+   * *G96 D- S-* Selecciona velocidad superficial constante de *S* pies por minuto (si *G20* está activo) o metros por minuto (si *G21* está activo. D- es opcional.
+
+Para programar el modo de velocidad superficial constante en varios husillos utilice comandos *G96* sucesivos antes de ejecutar *M3*.
+
+   * *G97* selecciona el modo de revoluciones por minuto.
+
+   **Ejemplo de G96**
+
+::
+
+   G96 D2500 S250 (activa el modo de velocidad superficial constante con un máximo de 2500 RPM y velocidad superficial de 250)
+
+Da error si::
+
+   * S no se especifica en *G96*
+   * Se especifica una velocidad de avance con *G96* cuando el husillo no está girando
 
 .. _refG98:
 
 G98 G99 Nivel de Retorno de Ciclos Cerrados
 -------------------------------------------
 
+* *G98* define la posición de retracción a la posición en la que el eje estaba justo antes de la serie de movimientos de ciclo cerrado
+* *G99* define la posición de retracción al valor especificado por R en el comando de ciclo cerrado
+
+Utilice el comando *G98* para que los ciclos cerrados utilicen la posición en el eje Z previa al ciclo cerrado como posición de rtracción si 
+ésta es mayor que el valor de R especificado en el comando. Si es menor, el valor de R será utilizado. El valor de R tiene diferentes significados
+dependiendo si el modo de posición absoluta o relativa está activo.
+
+** Retracción al origen**
+
+::
+
+   G0 X1 Y2 Z3
+   G90 G98 G81 X4 Y5 Z-0.6 R1.8 F10
+
+El comando *G98* en la segunda línea de arriba indica que el movimiento de retracción se realizará al valor de Z en la primer línea ya que es 
+mayor al valor de R especificado.
+
+El plano inicial (*G98*) se resetea cada vez que se finaliza el ciclo cerrado, ya sea explícitamente (*G80*) o implícitamente (por cualquier 
+movimiento que no sea un ciclo cerrado). El cambio entre modos de ciclos (por ejemplo *G81* y *G83*) no resetea el plano inicial. Es posible cambiar entre
+*G98* y *G99* durante una serie de ciclos.
 
 
 .. _tablaCodigosM:
