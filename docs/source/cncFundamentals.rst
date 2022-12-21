@@ -1,5 +1,5 @@
-Fundamentos de CNC
-##################
+Fundamentos del Código G
+########################
 
 En esta sección se describen los elementos del lenguage de código G, su estructura, comandos y expresiones.
 
@@ -229,7 +229,17 @@ Hay algunos comentarios activos que **parecen** comentarios pero causan alguna a
 será interpretado según estas reglas. Por lo tanto un comentario normal seguido de un comentario activo tendrá el efecto de desactivar el comentario activo. For ejemplo (foo)(debug,#1)
 mostrará el valor del parámetro #1, sin embargo (debug,#1)(foo) no lo hará.
 
-Un comentario definido por un punto coma es por definición el último comentarioen esa línea y será interpretado con la sintáxis de comentarios activos.
+Un comentario definido por un punto coma es por definición el último comentario en esa línea y será interpretado con la sintáxis de comentarios activos.
+
+Rastreo de Eventos (Logging)
+----------------------------
+
+Una funcionalidad útil para almacenar información de eventos ocurridos es grabarlos a un archivo, para esto se pueden utilizar los siguientes comandos:
+
+* *(LOGOPEN,nombredearchivo.txt)* abre el archivo con el nombre definido. Si el archivo ya existe se trunca.
+* *(LOGAPPEND,nombredearchivo)* abre el archivo con el nombre definido. Si el archivo ya existe la información se agrega al final.
+* *(LOGCLOSE)* cierra el archivo con el nombre definido.
+* *(LOG,)* escribe lo que sigue a continuación de la coma si el archivo está abierto. Soporta la escritura de valores de parámetros.
 
 Mensajes
 --------
@@ -237,6 +247,50 @@ Mensajes
 Es posible mostrar un mensaje al operador desde el código con la función MSG(), por ejemplo MSG('Programa en ejecución') mostrará 'Programa en ejecución' al usuario. Si se requiere
 una confirmación del operador para avanzar se puede utilizar el comando POPUP() que mostará el mensaje al operador en una ventana emergente y bloqueará la ejecución del programa
 hasta que el operador confirme.
+
+Imprimir Mensajes
+-----------------
+
+* *(PRINT,) los mensajes se muestran en la consola. Soporta la escritura de valores de parámetros.
+
+
+Mensajes de Depuración (Debug)
+------------------------------
+
+*(DEBUG,)* muestra un mensaje como *(MSG,)* con la capacidad de mostrar valores de los parámetros. La forma de hacerlo se muestra en la sección de Valores en Mensajes más abajo.
+
+
+Valores en Mensajes
+-------------------
+
+En las funcionalidades DEBUG, PRINT y LOG, se pueden escribir los valores de los parámetros en el mensaje.
+
+Por ejemplo, para imprimir el valor de una variabla global a la consola.
+
+**Ejemplo de Valores de Parámetros**::
+
+   (print,endmill dia = #<_endmill_dia>)
+   (print,value of variable 123 is: #123)
+
+Dentro de estos comentarios las secuencias como *#123* son reemplazadas por el valor del parámetro 123.
+Las sequencias como *#<nombre de parametro>* son reemplazadas por el valor del parametro con el nombre *nombre de parámetro*. En los nombres de parámetros se eliminan los espacios, 
+por lo que *<nombre de parametro>* se convertirá en *#<nombredeparametro>*.
+
+.. _fileReq:
+
+Requerimientos de Archivo
+-------------------------
+
+El archivo de Código G debe contener una o más líneas de código y estar finalizado con un comando de *Fin de Programa (M2 o M30)*. Cualquier línea luego del comando de Fin de Programa 
+se ignora. Si no se utiliza el comando de Fin de Programa, se puede utilizar un par de símbolos *%*, el primer símbolo *%* en la primer línea del archivo, seguido de una o más líneas de 
+código y el segundo símbolo *%*. Los comandos luego del segundo símbolo *%* no serán evaluados.
+
+.. admonition: Precaución
+   :class: warning
+
+   Utilizar los símbolos *%* para encerrar Código G no tiene el mismo efecto que un comando de Fin de Programa ya que quedará activos los modos de operación que tenía la máquina al momento
+   de ejecución del segundo símbolo. Por ejemplo, el husillo puede quedar girando, la bomba de refrigerante quedar encendida y los decalajes activos. Por lo que si no utiliza un preámbulo 
+   en el principio del siguiente código a ejecutar se pueden producir situaciones peligrosas
 
 
 Parámetros
@@ -292,6 +346,57 @@ valor cero.
 * Parámetros de sistema 
    Usados para acceder a la versión del sistema que se utiliza. Son de solo lectura.
 
+Parámetros numerados
+--------------------
+
+
+**Persistencia de parámetros numerados**
+
+
+
+Parámetros de Subrutinas
+------------------------
+
+
+Parámetros con Nombre
+---------------------
+
+
+**Declaración de parámetros con nombre globales**
+
+
+
+**Referencia a parámetros globales previamente definidos**
+
+
+**Parámetros mixtos (literales y con nombre)**
+
+
+.. _refNamedPredefParam:
+
+Parámetros con Nombre Predefinidos
+----------------------------------
+
+
+
+Parámetros de Sistema
+---------------------
+   
+   
+   
+   
+   
+   
+   
+Testigos de HAL y valores INI
+-----------------------------
+   
+   
+   
+   
+   
+   
+   
 Expresiones
 -----------
 
@@ -663,7 +768,7 @@ Se produce un error si:
 
 ::
 
-   G17 S400 M3 (plano de trabajo XY, velocidad de husillo 400 en sentido de agujas del reloj)
+   G17 S400 M3 (plano de trabajo XY, velocidad de husillo 400 en sentido horario)
    G90 (modo de coordenadas absolutas)
    G0 X20 Y20 Z2 (aproximación a punto inicial)
    G1 Z-2 F40 (movimiento lineal Z-2 a una velocidad de avance de 40)
@@ -729,7 +834,7 @@ Se produce un error si:
    * No se ha definido la velocidad de avance
    * La letra P no es un entero
 
-*G2* se utiliza para movimientos en el sentido de las agujas del reloj y *G3* para movimientos en contra del sentido de las agujas del reloj.
+*G2* se utiliza para movimientos en el sentido horario y *G3* para movimientos en sentido antihorario.
 La referencia del sentido se toma respecto a la dirección positiva del eje alrededor del cual el movimiento circular ocurre.
 
 De acuerdo al plano de trabajo activo los sentidos de giro resultan de la siguiente manera:
@@ -1127,7 +1232,7 @@ Utilice *P0* a *P9* para especificar el sistema de coordenadas.
 +------------------+---------------------------+-------------------+
 
 Opcionalmente utilice *R* para indicar la rotación de los ejes XY alrededor del eje Z. El sentido de rotación es
-contrario a las agujas de reloj visto desde la dirección positiva de Z.
+antihorario visto desde la dirección positiva de Z.
 
 Todos las definiciones de ejes son opcionales.
 
@@ -1913,12 +2018,12 @@ dirección axial. Al llegar al final del roscado ejecuta una espera.
 La secuencia de movimientos es la siguiente:
 
    # Movmiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Anula overrides de velocidad y velocidad de avance
+   # Anula overrides de velocidad de husillo y velocidad de avance
    # Frena el husillo seleccionado, definido por el parámetro *$*
-   # Activa la rotación del husillo en el sentido de las agujas del reloj
+   # Activa la rotación del husillo en el sentido horario
    # Espera por *P* segundos
    # Mueve el eje Z a la velocidad de avance actual a la posición de despeje
-   # Activa la velocidad y velocidad de avance a los valores previos
+   # Activa la velocidad de husillo y velocidad de avance a los valores previos
 
 El paso de la rosca resulta del valor de la velocidad de avance F dividido la velocidad de rotación del husillo S. 
 Por ejemplo con valores S100 y F125 daría un paso de 1.25 mm por revolución.
@@ -2355,12 +2460,12 @@ dirección axial. Al llegar al final del roscado ejecuta una espera.
 La secuencia de movimientos es la siguiente:
 
    # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Anula overrides de velocidad y velocidad de avance
+   # Anula overrides de velocidad de husillo y velocidad de avance
    # Frena el husillo seleccionado, definido por el parámetro *$*
-   # Activa la rotación del husillo en el sentido de las agujas del reloj
+   # Activa la rotación del husillo en el sentido horario
    # Espera por *P* segundos
    # Mueve el eje Z a la velocidad de avance actual a la posición de despeje
-   # Activa la velocidad y velocidad de avance a los valores previos
+   # Activa la velocidad de husillo y velocidad de avance a los valores previos
 
 El paso de la rosca resulta del valor de la velocidad de avance F dividido la velocidad de rotación del husillo S. 
 Por ejemplo con valores S100 y F125 daría un paso de 1.25 mm por revolución.
@@ -2430,7 +2535,7 @@ G90 G91 Modo de Distancia Absoluta o Relativa
 
    * *G90* se utiliza para activar el modo de definición de posiciones en distancias absolutas. En este modo los valores definidos para los ejes 
     (X, Y, Z, A, B, C, U, V, W) generalmente representan posiciones respecto al sistema de coordenadas activo. Las exepciones a esta regla se 
-    describen explícitamente en la sección :ref:`G80 G89 <refCannedCycles>`.
+    describen explícitamente en la sección :ref:`G80-G89 <refCannedCycles>`.
 
    * *G91* se utiliza para activar el modo de definición de posiciones relativos. En este modo las posiciones representan incrementos referidoa a 
     la posición actual.
@@ -2661,10 +2766,10 @@ G96 G97 Modo de Control de Husillo
    G96 <D-> S- <$-> (Modo de velocidad superficial constante)
    G97 S- <$-> (Modo de revoluciones por minuto RPM)
 
-   * *D* Velocidad máxima de husillo en RPM
-   * *S* Velocidad superficial
-   * *$* Husillo para el cual la velocidad se define
-   * *G96 D- S-* Selecciona velocidad superficial constante de *S* pies por minuto (si *G20* está activo) o metros por minuto (si *G21* está activo. D- es opcional.
+* *D* Velocidad máxima de husillo en RPM
+* *S* Velocidad superficial
+* *$* Husillo para el cual la velocidad se define
+* *G96 D- S-* Selecciona velocidad superficial constante de *S* pies por minuto (si *G20* está activo) o metros por minuto (si *G21* está activo. D- es opcional.
 
 Para programar el modo de velocidad superficial constante en varios husillos utilice comandos *G96* sucesivos antes de ejecutar *M3*.
 
@@ -2676,7 +2781,7 @@ Para programar el modo de velocidad superficial constante en varios husillos uti
 
    G96 D2500 S250 (activa el modo de velocidad superficial constante con un máximo de 2500 RPM y velocidad superficial de 250)
 
-Da error si::
+Da error si:
 
    * S no se especifica en *G96*
    * Se especifica una velocidad de avance con *G96* cuando el husillo no está girando
@@ -2693,7 +2798,7 @@ Utilice el comando *G98* para que los ciclos cerrados utilicen la posición en e
 ésta es mayor que el valor de R especificado en el comando. Si es menor, el valor de R será utilizado. El valor de R tiene diferentes significados
 dependiendo si el modo de posición absoluta o relativa está activo.
 
-** Retracción al origen**
+**Retracción al origen**
 
 ::
 
@@ -2720,7 +2825,7 @@ Tabla de Referencia - Códigos M
 +-------------------------------+-------------------------------------------------------------------+
 |  :ref:`M2 M30 <refM2>`        | Fin de Programa                                                   |
 +-------------------------------+-------------------------------------------------------------------+
-|  :ref:`M60 <refM60>`          | Pausa de Cambio de Palet                                          |
+|  :ref:`M60 <refM60>`          | Pausa de Cambio de Pieza                                          |
 +-------------------------------+-------------------------------------------------------------------+
 |  :ref:`M3 M4 M5 <refM3>`      | Control de Husillo                                                |
 +-------------------------------+-------------------------------------------------------------------+
@@ -2764,110 +2869,545 @@ Tabla de Referencia - Códigos M
 +-------------------------------+-------------------------------------------------------------------+
 
 
-
 .. _refM0:
 
 M0 M1 Pausa de Programa
 -----------------------
+
+* *M0* pausa temporariamente al programa en ejecución. El controlador permanece en modo Automático por lo que las acciones manuales no están habilitadas.
+    Al presionar el botón Reanudar el programa continuará en la siguiente línea.
+
+* *M1* pausa temporariamente al programa en ejecución si está activado el interruptor opcional de parada. El controlador permanece en modo Automático por lo que las acciones manuales 
+   no están habilitadas. Al presionar el botón Reanudar el programa continuará en la siguiente línea.
+
+.. admonition: Nota
+   :class: Note
+
+   Está permitido programar un comando *M0* o *M1* desde el modo Manual de Input, pero el efecto probablemente no será percibido, ya que el modo normal de comportamiento
+   de este modo es que frenar la ejecución luego de cáda comando de todas formas.
+
 
 .. _refM2:
 
 M2 M30 Fin de Programa
 ----------------------
 
+* *M2* fin de programa. Al presionar *Comienzo de Ciclo* (*R* en la Interfaz de Usuario) se reiniciará el programa desde el principio del archivo.
+* *M30* acciona cambiador de piezas y fin de programa. Al presionar *Comienzo de Ciclo* se reiniciará el programa desde el principio del archivo.
+
+Ambos comandos tienen los siguientes efectos:
+
+# Cambian el modo de Automático a Manual
+# Los decalajes de origen pasan a los valores por defecto (*G54*)
+# El plano de trabajo activo para a ser el plano XY (*G17*)
+# El modo de distancia para a ser el absoluto (*G90*)
+# El modo de velocidad de avance se activa en unidaes por minuto (*G94*)
+# Los overrides de velocidad de husillo y velocidad de avance pasan a estar activos (*M48*)
+# La compensación de herramientas se desactiva (*G40*)
+# El husillo se frena (*G5*)
+# El modo de movimiento pasa a movimiento con velocidad de avance (*G1*)
+# La bomba de refrigerante se apaga (*M9*)
+
+.. admonition: Nota
+   :class: Note
+
+   Las líneas de código luego de M2/M30 no serán ejecutadas. Al presionar *Comienzo de Ciclo* se reiniciará el programa desde el principio del archivo
+
+.. admonition: Precaución
+   :class: Warning
+
+   Utilizar *%* para encerrar el código G no tiene el mismo efecto que un comando de *Fin de Programa*. Para más información sobre el efecto de los signos *%*
+   vea la sección :ref:`Requerimientos de Archivos <fileReq>`
+
+
 .. _refM60:
 
-M60 Pausa de Cambio de Palet
+M60 Pausa de Cambio de Pieza
 ----------------------------
+
+* *M60* activa cambiador de pieza y luego pausa el programa temporalmente (independientemente de si está activado el interruptor opcional de parada).
+  Al presionar *Comienzo de Ciclo* se reiniciará el programa desde la línea siguiente.
+
 
 .. _refM3:
 
 M3 M4 M5 Control de Husillo
 ---------------------------
 
+* *M3 [$]n* arranca el husillo seleccionado en sentido horario a la velocidad *S*
+* *M4 [$]n* arranca el husillo seleccionado en sentido antihorario a la velocidad *S*
+* *M5 [$]n* frena el husillo seleccionado
+
+El símbolo *$* se utiliza para seleccionar el husillo. Si *$* no se utiliza el comando tiene efecto sobre el husillo *spindle.0*. Use $-1 para operar sobre 
+todos los husillos activos.
+
+Este ejemplo enciende los husillo 0, 1 y 2 simultáneamente a diferentes velocidades::
+
+   S100 $0
+   S200 $1
+   S300 $2
+   M3 $-1
+
+Este ejemplo invertirá el sentido de giro del husillo 1 pero dejará a los otros husillos girando en el mismo sentido::
+
+   M4 $1
+
+Y este comando frenará al husillo 2 pero dejará girando a los otros husillos::
+
+   M5 $2
+
+Si no se utiliza el símbolo *$* el comportamiento es igual para una máquina de un solo husillo.
+Está permitido utilizar los comandos *M3* y *M4* si la velocidad de husillo es nula S=0. Si esto se hace (o si el override de velocidad está habilitado y con valor cero) 
+el husillo no comenzará a girar. Si, luego, la velocidad de husillo se cambia a un valor no nulo (o si el override de velocidad está habilitado y se eleva su valor),
+el husillo comenzará a girar. Está permitido utilizar los comandos *M3* y *M4* si el husillo ya está girando o utilizar *M5* si el husillo está frenado.
+
+
 .. _refM6:
 
 M6 Cambio de Herramienta
 ------------------------
+
+::
+
+   T2 (define la próxima herramienta a utilizar)
+   M6 (realizar cambio a la herramienta)
+
+**Cambio de Herramienta Manual**
+
+Si el componente de HAL (Hardware abstraction Layer) *hal_manualtoolchange * está cargado, *M6* frenará el husillo y mostrará el mensaje en pantalla al usuario para que cambien a la 
+herramienta definida por el número *T-*. Luego de que el usuario realice el cambio de herramienta, al presionar el botón *OK*, la ejecución del programa continuará.
+
+Este componente de HAL incluye una conexión que permite conectar un botón físico en vez del mensaje en pantalla (*hal_manualtoolchange.change_button*).
+
+El archivo de configuración de HAL *lib/hallib/axis_manualtoolchange.hal* muestra los comandos necesarios para utilizar este componente.
+
+**Cambio de Herramienta Automático**
+
+*M6* realiza el cambio de la herramienta que se encuentra actualmente en el husillo a la herramienta que se seleccionó más recientemente (ver sección :ref:`T <refT>`).
+Cuando el cambio de herramienta se complete:
+
+* El husillo permanecerá frenado
+* Si la herramienta seleccionada no estaba en el husillo la herramienta que estaba en el husillo (si había una) quedará en el cargador de herramientas.
+* Si estaba en el archivo de configuración .ini algunos ejes se podrán mover al ejecutar *M6*. Para más información sobre las opciones de cambio de herramientas
+  ver la :ref:`Seccción EMCIO <sectionEMCIO>`
+* No se realizará algún otro cambio. Por ejemplo, si la bomba de refrigerante estaba encendida quedará encendida durante el cambio de herramienta
+
+.. admonition: Precaución
+   :class: Warning
+
+   El decalaje de largo de herramienta no se modificado por *M6*, utilice *G43* luego de un cambiar a una herramienta *M6* con otro largo
+
+El cambio de herramienta podrá incluir el movimiento de ejes. Está permitido (pero no es útil) programar un cambio a la herramienta que ya está en el husillo. 
+Está permitido realizar un cambio a un número en el que el cargador no tiene herramienta, en este caso el husillo quedará vacío luego del cambio de herramienta.
+Si se selecciona el número 0 el husillo quedará vacío luego del cambio de herramienta. El cambiador de herramientas debe ser configurado para poder realizar los 
+cambios de herramientas en el HAL y posiblemente en el PLC (Programmable logic controller).
+
 
 .. _refM7:
 
 M7 M8 M9 Control de Refrigerante
 --------------------------------
 
+* *M7* prender la bomba del refrigerante de niebla. *M7* controla el testigo *iocontrol.0.coolant-mist*
+* *M8* prender la bomba del refrigerante líquido. *M7* controla el testigo *iocontrol.0.coolant-flood*
+* *M9* apagar ambas bombas *M7* y *M8* de refrigerante
+
+Conecte uno o ambos testigos del refrigerante en el HAL antes de poder prender/apagar las bombas de refrigerante. *M7* y *M8* pueden ser utilizados para encender / apagar
+cualquier salida a través de Código G.
+Está permitido utilizar cualquiera de estos comandos independientemente del estado del bombeo de refrigerante.
+
+
 .. _refM19:
 
 M19 Orientación de Husillo
 --------------------------
+::
+
+   M19 R- Q- [P-] [$-]
+
+* *R* Posición a la cual rotar, el rango válido es de 0 a 360 grados
+* *Q* Número de segundos de espera para que la orientación se realice. Si el valor de *spindle.N.is-oriented* no se convierte en *verdadero* dentro del lapso de *Q* segundos,
+  se emite un error.
+* P Dirección de rotación para orientar
+   * 0 para orientar con el ángulo más pequeño (por defecto)
+   * 1 para rotar sólo en el sentido horario (en el mismo sentido que *M3*)
+   * 2 para rotar sólo en el sentido antihorario (en el mismo sentido que *M4*)
+* *$* selección de husillo (determina cuales testigos del HAL se tienen en cuenta para los comandos de orientación)
+
+*M19* se desactiva con cualquiera de *M3*, *M4* o *M5*.
+
+La orientación de husillo requiere de un encoder de cuadratura con un índice para poder determinar la posición y sentido de giro.
+
+La configuración se puede editar en la :ref:`Seccción RS274NGC <sectionRS>` del archivo .ini. El parámetro *ORIENT_OFFSET* con valores de 0 a 360 grados se agrega al valor indicado
+por *R-*.
+
+Testigos de HAL (Hardware Abstraction Layer):
+
+   * *spindle.N.orient-angle* (out float) orientación deseada por comando *M19*. El valor de *R* especificada en el *M19* más el valor del parámetro
+     *[RS274NGC]ORIENT_OFFSET* del archivo .ini.
+   * *spindle.N.orient-mode* (out S32) modo de rotación para orientación, o sea el parámetro *P* en el *M19*, por defecto = 0
+   * *spindle.N.orient* (out bit) Indica el inicio del ciclo de orientación. Activado por *M19* y desactivado por *M3*, *M4* o *M5*. Si el valor de
+    *spindle-orient-fault* no es cero durante *spindle-orient*, el comando *M19* da mensaje de error.
+   * *spindle.N.is-oriented* (in bit) acusa recibo de que el husillo está orientado. Completa el ciclo de orientación. Si *spindle-orient* es verdadero cuando
+    *spindle-is-oriented* se volvió verdadero, *spindle-orient* se vuelve falso y *spindle-locked* se prende. También se prende el testigo * spindle-brake*.
+   * *spindle.N.orient-fault* (in s32) código que indica falla del ciclo de orientación. Cualquier valor salvo cero causa la anulación del ciclo.
+   * *spindle.N.locked* (out bit) indica orientación de husillo realizada. Se apaga con cualquier comando *M3*, *M4* o *M5*.
+
 
 .. _refM48:
 
 M48 M49 Activar / Desactivar Override de Avance y Husillo
 ---------------------------------------------------------
 
+* *M48* activa el control de override de velocidad de husillo y de velocidad de avance
+* *M49* desactiva ambos controles de override
+
+Estos comandos también aceptan el s+imbolo opcional *$* para indicar en cuál husillo operan.
+Está permitido activar o desactivar los controles de override si ya están en el mismo estado. Para más información ver la sección de :ref:`Modo de Avance <refG93>`.
+
+
 .. _refM50:
 
 M50 Control de Override de Avance
 ---------------------------------
+
+* *M50 <P1>* activa el control de override de velocidad de avance. El parámetro P1 es opcional.
+* *M50 <P0>* desactiva el control de override de velocidad de avance.
+
+Cuando está desactivado el control de override no tiene infuencia y el programa realizará movimientos a la velocidad de avance programada, salvo que esté activo
+ el modo adaptativo de override de control de avance.
+
+
 .. _refM51:
 
 M51 Control de Override de Husillo
 ----------------------------------
+
+* *M51 <P1> <$->* activa el control de override de velocidad de husillo. El parámetro P1 es opcional.
+* *M51 P0 <$->* desactiva el control de override de velocidad de husillo. Cuando está desactivado el control de override no tiene infuencia y la velocidad del husillo 
+ será la determinada por el comando *S-*.
 
 .. _refM52:
 
 M52 Control Adaptativo de Avance
 --------------------------------
 
+* *M52 <P1>* activa el modo adaptativo de velocidad de avance. El parámetro P1 es opcional.
+* *M52 P0* desactiva modo adaptativo de velocidad de avance.
+
+Cuando el modo adaptativo de avance está activo, se utiliza algún input externo en conjunto con el control de override de usuario y valor de velocidad programado para
+determinar la velocidad real de avance. En este control el testigo de HAL *motion.adaptive-feed* se utiliza con este propósito. Los valores *motion.adaptive-feed* 
+deberían variar entre -1 (velocidad programada en reversa) y 1 (velocidad plena). El valor 0 equivale a anular el avance.
+
+
+.. admonition: Nota
+   :class: note
+
+   El uso de la velocidad programada en reversa está indicada para corte de plasma o corte por hilo pero no se limita a estos usos
+
+
 .. _refM53:
 
 M53 Control de Parada de Avance
 -------------------------------
+
+* *M53 <P1>* activa el interruptor de parada de avance. P1 es opcional. Activar el interruptor de parada de avance permitirá al interruptor frenar el movimiento. En
+ este controlador el testigo de HAL *motion.feed-hold* se utiliza para este propósito. Un valor verdadero causará la interrupción del movimiento si el comando *M53*
+ está activo.
+* *M53 P0* desactiva el interruptor de parada de avance. El valor de *motion.feed-hold* no tendrá efecto cuando *M53* no está activo.
+
 
 .. _refM61:
 
 M61 Definir Número de Herramienta Actual
 ----------------------------------------
 
+* *M61 Q-* cambiar el número de la herramienta actual sin realizar cambio de herramienta. Se utiliza cuando se inicia el controlador y hay una herramienta colocada en
+el husillo, con este comando se puede determinar el número de la herramienta sin ejecutar ninguna acción. *M61 Q0* hará que el husillo quede en modo descargado.
+
+.. admonition: Precaución
+   :class: warning
+
+   El decalaje de largo de herramienta no se cambia por el comando *M61*, utilice *G43* luego de *M61* para cambiar el decalaje de largo de herramienta
+
+
+Da error si:
+
+   * *Q-* no es mayor o igual a 0
+
+
 .. _refM62:
 
 M62-M65 Control de Salidas Digitales
 ------------------------------------
+
+* *M62 P-* activa una salida digital sincronizada con el movimiento. El parámetro *P-* especifica el número de la salida digital.
+* *M63 P-* desactiva una salida digital sincronizada con el movimiento. El parámetro *P-* especifica el número de la salida digital.
+* *M64 P-* activa una salida digital inmediatamente. El parámetro *P-* especifica el número de la salida digital.
+* *M65 P-* desactiva una salida digital inmediatamente. El parámetro *P-* especifica el número de la salida digital.
+
+El valor de *P-* tiene un rango desde 0 a un valor por defecto de 3. De ser necesario el número de I/O (entradas/salidas) puede ser incrementado cambiando el valor de 
+ *num_dio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+
+Los comandos *M62* y *M63* serán puestos en agenda. Los comandos subsiguientes que hagan referencia a la misma salida sobreescribirán el valor de configuraciones 
+anteriores. Se puede definir el valor de más de una salida utilizando varios comandos *M62*/*M63*.
+
+El cambio de los valores de las salidas se realizará en el comienzo del próximo comando de movimiento. Si no hay un comando de movimiento subsiguiente, el cambio 
+agendado de la/s salida/s no se llevará a cabo. Es usual utilizar un comando de movimiento (*G0*, *G1*, etc.) inmediatamente luego de *M62*/*M63*.
+
+*M64*/*M65* implementan realizan el cambio del valor de la salida inmediatamente ya que son recibidos por el controlador de movimiento. No están sincronizados con el 
+movimiento, y cancelarán el suavizado de trayectoria.
+
+.. admonition: Nota
+   :class: note
+
+   *M62*-*M65* no funcionarán a no ser que se conecte el testigo adecuado *motion.digital-out-nn* en el archivo HAL a las salidas
+
 
 .. _refM66:
 
 M66 Espera Señal de Entrada
 ---------------------------
 
+::
+
+   M66 P- | E- <L->
+
+* *P-* especifica el número de entrada digital de 0 a 3
+* *E-* especifica el número de entrada analógica de 0 a 3
+* *P-* especifica el tipo de modo de espera
+   * Modo 0: Inmediato. No espera, retorna inmediatamente. El valor actual de la entrada es guardado en el parámetro #5399
+   * Modo 1: Flanco positivo. Espera que la entrada pase desde un valor negativo a uno positivo. 
+   * Modo 2: Flanco negativo. Espera que la entrada pase desde un valor positivo a uno negativo.
+   * Modo 3: Positivo. Espera a que la entrada tenga un valor positivo.
+   * Modo 4: Negativo. Espera a que la entrada tenga un valor negativo.
+* *Q-* especifica el tiempo de espera en segundos. Si el tiempo se excede, el comando de espera se interrumpe, y la variable #5399 pasará a tener un 
+valor de -1. El valor de *Q-* es ignorado si el valor de *L-* es cero (comportamiento inmediato). Un valor de *Q-* de cero da error si el valor de *L-* no es cero.
+* El modo 0 es el único permitido para entradas analógicas
+
+**Ejemplo de M66**::
+
+   M66 P0 L3 Q5 (espera hasta 5 segundos a que la entrada digital número 0 se encienda)
+
+*M66* frena la ejecución del progrma hasta que ocurre el evento determinado en la entrada especificada o hasta que el tiempo de espera se supera. 
+Es un error programar *M66* con ambos, un parámetro *P-* y un parámetro *E-*, se debe seleccionar un tipo de entrada, analógica o digital. En el control estas 
+entradas no son monitorizadas en tiempo real y por lo tanto no deben utilizarse para aplicaciones en las que el tiempo sea crítico.
+El número de I/O (entradas/salidas) puede ser incrementado cambiando el valor de *num_dio* o *num_aio* al cargar el controlador de movimiento.
+Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+
+.. admonition: Nota
+   :class: note
+
+   *M66* no funcionarán a no ser que se conecte el testigo adecuado *motion.digital-in-nn* o el *motion.analog-in-nn* en el archivo HAL a las entradas
+
+**Ejemplo de conección de HAL**::
+
+   net signal-name motion.digital-in-00 <= parport.0.pin10-in
+
+
 .. _refM67:
 
 M67 Salidas Analógicas Sincronizadas
 ------------------------------------
+
+::
+
+   M67 E- Q-
+
+* *M67* configura una salida analógica sincronizada con el movimiento
+* *E-* número de salida con un rango desde 0 a 3
+* *Q-* es el valor a configurar (configurar a 0 para apagar)
+
+El cambio de los valores de las salidas se realizará en el comienzo del próximo comando de movimiento. Si no hay un comando de movimiento subsiguiente, el cambio 
+agendado de la/s salida/s no se llevará a cabo. Es usual utilizar un comando de movimiento (*G0*, *G1*, etc.) inmediatamente luego de *M67*. *M67* funciona de igual
+manera a *62*-*63*.
+
+De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de 
+ *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+
+.. admonition: Nota
+   :class: note
+
+   *M67* no funcionarán a no ser que se conecte el testigo adecuado *motion.analog-out-nn* o el *motion.analog-in-nn* en el archivo HAL a las salidas
+
 
 .. _refM68:
 
 M68 Salidas Analógicas Inmediatas
 ---------------------------------
 
+::
+
+   M68 E- Q-
+
+* *M67* configura una salida analógica inmediatamente
+* *E-* número de salida con un rango desde 0 a 3
+* *Q-* es el valor a configurar (configurar a 0 para apagar)
+
+El cambio de los valores de las salidas se realizará inmediatamente ya que son recibidos por el controlador de movimiento. No están sincronizados con el 
+movimiento, y cancelarán el suavizado de trayectoria. *M68* funciona de igual manera que *64*-*65*.
+
+De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de 
+ *num_dio* o *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+
+.. admonition: Nota
+   :class: note
+
+   *M68* no funcionarán a no ser que se conecte el testigo adecuado *motion.analog-out-nn* o el *motion.analog-in-nn* en el archivo HAL a las salidas
+
+
 .. _refM70: 
 
 M70 Guardar Estados Modales
 ---------------------------
+
+Para guardar explícitamente los estados modales con los valores actuales utilice el comando *M70*. Una vez que el estado modal ha sido guardado con *M70*, puede ser
+restaurado a los mismos valores con el comando *M72*.
+El par de comandos *M70* y *M72* típicamente se utiliza para proteger a un programa de cualquier cambio modal inadvertido que pueda ocurrir en las subrutinas.
+El estado modal guardado consiste de:
+
+   * definición del tipo de unidad G20/G21 (imperiales/métricas)
+   * plano de trabajo seleccionado (G17/G18/G19 G17.1,G18.1,G19.1)
+   * estado de compensación del radio de herramienta (G40,G41,G42,G41.1,G42,1)
+   * modo de distancia - relativa/absoluta (G90/G91)
+   * modo de velocidad de avance (G93/G94,G95)
+   * sistema de coordenadas actual (G54-G59.3)
+   * modo de compensación de largo de herramienta (G43,G43.1,G49)
+   * modo de retracción (*G98*,*G99*)
+   * modo de velocidad de husillo (G96-css or G97-RPM)
+   * modo de distancia de arco de círculo (G90.1, G91.1)
+   * modo radial/diametral en tornos (G7,G8)
+   * modo de control de trayectoria (G61, G61.1, G64)
+   * valores actuales de velocidad de husillo y de avance (valores F y S)
+   * estado de husillo (M3,M4,M5) - en movimiento o frenado y dirección
+   * estado de bombas de refrigerantes (M7 y M8)
+   * valores de override de velocidad de husillo (M51) y de velocidad de avance (M50)
+   * configuración de avance adaptativo (M52)
+   * configuración de parada de avance (M53)
+
+Notar que el modo de movimiento (*G1*,etc) No se reestablece.
+
+El nivel de llamada actual refiere a una de las siguientes opciones:
+
+   * Al ejecutar el programa principal. Hay un solo almacenamiento para el estado modal en el nivel del programa principal; si se realizan varias llamadas a la instrucción *M70*
+     se ejecutan en turno, sólo el estado en la última llamada se restaura por medio del comando *M72*.
+
+   * Al ejecutar en una subrutina. El comportamiento de *M70* es igual al comportamiento de un parámetro local, puede ser referido sólo dentro de esta subrutina
+      al llamar a *M72* y cuando la subrutina retorna al nivel superior el parámetro desaparece.
+
+Una invocación recursiva a una subrutina introduce un nuevo nivel a la llamada.
+
 
 .. _refM71:
 
 M71 Invalidar Estados Modales Guardados
 ---------------------------------------
 
+Al ejecutar *M71* el estado modal guardado con *M70* o por *M73* es invalidado en el nivel actual y no puede ser restaurado.
+
+Un llamado posterior a *M72* en el mismo nivel emite error.
+
+Si se ejecuta *M71* en una subrutina en la que el estado modal está protegida por el comando *M73* un retorno o *endsub* posterior **no** restaurará el estadoo modal.
+
+En la práctica este comando no es muy útil.
+
+
 .. _refM72:
 
 M72 Reestablecer Estados Modales
 --------------------------------
 
+El estado modal guardado con *M70* puede ser reestablecido al ejecutar *M72*.
+
+El manejo de *G20*/*G21* es tratado especialmente e interpretado de manera diferente dependiendo de *G20*/*G21*:
+
+Si las unidades (mm/in) están por ser cambiadas por la operación de restauración *M72*, se restaura el modo de distancia primero, y luego todos los
+otros estados incluyendo el avance para asegurarse de que el valor de velocidad de avance se interpreta en la con la unidad de longitud correcta.
+
+Se produce un error si se ejecuta *M72* sin haber guardado previamente el estado modal con *M70*.
+
+El siguiente ejemplo demuestra el guardado y restaura el estado modal explícitamente luego de llamar a una subrutina. Notar que la subrutina
+*imperialsub* no se "entera" de los comandos *M70* y * M72* y puede ser utilizada sin cambios.
+
+::
+
+   O<mostarestado> sub
+   (DEBUG, imperial=#<_imperial> absolute=#<_absolute> avance=#<_avance> rpm=#<_rpm>)
+   O<mostarestado> endsub
+   
+   O<imperialsub> sub
+   g20 (imperial)
+   g91 (modo relativo)
+   F5 (avance bajo)
+   S300 (bajo rpm)
+   (debug, en subrutina, estado actual:)
+   o<mostarestado> call
+   O<imperialsub> endsub
+   
+   ; programa principal
+   g21 (metrica)
+   g90 (absoluta)
+   f200 (velocidad alta)
+   S2500 (alto rpm)
+   
+   (debug, en principal, estado actual:)
+   o<mostarestado> call
+   
+   M70 (grabar estados en principal a nivel global)
+   O<imperialsub> call
+   M72 (restaurar estados explicitamente)
+   
+   (debug, de vuelta en principal, estado actual:)
+   o<mostarestado> call
+   m2
+
+
 .. _refM73:
 
 M73 Guardar y Autorestablecer Estados Modales
 ---------------------------------------------
+
+Se utiliza el comando *M73* para guardar el estado modal en una subrutina y restaurarlo al volver a la función que la llama, ya sea por llegar al final de la misma *endsub* 
+o por un comando *return*.
+
+Si se aborta la corrida de un programa en una subrutina que contiene *M73* **no** restaura el estado modal.
+
+De la misma manera, el fin de programa (*M2*) en un programa principal que contenga *M73* **no** restaura el estado modal.
+
+El modo de uso sugerido luego de la palabra *O-* de subrutina se muestra en el siguiente ejemplo. Utilizar *M73* de esta manera permite diseñar subrutinas que pueden modificar 
+el estado modal pero protengen al programa que las llama de los cambios modales que realicen. Note el uso de los mensajes en los que se muestran los valores de los parámetros en 
+la subrutina *mostrarestado*.
+
+::
+
+   O<mostarestado> sub
+   (DEBUG, imperial=#<_imperial> absolute=#<_absolute> avance=#<_avance> rpm=#<_rpm>)
+   O<mostarestado> endsub
+   
+   O<imperialsub> sub
+   M73 (grabar estados en el contexto actual de subrutina, restaurar al retorno o endub)
+   g20 (imperial)
+   g91 (modo relativo)
+   F5 (avance bajo)
+   S300 (bajo rpm)
+   (debug, en subrutina, estado actual:)
+   o<mostarestado> call
+   
+   ; nota - no hace falta M72 acá - el siguiente endsub o
+   ; un comando return restaurará el estado de la rutina que llama
+   O<imperialsub> endsub
+   
+   ; programa principal
+   g21 (metrica)
+   g90 (absoluta)
+   f200 (velocidad alta)
+   S2500 (alto rpm)
+   (debug, en principal, estado actual:)
+   o<mostarestado> call
+   O<imperialsub> call
+   (debug, de vuelta en principal, estado actual:)
+   o<mostarestado> call
+   m2
 
 
 .. _refM98:
@@ -2875,10 +3415,256 @@ M73 Guardar y Autorestablecer Estados Modales
 M98 M99 Llamada y Retorno a Subrutinas
 --------------------------------------
 
+El interpretador soporta el estilo tipo Fanuc de programa principal y subprogramas con los códigos *M98* y *M99*. Para más información ver la sección :ref:`Códigos O <refOcodes>`.
+
+**Restaurar estados modales selectivamente**
+
+Al ejecutar *M72* o retornar desde una subrutina que contenga un código *M73* se restauran *todos* los estados modales.
+
+Si se desea preservar determinados estados modales, una alternativa es utilizar :ref:`Parámetros con Nombre Predefinidos <refNamedPredefParam>`, parámetros locales y declaraciones condicionales.
+El concepto es guardar los modos de operación a ser restaurados al principio de la subrutina, y reestablecerlos antes del retorno. A continuación se muestra un ejemplo::
+
+   O<medicion> sub (medicion de herramienta de referencia)
+   ;
+   #<absoluto> = #<_absoluto> (guardar en variable local si se utilizó G90)
+   ;
+   g30 (sobre interruptor)
+   g38.2 z0 f15 (medicion)
+   g91 g0z.2 (interruptor accionado)
+   #1000=#5063 (guardar la longitud de referencia de la herramienta)
+   (print, la longitud de referencia es #1000)
+   ;
+   O<restaurar_abs> if [#<absoluto>]
+       g90 (restaurar G90 sólo si estaba activo al inicio:)
+   O<restaurar_abs> endif
+   ;
+   O<medicion> endsub
+
+
 .. _refM100:
 
 M100-M199 Códigos M Definidos por el Usuario
 --------------------------------------------
+
+::
+
+   M1-- <P- Q->
+
+* *M1* entero en el rango de 100 a 199
+* *P-* número que pasa a archivo como primer parámetro
+* *Q-* número que pasa a archivo como segundo parámetro
+
+.. admonition: Nota
+   :class: note
+
+   Luego de crear un nuevo archivo *M1nn* debe reiniciar la Interfaz de Usuario para incorporar el archivo nuevo, en caso contrario el resultado será *Código M desconocido*
+
+El programa externo *M100* a *M199* (sin extención y con M mayúscula) será ejecutado con los valores opcionales de *P* y *Q* como argumentos. La ejecución del código G se pausa
+hasta que finalice la ejecución del programa externo. Cualquier archivo ejecutable puede ser utilizado. El archivo debe etar ubicado en la dirección de búsqueda especificado en 
+el archivo de configuración .ini. Para más información ver la :ref:`Sección de Display <sectionDISPLAY>`.
+
+.. admonition: Precaución
+   :class: warning
+
+   No utilice un procesador de texto enriquecido para crear o editar los archivos. Este tipo de procesador dejará código oculto que causará problemas. Utilice un procesador de 
+   texto simple como Geany en Linux o Notepad++ en otros sistemas operativos para crear o editar los archivos.
+
+Da error si:
+
+   * Se utiliza un comando definido por el usuario que no existe
+   * El archivo no es ejecutable
+   * El archivo tiene extensión
+   * El nombre del archivo no sigue el formato *Mnnn*, donde *nnn* es igual a 100 a 199
+   * El nombre del archivo utiliza m minúscula
+
+Un ejemplo de utilización puede ser abrir y cerrar un mandril que es controlado por un testigo en un puerto paralelo utilizando un archivo de ejecución de sistema (bash script) 
+utilizando *M101* y *M102*. Crear dos archivos con nombre M101 y M102. Configurarlos como archivos ejecutables modificando sus propiedades antes de correr el controlador.
+Asegurarse que el testigo del puerto paralelo no está conectado en el archivo HAL.
+
+**Ejemplo de M101**
+
+::
+
+   #!/bin/bash
+   # file to turn on parport pin 14 to open the collet closer
+   halcmd setp parport.0.pin-14-out True
+   exit 0
+
+**Ejemplo de M102**
+
+::
+
+   #!/bin/bash
+   # file to turn on parport pin 14 to open the collet closer
+   halcmd setp parport.0.pin-14-out False
+   exit 0
+
+Para pasar una variable a un archivo M1nn utilice los párametros opcionales *P-* y/o *Q-*::
+
+   M100 P123.456 Q321.654
+
+**Ejemplo de M100**
+
+::
+
+   #!/bin/bash
+   voltage=$1
+   feedrate=$2
+   halcmd setp thc.voltage $voltage
+   halcmd setp thc.feedrate $feedrate
+   exit 0
+
+Para mostrar un mensaje en ventana y frenar hasta que la ventana se cierre utilice un programa gráfico como Eye of Gnome. Cuando cierre la ventana la ejecución del programa se 
+reanudará.
+
+**Ejemplo de M110**
+
+::
+
+   #!/bin/bash
+   eog /home/john/linuxcnc/nc_files/message.png
+   exit 0
+
+Para mostrar un mensaje en ventana y continuar procesando el còdigo G utilice el símbolo & al final de la línea.
+
+**Ejemplo de M110 con continuación**
+
+::
+
+   #!/bin/bash
+   eog /home/john/linuxcnc/nc_files/message.png &
+   exit 0
+
+
+.. _refOcodes:
+
+Códigos O
+=========
+
+Los códigos O proveen un control de flujo en los programas de control numérico. Cada bloque (o línea) tiene un número asociado, que es el número utilizado luego de la O.
+Se debe tener cuidado para que haya correspondencia de los números O. Notar que los códigos O utilizan la letra o minúscula o O mayúscula pero no el número 0, por ejemplo
+o100 o O100.
+
+Numeración
+----------
+
+Los números de los códigos O deben tener una numeración única para cada subrutina. Por ejemplo::
+
+   (comienzo de o100)
+   o100 sub
+   (notar que el if-endif utilizan una numeración diferente)
+     (comienzo de o110)
+     o110 if [#2 GT 5]
+       (algo de código acá)
+     (fin de o110)
+     o110 endif
+     (algo de código acá)
+   (fin de o100)
+   o100 endsub
+
+Comentarios
+----------
+
+No se deben utilizar los comentarios en la misma línea que el código O debido a que el comportamiento puede cambiar en el futuro.
+
+El comportamiento es indefinido si:
+
+   * El mismo número se utiliza para más de un bloque
+   * Se utilizan otras letras en la misma línea que la letra O
+   * Se utilizan comantarios en la misma línea que la letra O
+
+.. admonition: Nota
+   :class: note
+
+   Utilizar la letra o minúscula hace más fácil diferenciar cuando hay un error de escritura. Por ejemplo o100 se diferencia má fácil
+   que O100 (con O mayúscula) de 0100 (con cero)
+
+Subrutinas
+----------
+
+Las subrutinas empiezan con *Onnn sub* y terminan con *Onnn endsub*. Las líneas entre estos dos marcadores no se ejecutan hasta que 
+se las llama con *Onnn call*. Cada subrutina debe tener una numeración única.
+
+**Ejemplo de Subrutina**
+
+::
+
+   o100 sub
+     G53 G0 X0 Y0 Z0 (movimiento rápido al origen)
+   o100 endsub
+   
+   (se llama a la subroutina)
+   o100 call
+   M2
+
+**Retorno O-**
+
+Dentro de una subrutina, el comando *O- return* puede ser ejecutado. Esto retorna inmediatamente al programa que llamó a la subrutina, de manera similar 
+a cuando se encuentra el comando *O- endsub*.
+
+**Ejemplo de Retorno O-**
+
+::
+
+   o100 sub
+     (testear si el parámetro #2 es mayor que 5)
+     o110 if [#2 GT 5]
+       (retornar al inicio de subrutina si la condición se cumple)
+       o100 return
+     o110 endif
+       (esto se ejecuta solamente si el parámetro #2 no es mayor que 5)
+       (DEBUG, parameter 2 is [#2])
+   o100 endsub
+
+**Llamadas O-**
+
+Las llamadas *O- call* pueden tomar hasta 30 parámetros opcionales, que son pasados a la subrutina como #1, #2, ... #N.
+Los parámetros desde #N+1 a #30 tienen el mismo valor que en el contexto de llamada. En el retorno desde la subrutina, los parámetros #1 a #30 
+(independientemente del número de argumentos) serán restaurados a los valores que tenían antes de la llamada. Los parámetros #1 a #30 son locales de 
+la subrutina. 
+
+Debido a que *1 2 3* son interpretados como el número 123, los parámetros deben ser encerrados en corchetes. El siguiente ejemplo llama a una subrutina con
+3 argumentos.
+
+**Ejemplo de llamada O-**
+
+
+
+
+
+
+
+
+
+
+Programas numerados con estilo Fanuc
+------------------------------------
+
+
+Bucles
+------
+
+Condicionales
+-------------
+
+Repetición
+----------
+
+Indirección
+-----------
+
+Llamado a Archivos
+------------------
+
+Valores de Retorno de Subrutinas
+--------------------------------
+
+
+Errores
+-------
+
+
+
 
 
 .. _otrosCodigos:
@@ -2891,18 +3677,62 @@ Otros Códigos
 F Definir Velocidad de Avance
 -----------------------------
 
+*Fx* define la velocidad de avance programada en x unidades de longitud (pulgadas o milìmetros por minuto.
 
+La aplicación de la velocidad de avance se explica en la sección :ref:`Velocidad de Avance <refMachineFeedRate>`, a no ser que el modo de avance inverso o avance por revoluciòn se utilicen, 
+en cuyo caso la aplicación se describe en la sección :ref:`G93 G94 G95 <refG93>`.
 
 .. _refS:
 
 S Definir Velocidad de Husillo
 ------------------------------
 
+*Sx [$n]* configura la velocidad de husillo programada en x revoluciones por minuto (RPM) con el par+ametro opcional *$* que indica el número de husillo que se configura.
+Sin el parámetro *$* configura por defecto al husillo número 0.
+
+El husillo girará a la velocidad programada al ejecutar *M3* o *M4*. Está permitido utilizar el comando cuando el husillo está en girando o está frenado. Si el interruptor de 
+override de velocidad de husillo está activo y tiene un valor menor al 100% la velocidad de giro real será menor a la programada.
+Está permitido programar *S0*, en ese caso el husillo no girará.
+
+Da error si:
+
+   *S* es un número negativo.
 
 .. _refT:
 
 T Selección de Herramienta
 --------------------------
+
+*Tx* prepara el cambio a la herramienta x.
+
+El cambio de herramienta no se lleva a cabo hasta que se ejecuta el comando *M6*. El valor de *T* puede aparecer en la misma línea que *M6* o en una línea previa.
+Está permitido que el comando *T* aparezca más de una vez sin ejecutar el cambio de herramienta. Sólo la última herramienta seleccionada tendrá efecto el ejecutar el 
+cambo de herramienta.
+
+.. admonition: Nota
+   :class: note
+
+   Cuando el controlador se configura con una cambiador de herramientas no aleatorio (ver *RANDOM_TOOLCHANGER* en la :ref:`sección EMCIO <sectionEMCIO>`), *T0* 
+   tiene un efecto especial: ninguna herramienta se selecciona. Esto es útil si se quiere que el husillo quede vacío luego de un cambio de herramienta.
+
+.. admonition: Nota
+   :class: note
+
+   Cuando el controlador se configura con una cambiador de herramientas aleatorio (ver *RANDOM_TOOLCHANGER* en la :ref:`sección EMCIO <sectionEMCIO>`), *T0* 
+   no tiene un efecto especial: T0 es válido como cualquier otra herramienta. Es usual utilizar T0 cuando hay cambiador aleatorio para un portaherramienta vacío,
+   de esta forma se comporta como en el caso de cambiador no aleatorio y utilizarlo para descargar el husillo.
+
+Da error si:
+
+   * Se utiliza un número negativo de T.
+   * El número de T que se define no aparece en el archivo de tabla de herramientas (con la exepción de T0 que se acepta en cambiadores de herramientas no aleatorios)
+
+En algunas máquinas, el carrusel se moverá al leer el comando *T*, al mismo tiempo que la máquina mecaniza. En estas máquinas es común programar el comando *T* varias líneas 
+antes del cambio de herramientas. Es común programar el comando *T* de la próxima herramienta a utilizar en la línea siguiente al cambio de herramientas. Esto maximiza 
+el tiempo disponible para el movimiento del carrusel.
+
+Los movimientos rápidos luego de un comando *T* no se muestran en el previsualizador AXIS hasta que se produce un movimiento a velocidad de avance. Para contrarrestar este
+efecto programe por ejemplo un *G1* sin movimiento luego de los comandos *T*.
 
 
 .. _ordenEjecucionCNC:
@@ -2964,14 +3794,6 @@ El orden de ejecución de los comandos en una línea no está definido por el lu
 +-------------------------------------------------------------------------------+
 | Parada (M0, M1, M2, M30, M60)                                                 |
 +-------------------------------------------------------------------------------+
-
-
-
-
-
-
-
-
 
 
 .. _ejemploCNCbasico:
