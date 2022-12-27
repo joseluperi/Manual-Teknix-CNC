@@ -251,7 +251,7 @@ hasta que el operador confirme.
 Imprimir Mensajes
 -----------------
 
-* *(PRINT,) los mensajes se muestran en la consola. Soporta la escritura de valores de parámetros.
+*(PRINT,)* los mensajes se muestran en la consola. Soporta la escritura de valores de parámetros.
 
 
 Mensajes de Depuración (Debug)
@@ -292,6 +292,7 @@ código y el segundo símbolo *%*. Los comandos luego del segundo símbolo *%* n
    de ejecución del segundo símbolo. Por ejemplo, el husillo puede quedar girando, la bomba de refrigerante quedar encendida y los decalajes activos. Por lo que si no utiliza un preámbulo 
    en el principio del siguiente código a ejecutar se pueden producir situaciones peligrosas
 
+.. _refParameters:
 
 Parámetros
 ----------
@@ -397,6 +398,8 @@ Testigos de HAL y valores INI
    
    
    
+.. _refExpresions:
+
 Expresiones
 -----------
 
@@ -430,6 +433,16 @@ Un ejemplo es la expresión [1 + acos[0] - [#3 ** [4.0/2]]].
 | ! o NOT            | Negación                 |
 +--------------------+--------------------------+
 
+.. _refBinaryOps:
+
+**Operadores Binarios**
+
+Los operadores binarios aparecen sólo dentro de las expresiones. Existen cuatro tipos básicos de operaciones matemáticas: suma (+), resta (-), multiplicación (*) y división (/). Hay 
+tres operadores lógicos: O no exclusivo (OR), O exclusivo (XOR) y el opreardor lógico Y (AND). La octava operación es la operación módulo, que devuelve el resto de la división (MOD). 
+El noveno operador es la potencia (**), en donde el valor que la antecede es la base y el valor que la sucede es el exponente. Los operadores relacionales son la igualdad (EQ), inequidad (NEQ),
+mayor que (GT), mayor o igual que (GE), menor que (LT) y menor o igual que (LE).
+
+
 **Precedencia**
 
 Los operadores están divididos en varios grupos de acuerdo a su precedencia. Si se definen juntas varias operaciones de diferente precedencia en una expresión 
@@ -458,6 +471,8 @@ nulo es equivalente al verdadero lógico.
 El lenguage permite solo valores de punto flotante, por lo que la presición en la representación de números reales es acotada. Es por esto que la igualdad o desigualdad de
 dos valores de punto flotante es inherentemente problemática. El interpretador resuelve este problema al considerar que dos valores son iguales si la diferencia entre ambos 
 es menor a 0.0001. Este valor se define como una variable persistente.
+
+.. _refFunctions:
 
 **Funciones**
 
@@ -649,9 +664,9 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G54-G59.3 <refG54>`     | Selección de Sistema de Coordenadas Local                                |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G61 <refG61>`           | Modo de Posicionamiento Exacto                                           |
+| :ref:`G61 <refG61>`           | Modo de Posicionamiento Preciso                                          |
 +-------------------------------+--------------------------------------------------------------------------+
-| :ref:`G61.1 <refG61.1>`       | Modo de Frenado en Posición Preciso                                      |
+| :ref:`G61.1 <refG61.1>`       | Modo de Posicionamiento Preciso y Frenado                                |
 +-------------------------------+--------------------------------------------------------------------------+
 | :ref:`G64 <refG64>`           | Suavizado de Trayectoria                                                 |
 +-------------------------------+--------------------------------------------------------------------------+
@@ -1921,6 +1936,7 @@ Da error si:
 
 .. _refG61:
 
+
 G61 Modo de Posicionamiento Preciso
 -----------------------------------
 
@@ -1931,8 +1947,8 @@ no se deterndrá.
 
 .. _refG61.1:
 
-G61.1 Modo de Frenado en Posición Exacta
-----------------------------------------
+G61.1 Modo de Posicionamiento Preciso y Frenado
+-----------------------------------------------
 
 *G61.1* provoca la detención del movimiento en todos los tramos sobre el punto final de cada segmento.
 
@@ -1951,9 +1967,10 @@ El comando *G64*, sin parámetros *P* ni *Q*, realizará el movimiento con la ve
 aleja el movimiento del punto programado.
 
 * *G64* P- <Q-> - realizará los movimiento con una trayectoria suavizado con tolerancia, es decir que el movimiento entre tramos
-diferentes no se detendrá, sino que la trayectoria se suaviza en torno al punto intermedio, y la velocidad en esa transcición será
-la más alta posible sujeta a las restricciones que le imponen las tolerancias utilizadas. La velocidad especificada será reducida
-si es necesario para mantener las tolerancias especificadas. 
+   diferentes no se detendrá, sino que la trayectoria se suaviza en torno al punto intermedio, y la velocidad en esa transcición será
+   la más alta posible sujeta a las restricciones que le imponen las tolerancias utilizadas. La velocidad especificada será reducida
+   si es necesario para mantener las tolerancias especificadas. 
+
 La tolerancia *P* indica la máxima desviación posible de la trayectoria en el entorno del punto intermedio respecto a la geometría 
 definida por los comandos de movimiento. Cuando se especifica la tolerancia *P* es posible definir adicionalmente el parámetro de 
 tolerancia *Q*. Cuando se especifican ambos parámetros de tolerancia, para una serie de movimientos lineales consecutivos con la misma
@@ -1992,6 +2009,7 @@ de la posición a lo largo del eje Z.
 # Movimiento preliminar
    * Si la posición en el eje Z es menor al valor de *R-*, el eje Z realiza un movimiento lineal rápido para tomar el valor de *R-*
    * Desplazamiento al valor de las coordenadas X e Y
+
 # Desplazamiento en el eje Z a la velocidad de avance actual hacia abajo, por el valor definido por *Q-* o a la posición *Z-*, el de menor profundidad
 # Desplazamiento corto rápido hacia arriba
 # Repetición de los pasos 2 y 3 hasta que se logra la posición Z en el paso 2
@@ -2062,20 +2080,20 @@ Las posiciones se definen relativas una la línea de referencia definida por la 
    **Especificaciones Opcionales**
 
 * *$-* número de husillo con el que se sincronizará el movimiento (por defecto 0). Por ejemplo si se utiliza *$1* el movimiento programado empezará cuando se 
-active el *splindel.1.index-enable* y procederá en sincronía con el valor *spindle.1.revs*.
+    active el *splindel.1.index-enable* y procederá en sincronía con el valor *spindle.1.revs*.
 * *R-* factor de reducción de profundidad. *R1.0* define profundidades de corte constantes en las sucesivas pasadas. *R2.0* se utiliza para que el área de corte sea 
-constante. Valores entre 1.0 y 2.0 implican profundidades decrecientes pero áreas crecientes. Valores mayores a 2.0 implican áreas decrecientes. Tenga en cuenta que 
-valores de reducción altos causarán una gran cantidad de pasadas.
+    constante. Valores entre 1.0 y 2.0 implican profundidades decrecientes pero áreas crecientes. Valores mayores a 2.0 implican áreas decrecientes. Tenga en cuenta que 
+    valores de reducción altos causarán una gran cantidad de pasadas.
 * *Q-* ángulo de deslizamiento compuesto en grados, describe la dirección de avance relativo entre sucesivas pasadas respecto a la línea de referencia. Se utiliza 
-para que un un lado de la herramienta remueva más material que el otro. Un valor de *Q* positivo causa que el lado de ataque corte más material. Los valores que
-típicamnete se utilizan son de 29 a 30.
+    para que un un lado de la herramienta remueva más material que el otro. Un valor de *Q* positivo causa que el lado de ataque corte más material. Los valores que
+    típicamnete se utilizan son de 29 a 30.
 * *H-* número de pasadas de repaso adicionales. Es la cantidad de pasadas en la posición final para repaso de la rosca, si no se desean pasadas adicionales de puede 
-programar *H0*.
+    programar *H0*.
 * *E-* distancia a lo largo de la línea de referencia utilizada para la entrada y/o salida en ángulo. El ángulo será tal que la última pasada retrocede la profundidad 
-del filete sobre la distancia definida por *E*. *E0.2* dará un ángulo para los primeros/últimos 0.2 unidades de longitud a lo largo de la rosca. Para un ángulo de 
-45 grados programe la entrada/salida con valores iguales de *E* y *K*.
+    del filete sobre la distancia definida por *E*. *E0.2* dará un ángulo para los primeros/últimos 0.2 unidades de longitud a lo largo de la rosca. Para un ángulo de 
+    45 grados programe la entrada/salida con valores iguales de *E* y *K*.
 * *L-* especifica cuales extremos tendrán ángulo de entrada/salida. Utilice *L0* para rosca sin entrada/salida en ángulo valor por defecto), *L1* para ángulo de 
-entrada, *L2* para ángulo de salida y *L3* para ángulo de entrada y de salida.
+    entrada, *L2* para ángulo de salida y *L3* para ángulo de entrada y de salida.
 
 La herramienta se mueve a las posiciones de X y Z antes de ejecutar el comando G76. La posición en X determina la línea de referencia y la posición de Z marcará el 
 inicio del roscado.
@@ -2116,7 +2134,7 @@ EL ciclo cerrado *G76* está basado en el comando *G33* de movimiento sincroniza
 
    Figura de ejemplo de G76
 
-.. _refCannedCycles
+.. _refCannedCycles:
 
 Ciclos Cerrados
 ---------------
@@ -2448,7 +2466,7 @@ Da un error si:
 .. _refG84:
 
 G84 Ciclo de Roscado (Tapping) Derecho con Espera
----------------------------------------
+-------------------------------------------------
 
 ::
 
@@ -2533,11 +2551,11 @@ El comando *G89* se utiliza para perforado. Al llegar al final del roscado ejecu
 G90 G91 Modo de Distancia Absoluta o Relativa
 ---------------------------------------------
 
-   * *G90* se utiliza para activar el modo de definición de posiciones en distancias absolutas. En este modo los valores definidos para los ejes 
+* *G90* se utiliza para activar el modo de definición de posiciones en distancias absolutas. En este modo los valores definidos para los ejes 
     (X, Y, Z, A, B, C, U, V, W) generalmente representan posiciones respecto al sistema de coordenadas activo. Las exepciones a esta regla se 
     describen explícitamente en la sección :ref:`G80-G89 <refCannedCycles>`.
 
-   * *G91* se utiliza para activar el modo de definición de posiciones relativos. En este modo las posiciones representan incrementos referidoa a 
+* *G91* se utiliza para activar el modo de definición de posiciones relativos. En este modo las posiciones representan incrementos referidoa a 
     la posición actual.
 
 **Ejemplo de G90**
@@ -2560,12 +2578,11 @@ G90 G91 Modo de Distancia Absoluta o Relativa
 G90.1 G91.1 Modo de Distancia de Arcos Absoluta o Relativa
 ----------------------------------------------------------
 
-   * *G90.1* se utiliza para activar el modo de posiciones absolutas para los valores de I, J y K. Cuando *G90.1* está activo tanto I como J deben 
+* *G90.1* se utiliza para activar el modo de posiciones absolutas para los valores de I, J y K. Cuando *G90.1* está activo tanto I como J deben 
    especificarse en los comandos *G2* y *G3* para el plano XY, o tnato los parámetros J y K deben especificarse para el plano XZ.
-   
-   * *G91.1* se utiliza para activar el modo de posiciones relatvas para los valores de I, J y K. El comando *G91.1* retorna el modo de funcionamiento 
-   de los valores I, J y K a su comportamiento por defecto.
 
+* *G91.1* se utiliza para activar el modo de posiciones relatvas para los valores de I, J y K. El comando *G91.1* retorna el modo de funcionamiento 
+   de los valores I, J y K a su comportamiento por defecto.
 
 
 .. _refG92:
@@ -2630,6 +2647,8 @@ sistema coordenado local y se ejecuta el programa de mecanizado de la pieza.
 
    El comando *G10 R-* para rotar el sistema de coordenadas de una pieza es específico de los interpretadores *rs274ngc, y el decalaje *G92* se aplica luego de la rotación. Cuando se utiliza
    *G92* como un decalaje global, las rotaciones de los sistemas coordenados pueden tener resultados inesperados.
+
+Aclaración: *rs274ngc* es estándar del NIST - National Institute of Satndards and Technology.
 
 Como un decalaje local del sistema de coordenadas, *G92* es utilizado como un decalaje temporal dentro del sistema de coordenadas de la pieza. Un ejemplo de este uso es cuando se 
 mecaniza una pieza con varias geometrías idénticas en diferentes posiciones. Para cada geometría se utiliza un punto de referencia diferente mediante *G92* y se ejecuta un subprograma
@@ -2739,17 +2758,17 @@ G93 G94 G95 Modo de Avance
 --------------------------
 
 * *G93* indica el modo de definición de la velocidad de avance por inversa del tiempo. En este modo el valor de F significa que el movimiento deberá ser completado en 1 dividido el valor de F minutos.
- Por ejemplo, si el número F es 2.0, el movimiento tendrá que ser completado en medio minuto o 30 segundos.
+    Por ejemplo, si el número F es 2.0, el movimiento tendrá que ser completado en medio minuto o 30 segundos.
 
 Cuando el modo de avance de inversa del tiempo está activo, se deberá especificar el valor F en cada línea que implique movimiento a velocidad de avance (*G1*, *G2* o *G3*) y cualquier valor 
 de F que no esté en una línea que no tiene *G1*, *G2* o *G3* es ignorado. Este modo no afecta a los movimientos rápidos *G0*.
 
 * *G94* es el modo de definición de velocidad de avance en unidades por minuto. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por minuto, ya sea pulgada por 
-minuto o milímetros por minuto dependiendo las unidades de longitud seleccionadas. Para ejes de rotación, la velocidad de avance se define en grados por minuto.
+    minuto o milímetros por minuto dependiendo las unidades de longitud seleccionadas. Para ejes de rotación, la velocidad de avance se define en grados por minuto.
 
 * *G95* es el modo de definición de velocidad de avance en unidades por revolución. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por revolución de husillo,
-dependiendo de las unidades seleccionadas y el tipo de eje que se desplaza. *G95* no es aplicable a roscado, para lo que se debe utilizar *G33* o *G67*. *G95* requiere que el testigo *spindle.N.speed-in* 
-esté conectado. El husillo al cual se sincroniza el movimiento se determina con el valor de $.
+   dependiendo de las unidades seleccionadas y el tipo de eje que se desplaza. *G95* no es aplicable a roscado, para lo que se debe utilizar *G33* o *G67*. *G95* requiere que el testigo *spindle.N.speed-in* 
+   esté conectado. El husillo al cual se sincroniza el movimiento se determina con el valor de $.
 
 Da error si:
 
@@ -2880,7 +2899,7 @@ M0 M1 Pausa de Programa
 * *M1* pausa temporariamente al programa en ejecución si está activado el interruptor opcional de parada. El controlador permanece en modo Automático por lo que las acciones manuales 
    no están habilitadas. Al presionar el botón Reanudar el programa continuará en la siguiente línea.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: Note
 
    Está permitido programar un comando *M0* o *M1* desde el modo Manual de Input, pero el efecto probablemente no será percibido, ya que el modo normal de comportamiento
@@ -2908,12 +2927,12 @@ Ambos comandos tienen los siguientes efectos:
 # El modo de movimiento pasa a movimiento con velocidad de avance (*G1*)
 # La bomba de refrigerante se apaga (*M9*)
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: Note
 
    Las líneas de código luego de M2/M30 no serán ejecutadas. Al presionar *Comienzo de Ciclo* se reiniciará el programa desde el principio del archivo
 
-.. admonition: Precaución
+.. admonition:: Precaución
    :class: Warning
 
    Utilizar *%* para encerrar el código G no tiene el mismo efecto que un comando de *Fin de Programa*. Para más información sobre el efecto de los signos *%*
@@ -2992,7 +3011,7 @@ Cuando el cambio de herramienta se complete:
   ver la :ref:`Seccción EMCIO <sectionEMCIO>`
 * No se realizará algún otro cambio. Por ejemplo, si la bomba de refrigerante estaba encendida quedará encendida durante el cambio de herramienta
 
-.. admonition: Precaución
+.. admonition:: Precaución
    :class: Warning
 
    El decalaje de largo de herramienta no se modificado por *M6*, utilice *G43* luego de un cambiar a una herramienta *M6* con otro largo
@@ -3043,15 +3062,15 @@ por *R-*.
 
 Testigos de HAL (Hardware Abstraction Layer):
 
-   * *spindle.N.orient-angle* (out float) orientación deseada por comando *M19*. El valor de *R* especificada en el *M19* más el valor del parámetro
+* *spindle.N.orient-angle* (out float) orientación deseada por comando *M19*. El valor de *R* especificada en el *M19* más el valor del parámetro
      *[RS274NGC]ORIENT_OFFSET* del archivo .ini.
-   * *spindle.N.orient-mode* (out S32) modo de rotación para orientación, o sea el parámetro *P* en el *M19*, por defecto = 0
-   * *spindle.N.orient* (out bit) Indica el inicio del ciclo de orientación. Activado por *M19* y desactivado por *M3*, *M4* o *M5*. Si el valor de
-    *spindle-orient-fault* no es cero durante *spindle-orient*, el comando *M19* da mensaje de error.
-   * *spindle.N.is-oriented* (in bit) acusa recibo de que el husillo está orientado. Completa el ciclo de orientación. Si *spindle-orient* es verdadero cuando
+* *spindle.N.orient-mode* (out S32) modo de rotación para orientación, o sea el parámetro *P* en el *M19*, por defecto = 0
+* *spindle.N.orient* (out bit) Indica el inicio del ciclo de orientación. Activado por *M19* y desactivado por *M3*, *M4* o *M5*. Si el valor de
+   *spindle-orient-fault* no es cero durante *spindle-orient*, el comando *M19* da mensaje de error.
+* *spindle.N.is-oriented* (in bit) acusa recibo de que el husillo está orientado. Completa el ciclo de orientación. Si *spindle-orient* es verdadero cuando
     *spindle-is-oriented* se volvió verdadero, *spindle-orient* se vuelve falso y *spindle-locked* se prende. También se prende el testigo * spindle-brake*.
-   * *spindle.N.orient-fault* (in s32) código que indica falla del ciclo de orientación. Cualquier valor salvo cero causa la anulación del ciclo.
-   * *spindle.N.locked* (out bit) indica orientación de husillo realizada. Se apaga con cualquier comando *M3*, *M4* o *M5*.
+* *spindle.N.orient-fault* (in s32) código que indica falla del ciclo de orientación. Cualquier valor salvo cero causa la anulación del ciclo.
+* *spindle.N.locked* (out bit) indica orientación de husillo realizada. Se apaga con cualquier comando *M3*, *M4* o *M5*.
 
 
 .. _refM48:
@@ -3085,7 +3104,7 @@ M51 Control de Override de Husillo
 
 * *M51 <P1> <$->* activa el control de override de velocidad de husillo. El parámetro P1 es opcional.
 * *M51 P0 <$->* desactiva el control de override de velocidad de husillo. Cuando está desactivado el control de override no tiene infuencia y la velocidad del husillo 
- será la determinada por el comando *S-*.
+    será la determinada por el comando *S-*.
 
 .. _refM52:
 
@@ -3100,7 +3119,7 @@ determinar la velocidad real de avance. En este control el testigo de HAL *motio
 deberían variar entre -1 (velocidad programada en reversa) y 1 (velocidad plena). El valor 0 equivale a anular el avance.
 
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    El uso de la velocidad programada en reversa está indicada para corte de plasma o corte por hilo pero no se limita a estos usos
@@ -3112,8 +3131,8 @@ M53 Control de Parada de Avance
 -------------------------------
 
 * *M53 <P1>* activa el interruptor de parada de avance. P1 es opcional. Activar el interruptor de parada de avance permitirá al interruptor frenar el movimiento. En
- este controlador el testigo de HAL *motion.feed-hold* se utiliza para este propósito. Un valor verdadero causará la interrupción del movimiento si el comando *M53*
- está activo.
+    este controlador el testigo de HAL *motion.feed-hold* se utiliza para este propósito. Un valor verdadero causará la interrupción del movimiento si el comando *M53*
+    está activo.
 * *M53 P0* desactiva el interruptor de parada de avance. El valor de *motion.feed-hold* no tendrá efecto cuando *M53* no está activo.
 
 
@@ -3123,9 +3142,9 @@ M61 Definir Número de Herramienta Actual
 ----------------------------------------
 
 * *M61 Q-* cambiar el número de la herramienta actual sin realizar cambio de herramienta. Se utiliza cuando se inicia el controlador y hay una herramienta colocada en
-el husillo, con este comando se puede determinar el número de la herramienta sin ejecutar ninguna acción. *M61 Q0* hará que el husillo quede en modo descargado.
+    el husillo, con este comando se puede determinar el número de la herramienta sin ejecutar ninguna acción. *M61 Q0* hará que el husillo quede en modo descargado.
 
-.. admonition: Precaución
+.. admonition:: Precaución
    :class: warning
 
    El decalaje de largo de herramienta no se cambia por el comando *M61*, utilice *G43* luego de *M61* para cambiar el decalaje de largo de herramienta
@@ -3158,7 +3177,7 @@ agendado de la/s salida/s no se llevará a cabo. Es usual utilizar un comando de
 *M64*/*M65* implementan realizan el cambio del valor de la salida inmediatamente ya que son recibidos por el controlador de movimiento. No están sincronizados con el 
 movimiento, y cancelarán el suavizado de trayectoria.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    *M62*-*M65* no funcionarán a no ser que se conecte el testigo adecuado *motion.digital-out-nn* en el archivo HAL a las salidas
@@ -3182,7 +3201,7 @@ M66 Espera Señal de Entrada
    * Modo 3: Positivo. Espera a que la entrada tenga un valor positivo.
    * Modo 4: Negativo. Espera a que la entrada tenga un valor negativo.
 * *Q-* especifica el tiempo de espera en segundos. Si el tiempo se excede, el comando de espera se interrumpe, y la variable #5399 pasará a tener un 
-valor de -1. El valor de *Q-* es ignorado si el valor de *L-* es cero (comportamiento inmediato). Un valor de *Q-* de cero da error si el valor de *L-* no es cero.
+    valor de -1. El valor de *Q-* es ignorado si el valor de *L-* es cero (comportamiento inmediato). Un valor de *Q-* de cero da error si el valor de *L-* no es cero.
 * El modo 0 es el único permitido para entradas analógicas
 
 **Ejemplo de M66**::
@@ -3195,7 +3214,7 @@ entradas no son monitorizadas en tiempo real y por lo tanto no deben utilizarse 
 El número de I/O (entradas/salidas) puede ser incrementado cambiando el valor de *num_dio* o *num_aio* al cargar el controlador de movimiento.
 Para más información ver la sección de :ref:`Movimiento <refMotion>`.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    *M66* no funcionarán a no ser que se conecte el testigo adecuado *motion.digital-in-nn* o el *motion.analog-in-nn* en el archivo HAL a las entradas
@@ -3225,7 +3244,7 @@ manera a *62*-*63*.
 De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de 
  *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    *M67* no funcionarán a no ser que se conecte el testigo adecuado *motion.analog-out-nn* o el *motion.analog-in-nn* en el archivo HAL a las salidas
@@ -3250,7 +3269,7 @@ movimiento, y cancelarán el suavizado de trayectoria. *M68* funciona de igual m
 De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de 
  *num_dio* o *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    *M68* no funcionarán a no ser que se conecte el testigo adecuado *motion.analog-out-nn* o el *motion.analog-in-nn* en el archivo HAL a las salidas
@@ -3454,7 +3473,7 @@ M100-M199 Códigos M Definidos por el Usuario
 * *P-* número que pasa a archivo como primer parámetro
 * *Q-* número que pasa a archivo como segundo parámetro
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    Luego de crear un nuevo archivo *M1nn* debe reiniciar la Interfaz de Usuario para incorporar el archivo nuevo, en caso contrario el resultado será *Código M desconocido*
@@ -3463,7 +3482,7 @@ El programa externo *M100* a *M199* (sin extención y con M mayúscula) será ej
 hasta que finalice la ejecución del programa externo. Cualquier archivo ejecutable puede ser utilizado. El archivo debe etar ubicado en la dirección de búsqueda especificado en 
 el archivo de configuración .ini. Para más información ver la :ref:`Sección de Display <sectionDISPLAY>`.
 
-.. admonition: Precaución
+.. admonition:: Precaución
    :class: warning
 
    No utilice un procesador de texto enriquecido para crear o editar los archivos. Este tipo de procesador dejará código oculto que causará problemas. Utilice un procesador de 
@@ -3563,7 +3582,7 @@ Los números de los códigos O deben tener una numeración única para cada subr
    o100 endsub
 
 Comentarios
-----------
+-----------
 
 No se deben utilizar los comentarios en la misma línea que el código O debido a que el comportamiento puede cambiar en el futuro.
 
@@ -3571,12 +3590,12 @@ El comportamiento es indefinido si:
 
    * El mismo número se utiliza para más de un bloque
    * Se utilizan otras letras en la misma línea que la letra O
-   * Se utilizan comantarios en la misma línea que la letra O
+   * Se utilizan comentarios en la misma línea que la letra O
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
-   Utilizar la letra o minúscula hace más fácil diferenciar cuando hay un error de escritura. Por ejemplo o100 se diferencia má fácil
+   Utilizar la letra o minúscula hace más fácil diferenciar cuando hay un error de escritura. Por ejemplo o100 se diferencia más fácil
    que O100 (con O mayúscula) de 0100 (con cero)
 
 Subrutinas
@@ -3628,43 +3647,309 @@ Debido a que *1 2 3* son interpretados como el número 123, los parámetros debe
 
 **Ejemplo de llamada O-**
 
+::
 
+   o100 sub
+     (testear si el parámetro #2 es mayor que 5)
+     o110 if [#2 GT 5]
+       (retornar al inicio de subrutina si la condición se cumple)
+       o100 return
+     o110 endif
+       (esto se ejecuta solamente si el parámetro #2 no es mayor que 5)
+       (DEBUG, parameter 1 es [#1])
+       (DEBUG, parameter 3 es [#3])
+   o100 endsub
+   
+   o100 call [100] [2] [325]
 
+Los líneas que componen a las subrutinas no pueden estar anidadas. Además sólo pueden ser llamadas luego de que son definidas. Pueden ser llamadas desde otras 
+funciones y pueden ser llamarse a ellas mismas de manera recursiva si tiene sentido hacerlo. El máximo nivel de anidación es de 10.
 
-
-
-
-
+Las subrutinas pueden cambiar los valores de los parámetros arriba de #30 y esos cambios van a ser visibles en el código que llama a a la subrutina. También las 
+subrutinas pueden cambiar el valore de parámetros con nombre globales.
 
 
 Programas numerados con estilo Fanuc
 ------------------------------------
 
+Los programas numerados, tanto principal como subprogramas, los códigos de retorno *M98* y *M99, y sus respectivas diferencias semánticas son una alternativa
+a las subrutinas *rs274ngc* descripatas más arriba, provisto para compatibilidad con Fanuc y otros controladores de máquinas.
+
+Los programas numerados están permitidos por defecto, y pueden ser deshabilitados con la línea *DISABLE_FANUC_STYLE_SUB = 1* en la sección *[RS274NGC]* del
+archivo de configuración .ini.
+
+.. admonition:: Nota
+   :class: note
+
+   Las llamadas y definiciones de los programas numerados principales y subprogramas difiere del estándar *rs274ngc* tanto en sintáxis cómo en ejecución. Para
+   reducir las posibilidades de confución, el intepretador dará error si las definiciones de un estilo están mezcladas con el otro.
+
+**Ejemplo Simple de Subprograma Numerado**
+
+::
+
+   o1 (Example 1)    ; Programa principal 1, "Ejemplo 1"
+   M98 P100          ; Llamada a subprograma 100
+   M30               ; Fin de programa principal
+   
+   o100              ; Inicio de subprograma 100
+     G53 G0 X0 Y0 Z0 ; Movimiento rápido a origen de máquina
+   M99               ; Retorno desde subprograma 100
+
+*o1 (Título)*
+
+El bloque (línea) inicial del programa principal es opcional y le asigna el número 1. Algunos controladores considerar un comentario en paréntesis opcional que 
+representa el título del programa *Ejemplo 1* en este ejemplo, pero no tiene un sentido especial en el interpretador *rs274ngc*.
+
+*M98 P- <L\->*
+
+Llamada a un subprograma. La línea *M98 P100* es análoga a la sintáxis tradicional *o100 call*, pero puede ser utilizada solo para llamar a un subprograma numerado
+que se encuentre definido más adelante con *o100 ... M99*. El parámetro opcional *L-* especifica la cantidad de bucles a ejecutar.
+
+*M30*
+
+El programa principal debe estar terminado con *M02* o *M30* (o *M99*, ver más abajo).
+
+*O-* **Inicio de definición de subprograma**
+
+Marca el inicio de la defición de un subprograma numerado. El bloque *O100* es simialr a *o100 sub*, excepto que debe ser ubicado más adelante en el archivo que la
+línea de llamada *M98 P100*.
+
+*M99* **Retorno desde subrutina numerada**
+
+El bloque *M99* es análogo a la sintáxis *o100 endsub*, pero solo puede terminar un programa numerdao (*o100* en este ejemplo) y no puede terminar una subrutina que 
+empiece con la sintáxis *o100 sub*.
+
+La llamada a subprograma *M98* difiere de *rs274ngc* *O call* de las siguientes maneras:
+
+   * El subprograma numerado debe estar por debajo de la llamada en el archivo del programa. El interpretador dará error si el subprograma precede a la línea de llamada.
+   * Los parámetros *#1*, *#2*, *...*, *#30* son globales y accesibles en los subprogramas numerados, similarmente a los subprogramas numerados de más alto nivel en las 
+     llamadas tradicionales. Las modificaciones a estos parámetros dentro de un subprograma son modificaciones globales y serán persistentes al retorno desde el subprogramas.
+   * La llamada *M98* a subprograma no tiene valor de retorno.
+   * El bloque de la llamada a subprograma *M98* puede contener el parámetro opcional *L-* especificando la cantidad de bucles a ejecutar. Si no se especifica el parámetro
+     *L* el subprograma se ejecutará 1 vez (equivalente a *M98 L1*). Un comando *M98 L0* no ejecutarpa el subprograma.
+
+En casos poco comunes el código *M99* puede ser utilizado para terminar el programa principal, donde indica un programa sin final. Cuando el interpretador llega al *M99* en 
+el programa principal, empezará nuevamente en la primer línea del archivo. Un ejemplo de un programa sin fin puede ser un ciclo de entrada en calor; en donde se puede utilizar 
+la línea */M30* para parar el ciclo en algún punto cuando el operador esté listo.
+
+**Ejemplo Completo de Subprograma Numerado**
+
+::
+
+   O1                             ; Programa principal 1
+     #1 = 0
+     (PRINT,X MAIN BEGIN:  1=#1)
+     M98 P100 L5                  ; Llamada a subprograma 100
+     (PRINT,X MAIN END:  1=#1)
+   M30                            ; Fin de programa principal
+   
+   O100                           ; Subprograma 100
+     #1 = [#1 + 1]
+     M98 P200 L5                  ; Llamada a subprograma 200
+     (PRINT,>> O100:  #1)
+   M99                            ; Retorno desde subprograma 100
+   
+   O200                           ; Subprograma 200
+     #1 = [#1 + 0.01]
+     (PRINT,>>>> O200:  #1)
+   M99                            ; Retorno desde subprograma 200
+
+En este ejemplo, el parámetro *#1* es inicializado a 0. El subprograma *O100* es llamado 5 veces, en la que cada vez que se ejecuta llama a su vez 5 veces al subprograma *O200*, completando
+un total de 25 veces. 
+
+Notar que el parámetro #1 es global. Al final del programa principal luego de las modificaciones de los subprogramas *O100* y *O200* el valor del mismo será de *5.25*.
 
 Bucles
 ------
 
+Los bucles del tipo *while* pueden ser de dos tipos, los del tipo *while/endwhile* y los del tipo *do/while*. En ambos tipos la ejecución del bucle se termina cuando se llega a la condición 
+*while* es evaluada a *falso*. La diferencia entre ambos es cuándo sucede esto. En los bucles *do/while* primero se ejecutan los comandos en el cuerpo del bucle y luego se verifica la condición, en
+cambio en los bucles *while/endwhile* primero se verifica la condición y luego se ejecutan los comandos en el cuerpo del bucle.
+
+**Ejemplo de bucle Endwhile**
+
+::
+
+   (realizar un movimiento tipo diente de sierra)
+   G0 X1 Y0 (mover a posicion inicial)
+   #1 = 0 (asignar al parametro #1 el valor 0)
+   F25 (configurar la velocidad de avance)
+   o101 while [#1 LT 10]
+     G1 X0
+     G1 Y[#1/10] X1
+     #1 = [#1+1] (incrementar el parámetro #1)
+   o101 endwhile
+   M2 (fin de program)
+
+**Ejemplo de bucle Do While**
+
+::
+
+   #1 = 0 (asignar al parametro #1 el valor 0)
+   o100 do
+     (debug, parametro 1 = #1)
+     o110 if [#1 EQ 2]
+       #1 = 3 (asignar al parametro #1 el valor 3)
+       (msg, #1 fue asignado con valor de 3)
+       o100 continue (saltar a inicio del bucle)
+     o110 endif
+     (algún código acá)
+     #1 = [#1 + 1] (incrementar el parámetro #1)
+   o100 while [#1 LT 3]
+   (msg, Loop Terminado!)
+   M2
+
+Dentro del bucle *while*, el comando *O- break* se utiliza para salir del bucle inmediatamente, y el comando *O- continue* salta a la próxima evaluación de la condición *while*. Si resulta 
+en *verdadero* el bucle comienza nuevamente desde el inicio y si es *falso* la ejecución continúa fuera del bucle.
+
+
 Condicionales
 -------------
+
+El condicional *if* consiste en un grupo instrucciones con el mismo número *O-* que empizan con la instrucción *if* y terminan con la instrucción *endif*. Opcionalmente se pueden utilizar
+las instrucciones *elseif* o *else* entre la línea inicial *if* y la final *endif*.
+
+Si la condición de la expresión *if* se evalúa a *verdadero* se ejecuta el grupo de comandos que sigue del *if* hasta la siguiente línea condicional.
+
+Si la condición de la expresión *if* se evalúa a *falso* se evalúan las siguientes condiciones *elseif* en el orden que aparecen hasta que alguna de ellas sea *verdadera*. Si el condicional 
+*elseif* es *verdadero* se ejecuta el grupo de comandos que siguen al *elseif* hasta la siguiente línea condicional. Si ninguno de los *if* o *elseif* se evalúa *verdadero* entonces se 
+ejecutan los comandos que siguen al *else*. Cuando un condicional se evalúa a *verdadero* no se ejecutan bloques de los demás condicionales.
+
+**Ejemplo de If y Endif**
+
+::
+
+   (si el parametro #31 es igual a 3 definir S2000)
+   o101 if [#31 EQ 3]
+     S2000
+   o101 endif
+
+
+**Ejemplo de If Elseif Else y Endif**
+
+::
+
+   (si el parametro #2 es mayor a 5 definir F100)
+   o102 if [#2 GT 5]
+     F100
+   o102 elseif [#2 LT 2]
+   (else if -en caso contrario, si- el parametro #2 es menor a 2 definir F200)
+     F200
+   (else -en caso contrario- el parametro #2 está entre 2 y 5 definir F150)
+   o102 else
+     F150
+   o102 endif
+
+Varios condicionales pueden ser evaluados por *elseif* hasta que el grupo *else* sea finalmente ejecutado si es que todos los condicionales previos son *falsos*.
 
 Repetición
 ----------
 
-Indirección
------------
+El comando *repeat* ejecutará los comandos que se encuentren dentro de las líneas *repeat/endrepeat* la cantidad especificadas de veces. El ejemplo muestra cómo se puede mecanizar en una
+serie de movimientos empezando en la posición actual.
+
+**Ejemplo de Repeat**
+
+::
+
+   (Mecanizar en 5 diagonales)
+   G91 (Modo incremental)
+   o103 repeat [5]
+   ... (insertar còdigo de mecanizado acá)
+   G0 X1 Y1 (movimiento diagonal a la próxima posición)
+   o103 endrepeat
+   G90 (Modo Absoluto)
+
+Direccionamiento Indirecto
+--------------------------
+
+El número de comando *O-* puede estar dado por un parámetro o un cálculo.
+
+**Ejemplo de Direccionamiento Indirecto**
+
+::
+
+   o[#101+2] call
+
+**Calculando los valores de los Comandos O-**
+
+Para más información en el cálculo de los vaalores ver las siguientes secciones:
+
+* :ref:`Parámetros <refParameters>`
+* :ref:`Expresiones <refExpresions>`
+* :ref:`Opreadores Lógicos <refBinaryOps>`
+* :ref:`Funciones <refFunctions>`
+
 
 Llamado a Archivos
 ------------------
 
+Para llamar a una subrutina que se encuentra en un archivo separado, el nombre del archivo debe ser el mismo de la subrutina que se llama y debe incluir las líneas *sub* y *endsub*.
+El archivo debe estar en el directorio indicado en *PROGRAM_PREFIX* o por *SUBROUTINE_PATH* en el archivo de configuración .ini. El nombre del archivo puede incluir letras en
+minúscula, números, guión o guión bajo. Un archivo de una subrutina con nombre puede contener sólo la definición de una subrutina.
+
+**Ejemplo de Llamada a archivo con nombre**
+
+::
+
+   o<miarchivo> call
+
+**Ejemplo de Llamada a archivo con número**
+
+::
+
+   o123 call
+
+En el archivo llamado debe incluir las líneas *oxxx sub* y *endsub* y el archivo debe ser válido.
+
+**Ejemplo de Archivo llamado**
+
+::
+
+   (nombre de archivo miarchivo.ngc)
+   o<miarhivo> sub
+     (algo de código acá)
+   o<miarchivo> endsub
+   M2
+
+.. admonition:: Nota
+   :class: note
+
+   El nombre de archivo debe ser con minúsculas solamente por lo que el interpretador convierte <MiArchivo> en <miarchivo>. Más información sobre el directorio de búsqueda y opciones
+   para el directorio se encuentran en la sección de configuración INI.
+
+
 Valores de Retorno de Subrutinas
 --------------------------------
 
+Las subrutinas opcionalmente pueden retornar un valor a través de una expresión opcional en los comandos *endsub* o *return*.
+
+**Ejemplo de Retorno de un valor desde Subrutina**
+
+::
+
+   o123 return [#2 *5]
+   ...
+   o123 endsub [3 * 4]
+
+El valor de retorno de las subrutinas se guarda en el parámetro con nombre predeterminado *<_value>*, adicionalmente el parámetro predefinido *<_value_returned>* toma un 
+valor igual a 1 para indicar que ha retornado un valor. Ambos parámetros son globales y son borrados justo antes del llamado a la próxima subrutina.
 
 Errores
 -------
 
+Las siguientes situaciones pueden causar un mensaje de error y abortar la ejecución:
 
+   * No se define la línea *return* o *endsub* en una subrutina
+   * Se utiliza la expresión *repeat* en un lugar cualquiera
+   * Se utiliza la expresión *while* en un lugar cualquiera que no refiere a un *do*
+   * Se utiliza la expresión *if* en un lugar cualquiera
+   * Se utiliza la expresión *else*, *elseif* o *endif* que no refiere a un *if*
+   * Se utiliza la expresión *break* o *continue* que no refiere a un *while* o *do*
+   * Se utiliza la expresión *endrepeat* o *endwhile* que no refiere a un *while* o *repeat*
 
+Para hacer que estos errores no sean del tipo fatal, configure el bit *0X20* en la sección *[RS274NGC] FEATURE=* en la máscara de la opción ini.
 
 
 .. _otrosCodigos:
@@ -3709,13 +3994,13 @@ El cambio de herramienta no se lleva a cabo hasta que se ejecuta el comando *M6*
 Está permitido que el comando *T* aparezca más de una vez sin ejecutar el cambio de herramienta. Sólo la última herramienta seleccionada tendrá efecto el ejecutar el 
 cambo de herramienta.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    Cuando el controlador se configura con una cambiador de herramientas no aleatorio (ver *RANDOM_TOOLCHANGER* en la :ref:`sección EMCIO <sectionEMCIO>`), *T0* 
    tiene un efecto especial: ninguna herramienta se selecciona. Esto es útil si se quiere que el husillo quede vacío luego de un cambio de herramienta.
 
-.. admonition: Nota
+.. admonition:: Nota
    :class: note
 
    Cuando el controlador se configura con una cambiador de herramientas aleatorio (ver *RANDOM_TOOLCHANGER* en la :ref:`sección EMCIO <sectionEMCIO>`), *T0* 
