@@ -2,7 +2,7 @@
 
 # -- Project information
 
-project = 'Manual de Ususario Teknix CNC'
+project = 'Manual de Usuario Teknix CNC'
 copyright = '2022, Teknix Arg.'
 author = 'Teknix Arg'
 
