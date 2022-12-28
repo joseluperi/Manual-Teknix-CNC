@@ -225,9 +225,9 @@ los paréntesis () o estar al final de la línea utilizando el signo de punto co
 Los comentarios pueden utilizarse entre los términos pero no entre un término y su correspondiente parámetro.
 Por ejemplo S0, S100 (determinar velocidad) F200 (velocidad) es válido, pero S(velocidad)100 F(velocidad) 200 no es correcto.
 
-Hay algunos comentarios activos que **parecen** comentarios pero causan alguna acción, como (debug,..) o (print,..). Si hay varios comentarios en una línea, sólo el último comentario
-será interpretado según estas reglas. Por lo tanto un comentario normal seguido de un comentario activo tendrá el efecto de desactivar el comentario activo. For ejemplo (foo)(debug,#1)
-mostrará el valor del parámetro #1, sin embargo (debug,#1)(foo) no lo hará.
+Hay algunos comentarios activos que **parecen** comentarios pero causan alguna acción, como *(debug,..)* o *(print,..)*. Si hay varios comentarios en una línea, sólo el último comentario
+será interpretado según estas reglas. Por lo tanto un comentario normal seguido de un comentario activo tendrá el efecto de desactivar el comentario activo. For ejemplo *(foo)(debug,#1)*
+mostrará el valor del parámetro #1, sin embargo *(debug,#1)(foo)* no lo hará.
 
 Un comentario definido por un punto coma es por definición el último comentario en esa línea y será interpretado con la sintáxis de comentarios activos.
 
@@ -244,8 +244,8 @@ Una funcionalidad útil para almacenar información de eventos ocurridos es grab
 Mensajes
 --------
 
-Es posible mostrar un mensaje al operador desde el código con la función MSG(), por ejemplo MSG('Programa en ejecución') mostrará 'Programa en ejecución' al usuario. Si se requiere
-una confirmación del operador para avanzar se puede utilizar el comando POPUP() que mostará el mensaje al operador en una ventana emergente y bloqueará la ejecución del programa
+Es posible mostrar un mensaje al operador desde el código con la función *MSG()*, por ejemplo *MSG('Programa en ejecución')* mostrará 'Programa en ejecución' al usuario. Si se requiere
+una confirmación del operador para avanzar se puede utilizar el comando *POPUP()* que mostará el mensaje al operador en una ventana emergente y bloqueará la ejecución del programa
 hasta que el operador confirme.
 
 Imprimir Mensajes
@@ -263,7 +263,7 @@ Mensajes de Depuración (Debug)
 Valores en Mensajes
 -------------------
 
-En las funcionalidades DEBUG, PRINT y LOG, se pueden escribir los valores de los parámetros en el mensaje.
+En las funcionalidades *DEBUG*, *PRINT* y *LOG*, se pueden escribir los valores de los parámetros en el mensaje.
 
 Por ejemplo, para imprimir el valor de una variabla global a la consola.
 
@@ -307,7 +307,7 @@ Parámetros
 
    Hay tres tipos de apariencia sintáctica:
    
-   * Parámetro Numerad0  #4711
+   * Parámetro Numerado  #4711
    * Parámetro por nombre, local  #<valorlocal>
    * Parámetro por nombre, global  #<_valorglobal>
 
@@ -353,24 +353,121 @@ Parámetros numerados
 
 **Persistencia de parámetros numerados**
 
+Los parámetros numerados se especifican con el símbolo # seguido de un número entero entre 1 y 5602. El parámetro es referido por su número y su valor es cualquier número
+guardado en ese parámetro.
+Un valor se guarda en un parámetro con el signo igual =, por ejemplo::
+
+   #3 = 15 (guarda el número 15 en el parámetro 3)
+
+El guardado del valor en el parámetro no tiene efecto hasta que todos los valores de los parámetros en la misma línea se han evaluada. Por ejemplo, si el parámetro
+3 tenía un valor de 15 y se interpreta la línea *#3=6 G1 X#3* se realizará un movimiento lineal a un punto con X igual a 15 y luego el valor del parámetro 3 se cambiará 
+a 6.
+
+El símbolo # tiene precedencia respeto a otras operaciones, por ejemplo, *#1+2* se intepreta como el número del parámetro 1 más 2 unidades. Para especificar el valor de
+un parámetro cuyo número es el resultado de una operación se debe utilizar corchetes, por ejemplo *#[1+2]* hace referencia al valor del parámetro 3. El símbolo # puede 
+estar repetido, por ejemplo *##2* significa el valor del parámetro cuyo número es el valor del parámetro 2.
+
+* *31-5000* Parámetros de usuario de códigos G. Estos parámetros son globales en el código G y están disponibles para su uso. Volátiles.
+
+* *5061-5069* Coordenadas de un procedimiento de sondeo G38 (X, Y, Z, A, B, C, U, V & W). Las coordenadas están en el sistema en el que se ejecutó G38. Volátiles.
+
+* *5070* Resultado de procedimiento G38: 1 si fue exitoso, 0 si la sonda no se accionó. Utilizado con G38.3 y G38.5. Volátil.
+
+* *5161-5169* Origen G28 de X, Y, Z, A, B, C, U, V & W. Persistentes.
+
+* *5181-5189* Origen G30 de X, Y, Z, A, B, C, U, V & W. Persistentes.
+
+* *5210* 1 si está activo el decalaje de G52 o G92, 0 de lo contrario. Volátil por defecto; persistente si DISABLE_G92_PERSISTENCE = 1 en la sección [RS274NGC] del archivo .ini.
+
+* *5211-5219* Decalaje compartido de G52 y G92 para X, Y, Z, A, B, C, U, V & W. Volátil por defecto; persistente si  DISABLE_G92_PERSISTENCE = 1 en la sección [RS274NGC] del archivo .ini..
+
+* *5220* Número de sistema coordenado 1 - 9 para G54 - G59.3. Persistente.
+
+* *5221-5230* Sistema coordenado 1, G54 para X, Y, Z, A, B, C, U, V, W & R. R denotes the XY rotation angle around the Z axis. Persistent.
+
+* *5241-5250* Sistema coordenado 2, G55 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5261-5270* Sistema coordenado  3, G56 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5281-5290* Sistema coordenado  4, G57 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5301-5310* Sistema coordenado  5, G58 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5321-5330* Sistema coordenado  6, G59 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5341-5350* Sistema coordenado  7, G59.1 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5361-5370* Sistema coordenado  8, G59.2 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5381-5390* Sistema coordenado  9, G59.3 para X, Y, Z, A, B, C, U, V, W & R. Persistente.
+
+* *5399* Resultado de *M66* - Verificar o esperar a input. Volátil.
+
+* *5400* Número de herramienta. Volátil.
+
+* *5401-5409* Decalajes de herramientas para X, Y, Z, A, B, C, U, V & W. Volátil.
+
+* *5410* Diámetro de herramienta. Volátil.
+
+* *5411* Ángulo frontal de herramienta. Volátil.
+
+* *5412* Ángulo trasero de herramienta. Volátil.
+
+* *5413* Orientación de herramienta. Volátil.
+
+* *5420-5428* Posición relativa actual en el sistema coordinado activo incluyendo todos los decalajes y las unidades activas para  X, Y, Z, A, B, C, U, V & W, Volátil.
+
+* *5599* Bandera de control de salidas para depuración (DEBUG,). 1 = activo, 0 = inactivo; defecto = 1. Volátil.
+
+* *5600* Indicador de falla de cambiador de herramienta. Utilizado con el componente iocontrol-v2. 1: cambiador en falla, 0: normal. Volátil.
+
+* *5601* Indicador de falla de cambiador de herramienta. Utilizado con el componente iocontrol-v2. Refleja el valor de la razón de falla del cambiador del tesitgo (pin) de HAL. Volátil.
 
 
 Parámetros de Subrutinas
 ------------------------
 
+Los parámetros en el rango *1-30* son parámetros locales de llamadas a subrutinas. Estos parámetros son locales a la subrutina y son volátiles.
+Para más información ver la sección de :ref:`códigos O <refOcodes>`.
 
 Parámetros con Nombre
 ---------------------
 
+Los parámetros con nombre funcionan de la misma manera que los parámetros numerados pero son más fáciles de leer. Todos los nombres de parámetros son convertidos
+a minúscula y se les quitan los espacios y tabulaciones, por lo que *<parametro>* y *<P a R am	etro>* refieren al mismo parámetro. Los nombres de los parámetros deben ser
+encerados por los símbolos *< >*.
+*#<parametro con nombre> es un parámetro con nombre local. Por defecto un parámetro con nombre es local al ámbito (scope) en el que es asignado. No se puede acceder a un 
+parámetro con nombre fuera de la subrutina. Esto significa que dos subrutinas pueden utilizar cada una un parámetro con el mismo nombre sin la posibilidad de que una 
+subrutina sobreescriba el valor del parámetro de la otra.
+#<_parámetro con nombre global> es un parámetro con nombre global. Se definen utilizando el símbolo *_* como primer caracter. Es accesible desde subrutinas y su valor puede 
+ser cambiado desde las subrutina que sea accesible desde la función que las llama. 
+Desde el punto de vista del ámbito se comportan igual a los parámetros numerados. No se guardan en archivos.
 
 **Declaración de parámetros con nombre globales**
 
+::
+
+   #<_diam_fresa> = 0.049
 
 
 **Referencia a parámetros globales previamente definidos**
 
+::
+
+   #<_radio_fresa> = [#<_diam_fresa>/2.0]
 
 **Parámetros mixtos (literales y con nombre)**
+
+::
+
+   o100 call [0.0] [0.0] [#<_desbaste_interno>-#<_diam_fresa>] [#<_profundidadZ>] [#<_velocidadDeAvance>]
+
+Los parámetros con nombre se crean cunado se les asigna un valor por primera vez.
+Se produce un error si se utiliza un parámetro con nombre que no existe dentro de una expresión, o se lo utiliza a la derecha de la asignación.
+Al imprimir el valor de un parámetro con nombre inexistente con *(DEBUG, <parametro_inexistente>* se mostrará el s+imbolo *#*.
+Los parámetros globales, como así también los parámetros locales asignados en el nivel global, seguirán existinendo aún cunado el programa finaliza,
+y sus valores estarán disponibles cuando el programa se ejecute nuevamente.
+La función *EXIST* se puede utilizar para conocer si existe un parámetro con determinado nombre.
 
 
 .. _refNamedPredefParam:
@@ -378,26 +475,252 @@ Parámetros con Nombre
 Parámetros con Nombre Predefinidos
 ----------------------------------
 
+Los siguientes parámetros globales de solo lectura están disponibles a los efectos de acceder al estado interno del controlador. Pueden ser utilizados 
+en cualquier expresión, por ejemplo, controlar el flujo de la ejecución de un programa.
+
+* *#<_line>* Al correr un archivo de código G retorna el número de línea actual.
+
+* *#<_motion_mode>* Retorna el estado actual del modo de movimiento:
+
++---------------------+--------------------------+
+| Modo de movimiento  | Valor de retorno         |
++---------------------+--------------------------+
+|   G1                |          10              |
++---------------------+--------------------------+
+|   G2                |          20              |
++---------------------+--------------------------+
+|   G3                |          30              |
++---------------------+--------------------------+
+|   G33               |          330             |
++---------------------+--------------------------+
+|   G38.2             |          382             |
++---------------------+--------------------------+
+|   G38.3             |          383             |
++---------------------+--------------------------+
+|   G38.4             |          384             |
++---------------------+--------------------------+
+|   G38.5             |          385             |
++---------------------+--------------------------+
+|   G5.2              |          52              |
++---------------------+--------------------------+
+|   G73               |          730             |
++---------------------+--------------------------+
+|   G76               |          760             |
++---------------------+--------------------------+
+|   G80               |          800             |
++---------------------+--------------------------+
+|   G81               |          810             |
++---------------------+--------------------------+
+|   G82               |          820             |
++---------------------+--------------------------+
+|   G83               |          830             |
++---------------------+--------------------------+
+|   G84               |          840             |
++---------------------+--------------------------+
+|   G85               |          850             |
++---------------------+--------------------------+
+|   G86               |          860             |
++---------------------+--------------------------+
+|   G87               |          870             |
++---------------------+--------------------------+
+|   G88               |          880             |
++---------------------+--------------------------+
+|   G89               |          890             |
++---------------------+--------------------------+
+
+* *#<_plane>* retorna el valor designado al plano de trabajo activo:
+
++---------------------+--------------------------+
+|   Plano de trabajo  | Valor de retorno         |
++---------------------+--------------------------+
+|   G17               |          170             |
++---------------------+--------------------------+
+|   G18               |          180             |
++---------------------+--------------------------+
+|   G19               |          190             |
++---------------------+--------------------------+
+|   G17.1             |          171             |
++---------------------+--------------------------+
+|   G18.1             |          181             |
++---------------------+--------------------------+
+|   G19.1             |          191             |
++---------------------+--------------------------+
+
+* *#<_ccomp>* Retorna el estado de la compensación de herramienta:
+
++---------------------+--------------------------+
+|   Modo              | Valor de retorno         |
++---------------------+--------------------------+
+|   G40               |          400             |
++---------------------+--------------------------+
+|   G41               |          410             |
++---------------------+--------------------------+
+|   G41.1             |          411             |
++---------------------+--------------------------+
+|   G42               |          420             |
++---------------------+--------------------------+
+|   G42.1             |          421             |
++---------------------+--------------------------+
+
+* *#<_metric>* Retorna 1 si *G21* está activo, sino 0.
+
+* *#<_imperial>* Retorna 1 if *G20* está activo, sino 0.
+
+* *#<_absolute>* Retorna 1 if *G90* está activo, sino 0.
+
+* *#<_incremental>* Retorna 1 if *G91* está activo, sino 0.
+
+* *#<_inverse_time> *Retorna 1 si el modo de avance inverso *G93* está activo, sino 0.
+
+* *#<_units_per_minute>* Retorna 1 si el modo de avance en unidades/minuto *G94* está activo, sino 0.
+
+* *#<_units_per_rev>* Retorna 1 si el modo de unidades/revolucion *G95* está activo, sino 0.
+
+* *#<_coord_system>* Retorna a un número de punto flotante del sistema coordenado actual *G54..G59.3*. Por ejemplo si el sistema activo es *G55* retorna un valor de 550.00000 y si es *G59.1* el valor de retorno es 591.000000.
+
+
++---------------------+--------------------------+
+|   Modo              | Valor de retorno         |
++---------------------+--------------------------+
+|   G54               |          540             |
++---------------------+--------------------------+
+|   G55               |          550             |
++---------------------+--------------------------+
+|   G56               |          561             |
++---------------------+--------------------------+
+|   G57               |          570             |
++---------------------+--------------------------+
+|   G58               |          580             |
++---------------------+--------------------------+
+|   G59               |          590             |
++---------------------+--------------------------+
+|   G59.1             |          591             |
++---------------------+--------------------------+
+|   G59.2             |          592             |
++---------------------+--------------------------+
+|   G59.3             |          593             |
++---------------------+--------------------------+
+
+* *#<_tool_offset>* Retorna 1 si el decalaje de herraimienta está activo *G43*, sino 0.
+
+* *#<_retract_r_plane>* Retorna 1 si *G98* está definido, sino 0.
+
+* *#<_retract_old_z>* Retorna 1 si *G99* está definido, sino 0.
 
 
 Parámetros de Sistema
 ---------------------
-   
-   
-   
-   
-   
-   
-   
+
+
+* *#<_spindle_rpm_mode>* Retorna 1 si el modo de husillo etá en RPM *G97*, sino 0.
+
+* *#<_spindle_css_mode>* Retorna 1 si el modo de velocidad superficial constante *G96* está activo, sino 0.
+
+* *#<_ijk_absolute_mode>* Retorna 1 si el modo de distancia absoluta para arcos *G90.1* está activo, sino 0.
+
+* *#<_lathe_diameter_mode>* Retorna 1 si la configuración de torno y el modo diametral *G7* está activo, sino 0.
+
+* *#<_lathe_radius_mode>* Retorna 1 si la configuración de torno y el modo radial *G8* está activo, sino 0.
+
+* *#<_spindle_on>* Retorna 1 si el husillo está girando *M3* o *M4*, sino 0.
+
+* *#<_spindle_cw>* Retorna 1 si la dirección de giro del husillo es horario *M3*, sino 0.
+
+* *#<_mist>* Retorna 1 si la bomba de refrigerante de niebla *M7* está prendido.
+
+* *#<_flood>* Retorna 1 si la bomba de refrigerante líquido *M8* está prendido.
+
+* *#<_speed_override>* Retorna 1 si el override de velocidad de husillo *M48* o *M51 P1* está activo, sino 0.
+
+* *#<_feed_override>* Retorna 1 si el override de velocidad de avance *M48* or *M50 P1* está activo, sino 0.
+
+* *#<_adaptive_feed>* Retorna 1 si el modo de avance adaptativo *M52* or *M52 P1* está activo, sino 0.
+
+* *#<_feed_hold>* Retorna 1 si el interruptor de avance está activo *M53 P1*, sino 0.
+
+* *#<_feed>* Retorna el valor configurado de *F*, no la velocidad de avance real.
+
+* *#<_rpm>* Retorna el valor configurado de *S*, no la velocidad de husillo real.
+
+* *#<_x>* Retorna la coordenada relativa del eje X incluyendo todos los decalajes. Al igual que #5420.
+
+* *#<_y>* Retorna la coordenada relativa del eje Y incluyendo todos los decalajes. Al igual que #5421.
+
+* *#<_z>* Retorna la coordenada relativa del eje Z incluyendo todos los decalajes. Al igual que #5422.
+
+* *#<_a>* Retorna la coordenada relativa del eje A incluyendo todos los decalajes. Al igual que #5423.
+
+* *#<_b>* Retorna la coordenada relativa del eje B incluyendo todos los decalajes. Al igual que #5424.
+
+* *#<_c>* Retorna la coordenada relativa del eje C incluyendo todos los decalajes. Al igual que #5425.
+
+* *#<_u>* Retorna la coordenada relativa del eje U incluyendo todos los decalajes. Al igual que #5426.
+
+* *#<_v>* Retorna la coordenada relativa del eje V incluyendo todos los decalajes. Al igual que #5427.
+
+* *#<_w>* Retorna la coordenada relativa del eje W incluyendo todos los decalajes. Al igual que #5428.
+
+* *#<_current_tool>* Retorna el numero de herramienta actual en el husillo. Al igual que #5400.
+
+* *#<_current_pocket>* Retorna el lugar de guardado de la herramienta actual.
+
+* *#<_selected_tool>* Retorna el número de la herramienta seleccionada luego de un código *T*. Valor por defecto -1.
+
+* *#<_selected_pocket>* Retorna el lugar de guardado de la herramietna seleccionada luego de un código *T*. Valor por default -1.
+
+* *#<_value>* Retorna el valor de retorno del último *código-O* o *endsub*. Valor por default 0 si no se definió. Inicializada a 0 en inicio de programa.
+
+* *#<_value_returned>* 1.0 if the last O-word return or endsub returned a value, 0 otherwise. Cleared by the next O-word call.
+
+* *#<_task>* - 1.0 si la instancia del interpretador es parte de una tarea de mecanizado, 0.0 de lo contrario.
+
+* *#<_call_level>* Nivel actual de los procedimientos de *códiog-O*. Para depuración.
+
+* *#<_remap_level>* Nivel actual de remapeo del stack. Cada remapeo de un bloque agrega un nivel al stack. Para depuración.
+
+
 Testigos de HAL y valores INI
 -----------------------------
-   
-   
-   
-   
-   
-   
-   
+
+Si el archivo de configuración .ini está configurado de esta forma, el código G tendrá acceso a los valores de entrada del archivo .ini y al valor de los testigos
+del HAL (Capa de abstraccion de Hardware).
+
+*#<_ini[sección]nombre>* Returna el valor del ítem correspondiente del archivo de configuración .ini. Por ejemplo, si el archivo .ini tiene esta definición::
+
+   [SETUP]
+   XPOS = 3.145
+   YPOS = 2.718
+
+Podrá referir al parámetro *#<_ini[setup]xpos>* y al *#<_ini[setup]ypos>* en el código g.
+
+La función *EXISTS* puede ser utilizada para verificar la existencia de una definición en el archivo .ini::
+
+   o100 if [EXISTS[#<_ini[setup]xpos>]]
+     (debug, [setup]xpos exists: #<_ini[setup]xpos>)
+   o100 else
+     (debug, [setup]xpos does not exist)
+   o100 endif
+
+El valor es leído desde el archivo .ini una sola vez y guardados por el interpretador. Estos valores son solo lectura, si se intenta asignar un valor resulta en error.
+Los nombres no diferencian minúsculas/maypusculas, son convertidos a mayúsculas al consultar el archivo .ini.
+
+* *#<_hal[Hal item]>* Permite al código G leer los valores de los testigos (pins) del HAL. El acceso mediante variables es solo lectura, la única forma de modificar las definiciones del HAL desde el código G se restringe a los códigos *M62-M65*, *M67*, *M68* y los códigos definidos por usuario *M100-M199*. Notar que el valor leído no se actualizará en tiempo real, típicamente se leerá el valor que existía cuando se inició la ejecución del código G. Es posible acceder al valor actualizado al forzar un valor con un comando *M66* modificado, *M66E0L0*.
+
+Ejemplo::
+
+   (debug, #<_hal[motion-controller.time]>)
+
+Accede a los ítems del HAL como sólo lectura. Actualmente se puede acceder a los valores del HAL definidos en minúscula.
+
+Se puede utilizar el comando *EXISTS* para verificar la existencia de un ítem de HAL::
+
+   o100 if [EXISTS[#<_hal[motion-controller.time]>]]
+     (debug, [motion-controller.time] exists: #<_hal[motion-controller.time]>)
+   o100 else
+     (debug, [motion-controller.time] does not exist)
+   o100 endif
+
+
 .. _refExpresions:
 
 Expresiones
@@ -896,24 +1219,24 @@ Se puede definir la posición del centro en coordenadas relativas o absolutas:
    **Plano XY (G17)**
 
    ::
-
+   
       G2 o G3 <X- Y- Z- I- J- P->
-
-      * I- posición en X del centro
-      * J- posición en Y del centro
-      * Z- componente de helicoide
-      * P- número de vueltas
-
+   
+   * I- posición en X del centro
+   * J- posición en Y del centro
+   * Z- componente de helicoide
+   * P- número de vueltas
+   
    **Plano XZ (G18)**
-
+   
    ::
-
+   
       G2 o G3 <X- Z- Y- I- K- P->
-
-      * I- posición en X del centro
-      * K- posición en Z del centro
-      * Y- componente de helicoide
-      * P- número de vueltas
+   
+   * I- posición en X del centro
+   * K- posición en Z del centro
+   * Y- componente de helicoide
+   * P- número de vueltas
 
    **Plano YZ (G19)**
 
@@ -921,25 +1244,25 @@ Se puede definir la posición del centro en coordenadas relativas o absolutas:
 
       G2 o G3 <Y- Z- X- J- J- P->
 
-      * I- posición en Y del centro
-      * K- posición en Z del centro
-      * X- componente de helicoide
-      * P- número de vueltas
+   * I- posición en Y del centro
+   * K- posición en Z del centro
+   * X- componente de helicoide
+   * P- número de vueltas
 
-   Se produce un error si:
+Se produce un error si:
 
-      * No se ha definido la velocidad de avance
-      * No se definió la posición del centro
-      * Cuando el arco es proyectado en el plano de trabajo, la distancia desde la posición inicial al centro y 
-        la distancia desde el punto final al centro difieren más de 0.5 mm o 0.1% del radio.
+   * No se ha definido la velocidad de avance
+   * No se definió la posición del centro
+   * Cuando el arco es proyectado en el plano de trabajo, la distancia desde la posición inicial al centro y 
+     la distancia desde el punto final al centro difieren más de 0.5 mm o 0.1% del radio.
 
-   El error *El radio al final difiere del radio al inicio* refiere a:
+El error *El radio al final difiere del radio al inicio* refiere a:
 
-      * *Inicio* - la posición inicial
-      * *Centro* - la posición del centro calculadas utilizando las letras i, j o k
-      * *Fin* - el punto final programado
-      * *r1* - radio desde el punto inicial al centro
-      * *r2* - radio desde el punto final al centro
+   * *Inicio* - la posición inicial
+   * *Centro* - la posición del centro calculadas utilizando las letras i, j o k
+   * *Fin* - el punto final programado
+   * *r1* - radio desde el punto inicial al centro
+   * *r2* - radio desde el punto final al centro
 
    **Ejemplos de Centro y punto final**
 
@@ -989,7 +1312,7 @@ Se puede definir la posición del centro en coordenadas relativas o absolutas:
 
       G2 o G3 <X- Y- Z-> R- <P->
 
-      * R- radio del círculo
+   * R- radio del círculo
 
 No es buena práctica utilizar este tipo de definición - radio y punto final - para describir arcos que sean similares a un círculo o a un semicírculo debido a
 que pequeños cambios en la ubicación del punto final producen cambios muchos más grandes en la ubicación del centro del círculo. El efecto de magnificación
@@ -1873,6 +2196,7 @@ G53 Posición en Sistema de Coordenadas de Máquina
 -------------------------------------------------
 
 ::
+
    G53 ejes
 
 *G53* realiza un movimiento lineal referido al sistema de coordenadas de la máquina en la misma línea en que se definen las coordenadas del 
@@ -1882,6 +2206,7 @@ Por ejemplo, *G53 G0 X0 Y0 Z0* provocará un movimiento al origen de coordenadas
 coordenadas con decalaje activo.
 
 ::
+
    G53 G0 X0 Y0 Z0 (movimiento lineal rápido al origen de máquina)
    G53 X2 (movimiento lineal rápido a la coordenada absoluta X2)
 
@@ -1958,6 +2283,7 @@ G64 Suavizado de Trayectoria
 ----------------------------
 
 ::
+
    G64 <P- <Q->>
 
 * *P-* tolerancia del suavizado de trayectoria
@@ -1966,10 +2292,7 @@ G64 Suavizado de Trayectoria
 El comando *G64*, sin parámetros *P* ni *Q*, realizará el movimiento con la velocidad más alta posible, sin considerar cuanto se
 aleja el movimiento del punto programado.
 
-* *G64* P- <Q-> - realizará los movimiento con una trayectoria suavizado con tolerancia, es decir que el movimiento entre tramos
-   diferentes no se detendrá, sino que la trayectoria se suaviza en torno al punto intermedio, y la velocidad en esa transcición será
-   la más alta posible sujeta a las restricciones que le imponen las tolerancias utilizadas. La velocidad especificada será reducida
-   si es necesario para mantener las tolerancias especificadas. 
+* *G64* P- <Q-> - realizará los movimiento con una trayectoria suavizado con tolerancia, es decir que el movimiento entre tramos diferentes no se detendrá, sino que la trayectoria se suaviza en torno al punto intermedio, y la velocidad en esa transcición será la más alta posible sujeta a las restricciones que le imponen las tolerancias utilizadas. La velocidad especificada será reducida si es necesario para mantener las tolerancias especificadas. 
 
 La tolerancia *P* indica la máxima desviación posible de la trayectoria en el entorno del punto intermedio respecto a la geometría 
 definida por los comandos de movimiento. Cuando se especifica la tolerancia *P* es posible definir adicionalmente el parámetro de 
@@ -2006,16 +2329,18 @@ G73 Ciclo de Perforado con Ruptura de Viruta
 El comando *G73* produce un ciclo de perforado o fresado con ruptura de viruta. Este ciclo toma el valor de *Q-* que representa el incremento 
 de la posición a lo largo del eje Z.
 
-# Movimiento preliminar
+#. Movimiento preliminar
+
    * Si la posición en el eje Z es menor al valor de *R-*, el eje Z realiza un movimiento lineal rápido para tomar el valor de *R-*
+
    * Desplazamiento al valor de las coordenadas X e Y
 
-# Desplazamiento en el eje Z a la velocidad de avance actual hacia abajo, por el valor definido por *Q-* o a la posición *Z-*, el de menor profundidad
-# Desplazamiento corto rápido hacia arriba
-# Repetición de los pasos 2 y 3 hasta que se logra la posición Z en el paso 2
-# Desplazamiento rápido en Z a la posición *R-*
+#. Desplazamiento en el eje Z a la velocidad de avance actual hacia abajo, por el valor definido por *Q-* o a la posición *Z-*, el de menor profundidad
+#. Desplazamiento corto rápido hacia arriba
+#. Repetición de los pasos 2 y 3 hasta que se logra la posición Z en el paso 2
+#. Desplazamiento rápido en Z a la posición *R-*
 
-Da error si::
+Da error si:
 
    * El número *Q* es negativo o nulo
    * El número *R* no se especifica
@@ -2035,13 +2360,13 @@ dirección axial. Al llegar al final del roscado ejecuta una espera.
 
 La secuencia de movimientos es la siguiente:
 
-   # Movmiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Anula overrides de velocidad de husillo y velocidad de avance
-   # Frena el husillo seleccionado, definido por el parámetro *$*
-   # Activa la rotación del husillo en el sentido horario
-   # Espera por *P* segundos
-   # Mueve el eje Z a la velocidad de avance actual a la posición de despeje
-   # Activa la velocidad de husillo y velocidad de avance a los valores previos
+   #. Movmiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Anula overrides de velocidad de husillo y velocidad de avance
+   #. Frena el husillo seleccionado, definido por el parámetro *$*
+   #. Activa la rotación del husillo en el sentido horario
+   #. Espera por *P* segundos
+   #. Mueve el eje Z a la velocidad de avance actual a la posición de despeje
+   #. Activa la velocidad de husillo y velocidad de avance a los valores previos
 
 El paso de la rosca resulta del valor de la velocidad de avance F dividido la velocidad de rotación del husillo S. 
 Por ejemplo con valores S100 y F125 daría un paso de 1.25 mm por revolución.
@@ -2070,30 +2395,18 @@ Las posiciones se definen relativas una la línea de referencia definida por la 
    Cuando el modo diametral está activo *G7* los valores de *I*, *J* y *K* son medidas de diámetros. Cuando el modo radial está activo *G8* los valores de *I*, *J* 
    y *K* son medidas de radios. 
 
-* *I-* posición relativa de la cresta de los filetes de la rosca respecto a la línea de referencia. Para roscas externas se utilizan valores negativos 
-   mientras que para roscas internas se utilizan valores positivos.
-* *J-* profundidad de corte inicial, con valor positivo. El primer corte del roscado se ubicará a una distancia *J* 
-   de la posición de la cresta de los filetes.
-* *K-* profundidad del filete de la rosca, con valor positivo. La posición de corte final del roscado se ubicará a una distancia *J* de la posición de la 
-   cresta de los filetes.
+* *I-* posición relativa de la cresta de los filetes de la rosca respecto a la línea de referencia. Para roscas externas se utilizan valores negativos mientras que para roscas internas se utilizan valores positivos.
+* *J-* profundidad de corte inicial, con valor positivo. El primer corte del roscado se ubicará a una distancia *J* de la posición de la cresta de los filetes.
+* *K-* profundidad del filete de la rosca, con valor positivo. La posición de corte final del roscado se ubicará a una distancia *J* de la posición de la cresta de los filetes.
 
    **Especificaciones Opcionales**
 
-* *$-* número de husillo con el que se sincronizará el movimiento (por defecto 0). Por ejemplo si se utiliza *$1* el movimiento programado empezará cuando se 
-    active el *splindel.1.index-enable* y procederá en sincronía con el valor *spindle.1.revs*.
-* *R-* factor de reducción de profundidad. *R1.0* define profundidades de corte constantes en las sucesivas pasadas. *R2.0* se utiliza para que el área de corte sea 
-    constante. Valores entre 1.0 y 2.0 implican profundidades decrecientes pero áreas crecientes. Valores mayores a 2.0 implican áreas decrecientes. Tenga en cuenta que 
-    valores de reducción altos causarán una gran cantidad de pasadas.
-* *Q-* ángulo de deslizamiento compuesto en grados, describe la dirección de avance relativo entre sucesivas pasadas respecto a la línea de referencia. Se utiliza 
-    para que un un lado de la herramienta remueva más material que el otro. Un valor de *Q* positivo causa que el lado de ataque corte más material. Los valores que
-    típicamnete se utilizan son de 29 a 30.
-* *H-* número de pasadas de repaso adicionales. Es la cantidad de pasadas en la posición final para repaso de la rosca, si no se desean pasadas adicionales de puede 
-    programar *H0*.
-* *E-* distancia a lo largo de la línea de referencia utilizada para la entrada y/o salida en ángulo. El ángulo será tal que la última pasada retrocede la profundidad 
-    del filete sobre la distancia definida por *E*. *E0.2* dará un ángulo para los primeros/últimos 0.2 unidades de longitud a lo largo de la rosca. Para un ángulo de 
-    45 grados programe la entrada/salida con valores iguales de *E* y *K*.
-* *L-* especifica cuales extremos tendrán ángulo de entrada/salida. Utilice *L0* para rosca sin entrada/salida en ángulo valor por defecto), *L1* para ángulo de 
-    entrada, *L2* para ángulo de salida y *L3* para ángulo de entrada y de salida.
+* *$-* número de husillo con el que se sincronizará el movimiento (por defecto 0). Por ejemplo si se utiliza *$1* el movimiento programado empezará cuando se active el *splindel.1.index-enable* y procederá en sincronía con el valor *spindle.1.revs*.
+* *R-* factor de reducción de profundidad. *R1.0* define profundidades de corte constantes en las sucesivas pasadas. *R2.0* se utiliza para que el área de corte sea constante. Valores entre 1.0 y 2.0 implican profundidades decrecientes pero áreas crecientes. Valores mayores a 2.0 implican áreas decrecientes. Tenga en cuenta que valores de reducción altos causarán una gran cantidad de pasadas.
+* *Q-* ángulo de deslizamiento compuesto en grados, describe la dirección de avance relativo entre sucesivas pasadas respecto a la línea de referencia. Se utiliza para que un un lado de la herramienta remueva más material que el otro. Un valor de *Q* positivo causa que el lado de ataque corte más material. Los valores que típicamnete se utilizan son de 29 a 30.
+* *H-* número de pasadas de repaso adicionales. Es la cantidad de pasadas en la posición final para repaso de la rosca, si no se desean pasadas adicionales de puede programar *H0*.
+* *E-* distancia a lo largo de la línea de referencia utilizada para la entrada y/o salida en ángulo. El ángulo será tal que la última pasada retrocede la profundidad del filete sobre la distancia definida por *E*. *E0.2* dará un ángulo para los primeros/últimos 0.2 unidades de longitud a lo largo de la rosca. Para un ángulo de 45 grados programe la entrada/salida con valores iguales de *E* y *K*.
+* *L-* especifica cuales extremos tendrán ángulo de entrada/salida. Utilice *L0* para rosca sin entrada/salida en ángulo valor por defecto), *L1* para ángulo de entrada, *L2* para ángulo de salida y *L3* para ángulo de entrada y de salida.
 
 La herramienta se mueve a las posiciones de X y Z antes de ejecutar el comando G76. La posición en X determina la línea de referencia y la posición de Z marcará el 
 inicio del roscado.
@@ -2327,9 +2640,9 @@ G81 Ciclo de Perforado
 
 El ciclo *G81* se utiliza para realizar perforaciones y ejecuta las siguientes funciones:
 
-   # Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Movimiento en el eje Z a la velocidad de avance actual a la posición Z*
-   # Movimiento rápido a la posición de despeje de Z
+   #. Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Movimiento en el eje Z a la velocidad de avance actual a la posición Z*
+   #. Movimiento rápido a la posición de despeje de Z
 
 **Ejemplo 1 de G81 con posición absoluta**
 
@@ -2339,10 +2652,10 @@ Suponga que la posición actual es (X1, Y2, Z3) y se ejecuta la siguiente línea
 
 Ésta línea llama al ciclo cerrado *G81* con posicionamiento absoluto *G90* y el modo de retracción *G98* una vez, por lo que se produce:
 
-   # Movimiento rápido paralelo al plano XY a X4, Y5
-   # Movimiento rápido del eje Z a Z2.8
-   # Movimiento del eje Z a velocidad de avance a Z1.5
-   # Movimiento rápido del eje Z a Z3 
+   #. Movimiento rápido paralelo al plano XY a X4, Y5
+   #. Movimiento rápido del eje Z a Z2.8
+   #. Movimiento del eje Z a velocidad de avance a Z1.5
+   #. Movimiento rápido del eje Z a Z3 
 
 .. figure:: images/exampleG81a.png
    :width: 250
@@ -2361,21 +2674,21 @@ El movimiento preliminar será un movimiento rápido en el eje Z a (X1, Y2, Z4.8
 
 La primer repetición consiste en 3 movimientos:
 
-   # Movimiento rápido paralelo al plano XY a X5 Y7
-   # Movimiento en el eje Z a velocidad de avance a Z4.2
-   # Movimiento rápido en el eje Z a Z4.8
+   #. Movimiento rápido paralelo al plano XY a X5 Y7
+   #. Movimiento en el eje Z a velocidad de avance a Z4.2
+   #. Movimiento rápido en el eje Z a Z4.8
 
 La segunda repetición consiste en 3 movimientos. La posición X se modifica a 9 (=5+4) y la posición en Y igual a 12 (=7+5):
 
-   # Movimiento rápido paralelo al plano XY a X9 Y12 Z4.8
-   # Movimiento en el eje Z a velocidad de avance a X9 Y12 Z4.2
-   # Movimiento rápido en el eje Z a X9 Y12 Z4.8
+   #. Movimiento rápido paralelo al plano XY a X9 Y12 Z4.8
+   #. Movimiento en el eje Z a velocidad de avance a X9 Y12 Z4.2
+   #. Movimiento rápido en el eje Z a X9 Y12 Z4.8
 
 La tercera repetición consiste en 3 movimientos. La posición X se modifica a 13 (=9+4) y la posición en Y igual a 17 (=12+5):
 
-   # Movimiento rápido paralelo al plano XY a X13 Y17 Z4.8
-   # Movimiento en el eje Z a velocidad de avance a X Y12 Z4.2
-   # Movimiento rápido en el eje Z a X13 Y17 Z4.8
+   #. Movimiento rápido paralelo al plano XY a X13 Y17 Z4.8
+   #. Movimiento en el eje Z a velocidad de avance a X Y12 Z4.2
+   #. Movimiento rápido en el eje Z a X13 Y17 Z4.8
 
 
 .. figure:: images/exampleG81b.png
@@ -2427,10 +2740,10 @@ G82 Ciclo de Perforado con Espera
 
 El ciclo *G82* se utiliza para realizar perforaciones con un tiempo de espera en el fondo del agujero. Realizando:
 
-   # Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Movimiento en el eje Z a la velocidad de avance actual a la posición Z*
-   # Espera por un tiempo de P segundos
-   # Movimiento rápido a la posición de despeje de Z
+   #. Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Movimiento en el eje Z a la velocidad de avance actual a la posición Z*
+   #. Espera por un tiempo de P segundos
+   #. Movimiento rápido a la posición de despeje de Z
 
 El movimiento del ciclo cerrado *G82* es igual al del ciclo *G81* pero con el tiempo de espera al llegar al fondo del agujero. El tiempo
 de espera queda definido por el parámetro *P-* del comando *G82*.
@@ -2451,12 +2764,12 @@ de perforado a lo largo del eje Z. La/s retracción/es se realiza al plano de re
 retracción final respetará las instrucciones de *G98*/*G99* en efecto. El comando *G83* funciona de manera similar a *G81* con el egregado de las
 reracciones durante el ciclo para limpieza de virutas. Los movimientos que realiza son los siguientes:
 
-   # Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Movimiento en el eje Z a la velocidad de avance actual una distancia definida en *Q* o a la posición *Z*, la que sea de menor profundidad
-   # Movimiento rápido en el eje Z al plano de retracción especificado por el valor de *R*
-   # Movimiento rápido en el eje Z hasta la cota ya mecanizada.
-   # Repetición de los pasos 2, 3 y 4 hasta la posición especificada por *Z*
-   # Movimiento rápido para despeje del eje Z
+   #. Movimiento preliminar, como se lo describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Movimiento en el eje Z a la velocidad de avance actual una distancia definida en *Q* o a la posición *Z*, la que sea de menor profundidad
+   #. Movimiento rápido en el eje Z al plano de retracción especificado por el valor de *R*
+   #. Movimiento rápido en el eje Z hasta la cota ya mecanizada.
+   #. Repetición de los pasos 2, 3 y 4 hasta la posición especificada por *Z*
+   #. Movimiento rápido para despeje del eje Z
 
 Da un error si:
 
@@ -2477,13 +2790,13 @@ dirección axial. Al llegar al final del roscado ejecuta una espera.
 
 La secuencia de movimientos es la siguiente:
 
-   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Anula overrides de velocidad de husillo y velocidad de avance
-   # Frena el husillo seleccionado, definido por el parámetro *$*
-   # Activa la rotación del husillo en el sentido horario
-   # Espera por *P* segundos
-   # Mueve el eje Z a la velocidad de avance actual a la posición de despeje
-   # Activa la velocidad de husillo y velocidad de avance a los valores previos
+   #. Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Anula overrides de velocidad de husillo y velocidad de avance
+   #. Frena el husillo seleccionado, definido por el parámetro *$*
+   #. Activa la rotación del husillo en el sentido horario
+   #. Espera por *P* segundos
+   #. Mueve el eje Z a la velocidad de avance actual a la posición de despeje
+   #. Activa la velocidad de husillo y velocidad de avance a los valores previos
 
 El paso de la rosca resulta del valor de la velocidad de avance F dividido la velocidad de rotación del husillo S. 
 Por ejemplo con valores S100 y F125 daría un paso de 1.25 mm por revolución.
@@ -2500,10 +2813,10 @@ G85 Ciclo de Perforado con Velocidad de Salida
 
 El comando *G85* se utiliza para perforado o repasado, aunque también se puede utilizar para fresado. Realiza los siguientes movimientos:
 
-   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
-   # Retracción del eje Z a la velocidad de avance actual al valor *R* si es menor a la posición inicial Z
-   # Retracción a la velocidad de desplazamiento
+   #. Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
+   #. Retracción del eje Z a la velocidad de avance actual al valor *R* si es menor a la posición inicial Z
+   #. Retracción a la velocidad de desplazamiento
 
 
 .. _refG86: 
@@ -2517,12 +2830,12 @@ G86 Ciclo de Perforado, Freno de Husillo y Velocidad Rápida de Salida
 
 El comando *G86* se utiliza para perforado. Al llegar al final del roscado ejecuta una espera. Realiza los siguientes movimientos:
 
-   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
-   # Espera por *P* segundos
-   # Frena el husillo (seleccionado por el parámetro $)
-   # Retracción rápida del eje Z a la posición de despeje
-   # Activa el giro del husillo en la dirección que giraba anteriormente
+   #. Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
+   #. Espera por *P* segundos
+   #. Frena el husillo (seleccionado por el parámetro $)
+   #. Retracción rápida del eje Z a la posición de despeje
+   #. Activa el giro del husillo en la dirección que giraba anteriormente
 
 Da error si:
 
@@ -2540,10 +2853,10 @@ G89 Ciclo de Perforado, Espera y Velocidad de Salida
 
 El comando *G89* se utiliza para perforado. Al llegar al final del roscado ejecuta una espera. Realiza los siguientes movimientos:
 
-   # Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
-   # Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
-   # Espera por *P* segundos
-   # Retracción del eje Z a la velocidad de avance actual a la posición de despeje
+   #. Movimiento preliminar, como se describe en la sección :ref:`Movimiento preliminar e intermedios <refCannedCycles>`
+   #. Movimiento en el eje Z a la velocidad de avance actual al valor definido por *Z*
+   #. Espera por *P* segundos
+   #. Retracción del eje Z a la velocidad de avance actual a la posición de despeje
 
 
 .. _refG90:
@@ -2551,12 +2864,9 @@ El comando *G89* se utiliza para perforado. Al llegar al final del roscado ejecu
 G90 G91 Modo de Distancia Absoluta o Relativa
 ---------------------------------------------
 
-* *G90* se utiliza para activar el modo de definición de posiciones en distancias absolutas. En este modo los valores definidos para los ejes 
-    (X, Y, Z, A, B, C, U, V, W) generalmente representan posiciones respecto al sistema de coordenadas activo. Las exepciones a esta regla se 
-    describen explícitamente en la sección :ref:`G80-G89 <refCannedCycles>`.
+* *G90* se utiliza para activar el modo de definición de posiciones en distancias absolutas. En este modo los valores definidos para los ejes (X, Y, Z, A, B, C, U, V, W) generalmente representan posiciones respecto al sistema de coordenadas activo. Las exepciones a esta regla se describen explícitamente en la sección :ref:`G80-G89 <refCannedCycles>`.
 
-* *G91* se utiliza para activar el modo de definición de posiciones relativos. En este modo las posiciones representan incrementos referidoa a 
-    la posición actual.
+* *G91* se utiliza para activar el modo de definición de posiciones relativos. En este modo las posiciones representan incrementos referidoa a la posición actual.
 
 **Ejemplo de G90**
 
@@ -2578,11 +2888,9 @@ G90 G91 Modo de Distancia Absoluta o Relativa
 G90.1 G91.1 Modo de Distancia de Arcos Absoluta o Relativa
 ----------------------------------------------------------
 
-* *G90.1* se utiliza para activar el modo de posiciones absolutas para los valores de I, J y K. Cuando *G90.1* está activo tanto I como J deben 
-   especificarse en los comandos *G2* y *G3* para el plano XY, o tnato los parámetros J y K deben especificarse para el plano XZ.
+* *G90.1* se utiliza para activar el modo de posiciones absolutas para los valores de I, J y K. Cuando *G90.1* está activo tanto I como J deben especificarse en los comandos *G2* y *G3* para el plano XY, o tnato los parámetros J y K deben especificarse para el plano XZ.
 
-* *G91.1* se utiliza para activar el modo de posiciones relatvas para los valores de I, J y K. El comando *G91.1* retorna el modo de funcionamiento 
-   de los valores I, J y K a su comportamiento por defecto.
+* *G91.1* se utiliza para activar el modo de posiciones relatvas para los valores de I, J y K. El comando *G91.1* retorna el modo de funcionamiento de los valores I, J y K a su comportamiento por defecto.
 
 
 .. _refG92:
@@ -2737,8 +3045,7 @@ G92.1 G92.2 Resetear Decalaje de Sistema de Coordenadas G92
 .. admonition:: Nota
    :class: Note
 
-   *G92.1* solo modifica a cero los decalajes *G92*, para cambiar los decalajes de los sistemas de coordenadas *G53* a *G59.3* utilice los comandos :ref:`G10 L2 <refG10L2>` 
-   o :ref:`G10 L20 <refG10L20>`
+   *G92.1* solo modifica a cero los decalajes *G92*, para cambiar los decalajes de los sistemas de coordenadas *G53* a *G59.3* utilice los comandos :ref:`G10 L2 <refG10L2>` o :ref:`G10 L20 <refG10L20>`
 
 
 .. _refG92.3:
@@ -2757,18 +3064,14 @@ No utilice *G92.1* en el resto del programa. Los valores guardados se pueden uti
 G93 G94 G95 Modo de Avance
 --------------------------
 
-* *G93* indica el modo de definición de la velocidad de avance por inversa del tiempo. En este modo el valor de F significa que el movimiento deberá ser completado en 1 dividido el valor de F minutos.
-    Por ejemplo, si el número F es 2.0, el movimiento tendrá que ser completado en medio minuto o 30 segundos.
+* *G93* indica el modo de definición de la velocidad de avance por inversa del tiempo. En este modo el valor de F significa que el movimiento deberá ser completado en 1 dividido el valor de F minutos. Por ejemplo, si el número F es 2.0, el movimiento tendrá que ser completado en medio minuto o 30 segundos.
 
 Cuando el modo de avance de inversa del tiempo está activo, se deberá especificar el valor F en cada línea que implique movimiento a velocidad de avance (*G1*, *G2* o *G3*) y cualquier valor 
 de F que no esté en una línea que no tiene *G1*, *G2* o *G3* es ignorado. Este modo no afecta a los movimientos rápidos *G0*.
 
-* *G94* es el modo de definición de velocidad de avance en unidades por minuto. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por minuto, ya sea pulgada por 
-    minuto o milímetros por minuto dependiendo las unidades de longitud seleccionadas. Para ejes de rotación, la velocidad de avance se define en grados por minuto.
+* *G94* es el modo de definición de velocidad de avance en unidades por minuto. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por minuto, ya sea pulgada por minuto o milímetros por minuto dependiendo las unidades de longitud seleccionadas. Para ejes de rotación, la velocidad de avance se define en grados por minuto.
 
-* *G95* es el modo de definición de velocidad de avance en unidades por revolución. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por revolución de husillo,
-   dependiendo de las unidades seleccionadas y el tipo de eje que se desplaza. *G95* no es aplicable a roscado, para lo que se debe utilizar *G33* o *G67*. *G95* requiere que el testigo *spindle.N.speed-in* 
-   esté conectado. El husillo al cual se sincroniza el movimiento se determina con el valor de $.
+* *G95* es el modo de definición de velocidad de avance en unidades por revolución. En este modo el valor de F es interpretado como la cantidad de unidades que se desplaza por revolución de husillo, dependiendo de las unidades seleccionadas y el tipo de eje que se desplaza. *G95* no es aplicable a roscado, para lo que se debe utilizar *G33* o *G67*. *G95* requiere que el testigo *spindle.N.speed-in* esté conectado. El husillo al cual se sincroniza el movimiento se determina con el valor de $.
 
 Da error si:
 
@@ -2893,11 +3196,9 @@ Tabla de Referencia - Códigos M
 M0 M1 Pausa de Programa
 -----------------------
 
-* *M0* pausa temporariamente al programa en ejecución. El controlador permanece en modo Automático por lo que las acciones manuales no están habilitadas.
-    Al presionar el botón Reanudar el programa continuará en la siguiente línea.
+* *M0* pausa temporariamente al programa en ejecución. El controlador permanece en modo Automático por lo que las acciones manuales no están habilitadas. Al presionar el botón Reanudar el programa continuará en la siguiente línea.
 
-* *M1* pausa temporariamente al programa en ejecución si está activado el interruptor opcional de parada. El controlador permanece en modo Automático por lo que las acciones manuales 
-   no están habilitadas. Al presionar el botón Reanudar el programa continuará en la siguiente línea.
+* *M1* pausa temporariamente al programa en ejecución si está activado el interruptor opcional de parada. El controlador permanece en modo Automático por lo que las acciones manuales no están habilitadas. Al presionar el botón Reanudar el programa continuará en la siguiente línea.
 
 .. admonition:: Nota
    :class: Note
@@ -3045,8 +3346,7 @@ M19 Orientación de Husillo
    M19 R- Q- [P-] [$-]
 
 * *R* Posición a la cual rotar, el rango válido es de 0 a 360 grados
-* *Q* Número de segundos de espera para que la orientación se realice. Si el valor de *spindle.N.is-oriented* no se convierte en *verdadero* dentro del lapso de *Q* segundos,
-  se emite un error.
+* *Q* Número de segundos de espera para que la orientación se realice. Si el valor de *spindle.N.is-oriented* no se convierte en *verdadero* dentro del lapso de *Q* segundos, se emite un error.
 * P Dirección de rotación para orientar
    * 0 para orientar con el ángulo más pequeño (por defecto)
    * 1 para rotar sólo en el sentido horario (en el mismo sentido que *M3*)
@@ -3062,13 +3362,10 @@ por *R-*.
 
 Testigos de HAL (Hardware Abstraction Layer):
 
-* *spindle.N.orient-angle* (out float) orientación deseada por comando *M19*. El valor de *R* especificada en el *M19* más el valor del parámetro
-     *[RS274NGC]ORIENT_OFFSET* del archivo .ini.
+* *spindle.N.orient-angle* (out float) orientación deseada por comando *M19*. El valor de *R* especificada en el *M19* más el valor del parámetro *[RS274NGC]ORIENT_OFFSET* del archivo .ini.
 * *spindle.N.orient-mode* (out S32) modo de rotación para orientación, o sea el parámetro *P* en el *M19*, por defecto = 0
-* *spindle.N.orient* (out bit) Indica el inicio del ciclo de orientación. Activado por *M19* y desactivado por *M3*, *M4* o *M5*. Si el valor de
-   *spindle-orient-fault* no es cero durante *spindle-orient*, el comando *M19* da mensaje de error.
-* *spindle.N.is-oriented* (in bit) acusa recibo de que el husillo está orientado. Completa el ciclo de orientación. Si *spindle-orient* es verdadero cuando
-    *spindle-is-oriented* se volvió verdadero, *spindle-orient* se vuelve falso y *spindle-locked* se prende. También se prende el testigo * spindle-brake*.
+* *spindle.N.orient* (out bit) Indica el inicio del ciclo de orientación. Activado por *M19* y desactivado por *M3*, *M4* o *M5*. Si el valor de *spindle-orient-fault* no es cero durante *spindle-orient*, el comando *M19* da mensaje de error.
+* *spindle.N.is-oriented* (in bit) acusa recibo de que el husillo está orientado. Completa el ciclo de orientación. Si *spindle-orient* es verdadero cuando *spindle-is-oriented* se volvió verdadero, *spindle-orient* se vuelve falso y *spindle-locked* se prende. También se prende el testigo * spindle-brake*.
 * *spindle.N.orient-fault* (in s32) código que indica falla del ciclo de orientación. Cualquier valor salvo cero causa la anulación del ciclo.
 * *spindle.N.locked* (out bit) indica orientación de husillo realizada. Se apaga con cualquier comando *M3*, *M4* o *M5*.
 
@@ -3103,8 +3400,7 @@ M51 Control de Override de Husillo
 ----------------------------------
 
 * *M51 <P1> <$->* activa el control de override de velocidad de husillo. El parámetro P1 es opcional.
-* *M51 P0 <$->* desactiva el control de override de velocidad de husillo. Cuando está desactivado el control de override no tiene infuencia y la velocidad del husillo 
-    será la determinada por el comando *S-*.
+* *M51 P0 <$->* desactiva el control de override de velocidad de husillo. Cuando está desactivado el control de override no tiene infuencia y la velocidad del husillo será la determinada por el comando *S-*.
 
 .. _refM52:
 
@@ -3130,9 +3426,7 @@ deberían variar entre -1 (velocidad programada en reversa) y 1 (velocidad plena
 M53 Control de Parada de Avance
 -------------------------------
 
-* *M53 <P1>* activa el interruptor de parada de avance. P1 es opcional. Activar el interruptor de parada de avance permitirá al interruptor frenar el movimiento. En
-    este controlador el testigo de HAL *motion.feed-hold* se utiliza para este propósito. Un valor verdadero causará la interrupción del movimiento si el comando *M53*
-    está activo.
+* *M53 <P1>* activa el interruptor de parada de avance. P1 es opcional. Activar el interruptor de parada de avance permitirá al interruptor frenar el movimiento. En este controlador el testigo de HAL *motion.feed-hold* se utiliza para este propósito. Un valor verdadero causará la interrupción del movimiento si el comando *M53* está activo.
 * *M53 P0* desactiva el interruptor de parada de avance. El valor de *motion.feed-hold* no tendrá efecto cuando *M53* no está activo.
 
 
@@ -3165,8 +3459,7 @@ M62-M65 Control de Salidas Digitales
 * *M64 P-* activa una salida digital inmediatamente. El parámetro *P-* especifica el número de la salida digital.
 * *M65 P-* desactiva una salida digital inmediatamente. El parámetro *P-* especifica el número de la salida digital.
 
-El valor de *P-* tiene un rango desde 0 a un valor por defecto de 3. De ser necesario el número de I/O (entradas/salidas) puede ser incrementado cambiando el valor de 
- *num_dio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+El valor de *P-* tiene un rango desde 0 a un valor por defecto de 3. De ser necesario el número de I/O (entradas/salidas) puede ser incrementado cambiando el valor de *num_dio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
 
 Los comandos *M62* y *M63* serán puestos en agenda. Los comandos subsiguientes que hagan referencia a la misma salida sobreescribirán el valor de configuraciones 
 anteriores. Se puede definir el valor de más de una salida utilizando varios comandos *M62*/*M63*.
@@ -3195,13 +3488,14 @@ M66 Espera Señal de Entrada
 * *P-* especifica el número de entrada digital de 0 a 3
 * *E-* especifica el número de entrada analógica de 0 a 3
 * *P-* especifica el tipo de modo de espera
+
    * Modo 0: Inmediato. No espera, retorna inmediatamente. El valor actual de la entrada es guardado en el parámetro #5399
    * Modo 1: Flanco positivo. Espera que la entrada pase desde un valor negativo a uno positivo. 
    * Modo 2: Flanco negativo. Espera que la entrada pase desde un valor positivo a uno negativo.
    * Modo 3: Positivo. Espera a que la entrada tenga un valor positivo.
    * Modo 4: Negativo. Espera a que la entrada tenga un valor negativo.
-* *Q-* especifica el tiempo de espera en segundos. Si el tiempo se excede, el comando de espera se interrumpe, y la variable #5399 pasará a tener un 
-    valor de -1. El valor de *Q-* es ignorado si el valor de *L-* es cero (comportamiento inmediato). Un valor de *Q-* de cero da error si el valor de *L-* no es cero.
+
+* *Q-* especifica el tiempo de espera en segundos. Si el tiempo se excede, el comando de espera se interrumpe, y la variable #5399 pasará a tener un valor de -1. El valor de *Q-* es ignorado si el valor de *L-* es cero (comportamiento inmediato). Un valor de *Q-* de cero da error si el valor de *L-* no es cero.
 * El modo 0 es el único permitido para entradas analógicas
 
 **Ejemplo de M66**::
@@ -3241,8 +3535,7 @@ El cambio de los valores de las salidas se realizará en el comienzo del próxim
 agendado de la/s salida/s no se llevará a cabo. Es usual utilizar un comando de movimiento (*G0*, *G1*, etc.) inmediatamente luego de *M67*. *M67* funciona de igual
 manera a *62*-*63*.
 
-De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de 
- *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
 
 .. admonition:: Nota
    :class: note
@@ -3266,8 +3559,7 @@ M68 Salidas Analógicas Inmediatas
 El cambio de los valores de las salidas se realizará inmediatamente ya que son recibidos por el controlador de movimiento. No están sincronizados con el 
 movimiento, y cancelarán el suavizado de trayectoria. *M68* funciona de igual manera que *64*-*65*.
 
-De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de 
- *num_dio* o *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
+De ser necesario el número de I/O (entradas/salidas) analógicas puede ser incrementado cambiando el valor de *num_dio* o *num_aio* al cargar el controlador de movimiento. Para más información ver la sección de :ref:`Movimiento <refMotion>`.
 
 .. admonition:: Nota
    :class: note
@@ -3308,11 +3600,9 @@ Notar que el modo de movimiento (*G1*,etc) No se reestablece.
 
 El nivel de llamada actual refiere a una de las siguientes opciones:
 
-   * Al ejecutar el programa principal. Hay un solo almacenamiento para el estado modal en el nivel del programa principal; si se realizan varias llamadas a la instrucción *M70*
-     se ejecutan en turno, sólo el estado en la última llamada se restaura por medio del comando *M72*.
+   * Al ejecutar el programa principal. Hay un solo almacenamiento para el estado modal en el nivel del programa principal; si se realizan varias llamadas a la instrucción *M70* se ejecutan en turno, sólo el estado en la última llamada se restaura por medio del comando *M72*.
 
-   * Al ejecutar en una subrutina. El comportamiento de *M70* es igual al comportamiento de un parámetro local, puede ser referido sólo dentro de esta subrutina
-      al llamar a *M72* y cuando la subrutina retorna al nivel superior el parámetro desaparece.
+   * Al ejecutar en una subrutina. El comportamiento de *M70* es igual al comportamiento de un parámetro local, puede ser referido sólo dentro de esta subrutina al llamar a *M72* y cuando la subrutina retorna al nivel superior el parámetro desaparece.
 
 Una invocación recursiva a una subrutina introduce un nuevo nivel a la llamada.
 
@@ -3710,12 +4000,12 @@ que se encuentre definido más adelante con *o100 ... M99*. El parámetro opcion
 
 El programa principal debe estar terminado con *M02* o *M30* (o *M99*, ver más abajo).
 
-*O-* **Inicio de definición de subprograma**
+*O- Inicio de definición de subprograma*
 
 Marca el inicio de la defición de un subprograma numerado. El bloque *O100* es simialr a *o100 sub*, excepto que debe ser ubicado más adelante en el archivo que la
 línea de llamada *M98 P100*.
 
-*M99* **Retorno desde subrutina numerada**
+*M99 Retorno desde subrutina numerada*
 
 El bloque *M99* es análogo a la sintáxis *o100 endsub*, pero solo puede terminar un programa numerdao (*o100* en este ejemplo) y no puede terminar una subrutina que 
 empiece con la sintáxis *o100 sub*.
@@ -3874,11 +4164,11 @@ El número de comando *O-* puede estar dado por un parámetro o un cálculo.
 
 **Calculando los valores de los Comandos O-**
 
-Para más información en el cálculo de los vaalores ver las siguientes secciones:
+Para más información en el cálculo de los valores ver las siguientes secciones:
 
 * :ref:`Parámetros <refParameters>`
 * :ref:`Expresiones <refExpresions>`
-* :ref:`Opreadores Lógicos <refBinaryOps>`
+* :ref:`Operadores Lógicos <refBinaryOps>`
 * :ref:`Funciones <refFunctions>`
 
 
