@@ -1101,7 +1101,7 @@ Se produce un error si:
 
 **Ejemplo G1**
 
-.. figure:: images/G1example.png
+.. figure:: images/g1example.png
    :width: 300
 
 ::
