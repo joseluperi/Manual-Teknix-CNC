@@ -53,7 +53,7 @@ Se utiliza para seleccionar el eje que se moverá mediante la rueda de jogging c
 .. figure:: images/axisSelector.png
    :width: 110
    
-   Selector de escala
+   Selector de eje
 
 
 **Perilla de override de velocidad de avance**
