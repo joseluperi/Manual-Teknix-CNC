@@ -464,7 +464,7 @@ Desde el punto de vista del ámbito se comportan igual a los parámetros numerad
 
 Los parámetros con nombre se crean cunado se les asigna un valor por primera vez.
 Se produce un error si se utiliza un parámetro con nombre que no existe dentro de una expresión, o se lo utiliza a la derecha de la asignación.
-Al imprimir el valor de un parámetro con nombre inexistente con *(DEBUG, <parametro_inexistente>* se mostrará el s+imbolo *#*.
+Al imprimir el valor de un parámetro con nombre inexistente con *(DEBUG, <parametro_inexistente>* se mostrará el símbolo *#*.
 Los parámetros globales, como así también los parámetros locales asignados en el nivel global, seguirán existinendo aún cunado el programa finaliza,
 y sus valores estarán disponibles cuando el programa se ejecute nuevamente.
 La función *EXIST* se puede utilizar para conocer si existe un parámetro con determinado nombre.
@@ -1058,7 +1058,9 @@ Si la compensación de herramienta está activa, el movimiento difiere del descr
 
 Si *G53* está definido en la misma línea, el movimiento también se ve modificado; ver sección :ref:`G53 <refG53>` para más información.
 
-La trayectoria de un movimiento rápido *G0* puede verse suavizado en los cambios de dirección y depende de la configuración de :doc:`trajectoryControl`.
+..
+
+   La trayectoria de un movimiento rápido *G0* puede verse suavizado en los cambios de dirección y depende de la configuración de :doc:`trajectoryControl`.
 
 Se produce un error si:
 
@@ -1599,7 +1601,14 @@ Da error si:
 En la línea anterior se define la posición del sistema de coordenadas 1 (el que se selecciona con el comando *G54*) a los valores de X = 35.2
 e Y = 17.8. Debido a que solo X e Y se han definido, el origen del sistema de coordenadas se mueve mientras que las otras coordenadas no se mueven.
 
-   
+
+.. admonition:: Nota
+   :class: note
+
+   Adicionalmente al decalaje o posición del sistema de coordenadas de pieza, se superpone el efecto de las funciones de transformación, que permiten
+   trasladar, rotar, escalar o espejar el sistema de refererncia. Para más infromación ver la sección de :ref:`Transformación de Sistemas Coordenados  <transfCoords>`
+
+
 .. _refG10L10:
 
 G10 L10 Definición de Parámetros de Herramienta en Punto Actual
@@ -2000,7 +2009,7 @@ Para activar la compensación de herramienta a la derecha de la trayectoria util
 de la herramienta para que el filo se ubique sobre la línea programada, ubicándola a la derecha visto desde el extremo positivo del eje 
 perpendicular al plano.
 
-El largo del movimiento debe ser igual omayor al radiode la herramienta. El movmimiento puede ser un movimiento rápido.
+El largo del movimiento debe ser igual omayor al radio de la herramienta. El movmimiento puede ser un movimiento rápido.
 
 La compensación de herramienta puede ser realizado si el plano XY o el XZ está activos.
 
@@ -2008,6 +2017,12 @@ Los comandos *M100-M199* están permitidos al estar activa la compensación de h
 
 El comportamiento de un centro de mecanizado cuando la compensación de herramienta está activa se describe en la sección
 :doc:`toolCompensation`.
+
+.. admonition:: Nota
+   :class: note
+
+   Cuando la compensación de herramienta está activa *G41/G42* no se permite realizar el cambios de herramientas ni de 
+   filos de herramienta
 
 Da un error si:
 
@@ -2073,8 +2088,7 @@ Da un error si:
 
    * El número *H* no es un entero
    * El número *H* es negativo
-   * El número *H* no es un número válido de herramienta 
-      (notar que el número 0 es válido en máquinas con cambiadores no aleatorios)
+   * El número *H* no es un número válido de herramienta (notar que el número 0 es válido en máquinas con cambiadores no aleatorios)
 
 
 .. _refG43.1:
@@ -2514,8 +2528,8 @@ Si la posición en el eje Z es menor al valor de *R-*, el eje Z realiza un movim
 Esto sucede solo una vez, independientemente del valor de *L*.
 Adicionalmente, al inicio del primer ciclo y en cada repetición, se realiza uno o los dos movimientos siguientes:
 
-# Desplazamiento rápido en el plano XY al valor de las coordenadas X e Y dados
-# Desplazamiento rápido a la posición *R*, si es que no está en esa posición
+#. Desplazamiento rápido en el plano XY al valor de las coordenadas X e Y dados
+#. Desplazamiento rápido a la posición *R*, si es que no está en esa posición
 
 **¿Porqué usar Ciclos Cerrados?**
 
@@ -3217,16 +3231,16 @@ M2 M30 Fin de Programa
 
 Ambos comandos tienen los siguientes efectos:
 
-# Cambian el modo de Automático a Manual
-# Los decalajes de origen pasan a los valores por defecto (*G54*)
-# El plano de trabajo activo para a ser el plano XY (*G17*)
-# El modo de distancia para a ser el absoluto (*G90*)
-# El modo de velocidad de avance se activa en unidaes por minuto (*G94*)
-# Los overrides de velocidad de husillo y velocidad de avance pasan a estar activos (*M48*)
-# La compensación de herramientas se desactiva (*G40*)
-# El husillo se frena (*G5*)
-# El modo de movimiento pasa a movimiento con velocidad de avance (*G1*)
-# La bomba de refrigerante se apaga (*M9*)
+#. Cambian el modo de Automático a Manual
+#. Los decalajes de origen pasan a los valores por defecto (*G54*)
+#. El plano de trabajo activo para a ser el plano XY (*G17*)
+#. El modo de distancia para a ser el absoluto (*G90*)
+#. El modo de velocidad de avance se activa en unidaes por minuto (*G94*)
+#. Los overrides de velocidad de husillo y velocidad de avance pasan a estar activos (*M48*)
+#. La compensación de herramientas se desactiva (*G40*)
+#. El husillo se frena (*G5*)
+#. El modo de movimiento pasa a movimiento con velocidad de avance (*G1*)
+#. La bomba de refrigerante se apaga (*M9*)
 
 .. admonition:: Nota
    :class: Note
@@ -3313,7 +3327,7 @@ Cuando el cambio de herramienta se complete:
 * No se realizará algún otro cambio. Por ejemplo, si la bomba de refrigerante estaba encendida quedará encendida durante el cambio de herramienta
 
 .. admonition:: Precaución
-   :class: Warning
+   :class: warning
 
    El decalaje de largo de herramienta no se modificado por *M6*, utilice *G43* luego de un cambiar a una herramienta *M6* con otro largo
 
@@ -3322,6 +3336,11 @@ Está permitido realizar un cambio a un número en el que el cargador no tiene h
 Si se selecciona el número 0 el husillo quedará vacío luego del cambio de herramienta. El cambiador de herramientas debe ser configurado para poder realizar los 
 cambios de herramientas en el HAL y posiblemente en el PLC (Programmable logic controller).
 
+.. admonition:: Nota
+   :class: note
+
+   Consultar con el integrador de máquina si el comando *M6* se ejecuta implícitamente con el comnado *T*. Generalmente en tornos y en centros de mecanizados con 
+   cambiador de herramientas no aleatorio la ejecución de *T* implica la ejecución implícita de *M6*.
 
 .. _refM7:
 
