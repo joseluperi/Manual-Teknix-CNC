@@ -15,6 +15,11 @@ Para conocer sobre el uso de los comandos CNC vea :doc:`cncFundamentals`. Para c
 La sección :doc:`latheUserInfo` muestra algunas consideraciones a tener en cuenta para
 tornos. La sección :doc:`toolCompensation` describe las consideraciones para tener en cuenta las dimensiones de las herramientas.
 
+.. figure:: images/panel_CNC.png
+   :width: 500
+   
+   Control Numérico Teknix.
+
 Contenido
 ---------
 
