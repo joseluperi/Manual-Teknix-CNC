@@ -611,14 +611,100 @@ el espejado puede parecer que el controlador está realizando el árco de círcu
    Efecto del espejado en arco de círculos *G2/G3* y compensación de radio de herramienta *G41/G42*
 
 
+.. _transfCinem:
+
+Transformaciones Cinemáticas
+============================
+
+Las transformaciones cinemáticas se utilizan para definir la posición y/o orientación en un sistema coordenado y transformar esta
+posición a otro sistema, como ejes de máquinas por ejemplo.
+
+Transformación sobre la superficie de un cilindro - Tracyl
+----------------------------------------------------------
+
+Esta transformación permite mecanizar preforaciones o ranuras sobre la superficie curva de una cilindro
+como si ésta estuviera desenrollada y definiendo las posiciones en una superficie plana.
+
+Cuando se activa esta transformación es necesario pasarle el parámetro del diámetro del cilindro de referencia,
+ya que cuando definimos la ubicación en el eje Z longitudinal la relación es directa, pero cuando definimos la 
+ubicación en la dirección Y, el eje de husillo debe rotar un ángulo que depende del diámetro del cilindro de referencia.
+
+
+.. figure:: images/tracyl.png
+   :width: 250
+   
+   Transformación sobre la superficie de un cilindro - Tracyl
+
+
+Ejemplo de uso:
+
+::
+
+   M5 (frena giro de husillo)
+   M3S0 (desactiva el freno del husillo, si es que está activado)
+   G7.rl00 (activa transformación tracyl con diámetro de referencia 100)
+   G19 (plano de trabajo YZ)
+   M3 S1200 $1 (giro horario de herramienta motorizada a 1200 rpm)
+   G0 X120 (posicionamiento)
+   Z -50 Y20 (posicionamiento)
+   G1 X 80 F50(fresado de entrada)
+   Y100 Z-80(fresado lateral inclinado)
+   X 120 (retiro)
+   M5 S1 (desactivar giro de herramienta motorizada)
+   G7.1 (G siete punto uno - desactiva transformación transmit)
+
+.. admonition:: Nota
+   :class: note
+
+   El parámetro del diámetro de referencia se pasa con la letra R pero no significa radio, sinó diámetro.
 
 
 
-..
-   Transformaciones Cinemáticas
-..
-   ----------------------------
-..
-   Transmit
-..
-   Kinenatic transformation
+
+Transformación de coordenadas ortogonales a polares - Transmit
+--------------------------------------------------------------
+
+Esta transformación permite realizar fresado en la cara frontal de una pieza utilizando tornos con herramientas motorizadas.
+Permite utilizar coordenadas ortogonales (cartesianas), transformándolas a las coordenadas de ejes reales de la máquina.
+La situación de uso estandar tiene las siguientes características:
+
+   * Eje rotativo (husillo)
+   * Dirección de avance perpendicular al eje rotativo
+   * Eje longitudinal paralelo al eje rotativo
+
+Se permite utiliza un offset relativo al eje de rotación.
+
+.. figure:: images/transmit.png
+   :width: 250
+   
+   Transformación de coordenadas ortogonales a polares - Transmit
+
+
+.. admonition:: Precaución
+   :class: warning
+
+   La velocidad de giro depende de la velocidad y dirección de avance de la herramienta y de la distancia al eje de rotación. 
+   Al ubicar el centro de herramienta sobre el eje de rotación la transformación se vuelve singular y el control dará error.
+   Se debe activar la transformación estando fuera del centro de giro y se debe evitar pasar por el centro mientras la transformación
+   está habilitada.
+
+
+
+Ejemplo de uso:
+
+::
+
+   M5 (frena giro de husillo)
+   M3S0 (desactiva el freno del husillo, si es que está activado)
+   G7.1l0 (G siete punto uno, ele cero - activa transformación transmit)
+   G17 (plano de trabajo XY)
+   M3 S1200 $1 (giro horario de herramienta motorizada a 1200 rpm)
+   G0 X-25 Y50 (posicionamiento)
+   G1 Z -20 F50(fresado de entrada)
+   X100 (fresado frontal)
+   Y-50 (fresado frontal)
+   Z 40 (retiro)
+   M5 $1 (desactivar giro de herramienta motorizada)
+   G7.1 (G siete punto uno - desactiva transformación transmit)
+
+
