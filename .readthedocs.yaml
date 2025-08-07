@@ -4,9 +4,6 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.12"
-    advice.detachedHead: "false"
-  commands:
-        # - make html
     
 sphinx:
   configuration: docs/source/conf.py
