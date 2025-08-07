@@ -941,6 +941,8 @@ Si L- está escrito en la forma de prototipo el signo - frecuentemente está ref
 +-------------------------------+--------------------------------------------------------------------------+
 |  :ref:`G7 <refG7>`            | Modo Diametral (para torneado)                                           |
 +-------------------------------+--------------------------------------------------------------------------+
+|  :ref:`G7.1 <refG7.1>`        | Transformaciones Cinemáticas Tracyl-Transmit (para torneado)             |
++-------------------------------+--------------------------------------------------------------------------+
 |  :ref:`G8 <refG8>`            | Modo Radial (para torneado)                                              |
 +-------------------------------+--------------------------------------------------------------------------+
 |  :ref:`G10 L1 <refG10L1>`     | Definición de Parámetros de Herramienta                                  |
@@ -1464,6 +1466,92 @@ G7 Modo Diametral (para torneado)
 El comando *G7* activa el modo diametral para el eje X de un torno. Cuando el modo diametral está activo el eje X se mueve
 a la mitad de la distancia respecto al eje del husillo. Esto hace que se pueda definir como posición la cota que corresponde 
 al diámetro de una pieza. Ver Figura :ref:`G7 G8 <refFigureG7G8>`
+
+.. _refG7.1:
+
+G7.1 Transformaciones cinemáticas Tracyl-Transmit (para torneado)
+-----------------------------------------------------------------
+
+::
+
+   G7.1 (desactiva transformaciones cinemáticas)
+   G7.1r100 (activa transformación Tracyl)
+   G7.1l0 ( G siete punto ele cero - activa transformación Transmit)
+
+La función G7.1 se utiliza para activar o desactivar las transformaciones cinemáticas que se utilizan en tornos
+con herramientas motorizadas.
+
+
+La función G7.1r50 activa la transformación sobre la superficie de un cilindro - Tracyl, que permite mecanizar preforaciones o ranuras
+sobre la superficie curva de una cilindro como si ésta estuviera desenrollada y definiendo las posiciones en una superficie plana.
+
+El parámetro r es el diámetro (50 en el ejemplo) del cilindro de referencia, que permite determinar el ángulo que debe adoptar el husillo para transformar la
+ubicación en la dirección Y para proyectarla en el cilindro de referencia.
+
+
+.. figure:: images/tracyl.png
+   :width: 250
+   
+   Transformación sobre la superficie de un cilindro - Tracyl
+
+
+Ejemplo de uso:
+
+::
+
+   M5 (frena giro de husillo)
+   M3S0 (desactiva el freno del husillo, si es que está activado)
+   G7.rl00 (activa transformación tracyl con diámetro de referencia 100)
+   G19 (plano de trabajo YZ)
+   M3 S1200 $1 (giro horario de herramienta motorizada a 1200 rpm)
+   G0 X120 (posicionamiento)
+   Z -50 Y20 (posicionamiento)
+   G1 X 80 F50(fresado de entrada)
+   Y100 Z-80(fresado lateral inclinado)
+   X 120 (retiro)
+   M5 S1 (desactivar giro de herramienta motorizada)
+   G7.1 (G siete punto uno - desactiva transformación transmit)
+
+.. admonition:: Nota
+   :class: note
+
+   El parámetro del diámetro de referencia se pasa con la letra R pero no significa radio, sinó diámetro.
+
+La función G7.1l0 ( G siete punto ele cero) activa la transformación de coordenadas ortogonales a polares - Transmit.
+Esta transformación permite realizar fresado en la cara frontal de una pieza utilizando coordenadas ortogonales (cartesianas) y
+transformándolas a las coordenadas de ejes reales de la máquina.
+
+.. figure:: images/transmit.png
+   :width: 250
+   
+   Transformación de coordenadas ortogonales a polares - Transmit
+
+
+.. admonition:: Precaución
+   :class: warning
+
+   La velocidad de giro depende de la velocidad y dirección de avance de la herramienta y de la distancia al eje de rotación. 
+   Al ubicar el centro de herramienta sobre el eje de rotación la transformación se vuelve singular y el control dará error.
+   Se debe activar la transformación estando fuera del centro de giro y se debe evitar pasar por el centro mientras la transformación
+   está habilitada.
+
+
+Ejemplo de uso:
+
+::
+
+   M5 (frena giro de husillo)
+   M3S0 (desactiva el freno del husillo, si es que está activado)
+   G7.1l0 (G siete punto uno, ele cero - activa transformación transmit)
+   G17 (plano de trabajo XY)
+   M3 S1200 $1 (giro horario de herramienta motorizada a 1200 rpm)
+   G0 X-25 Y50 (posicionamiento)
+   G1 Z -20 F50(fresado de entrada)
+   X100 (fresado frontal)
+   Y-50 (fresado frontal)
+   Z 40 (retiro)
+   M5 $1 (desactivar giro de herramienta motorizada)
+   G7.1 (G siete punto uno - desactiva transformación transmit)
 
 
 .. _refG8:
@@ -3373,6 +3461,13 @@ M19 Orientación de Husillo
 * *$* selección de husillo (determina cuales testigos del HAL se tienen en cuenta para los comandos de orientación)
 
 *M19* se desactiva con cualquiera de *M3*, *M4* o *M5*.
+
+.. admonition:: Nota
+   :class: note
+
+   En tornos que poseen freno de husillo, al activar esta función se activará el freno automáticamente. Para el desbloqueo del mismo se podrá utilizar
+   la función M3S0, es decir activar el husillo en modo velocidad con velocidad nula.
+
 
 La orientación de husillo requiere de un encoder de cuadratura con un índice para poder determinar la posición y sentido de giro.
 
