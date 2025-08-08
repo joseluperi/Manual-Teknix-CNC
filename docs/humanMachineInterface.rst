@@ -683,11 +683,11 @@ Respecto a los *Botones Configurables* que no se muestran en la anterior imagen,
 +-----------+-----------------------------------------------------------------------+
 |  |logo75| |    Velocidad de rectificado baja                                      |
 +-----------+-----------------------------------------------------------------------+
-|  |logo76| |    Ajustar husillo                                                    |
+|  |logo76| |    Ajustar luneta                                                     |
 +-----------+-----------------------------------------------------------------------+
-|  |logo77| |    Desajustar husillo                                                 |
+|  |logo77| |    Desajustar luneta                                                  |
 +-----------+-----------------------------------------------------------------------+
-|  |logo78| |    Bloquear husillo                                                   |
+|  |logo78| |    Bloquear luneta                                                    |
 +-----------+-----------------------------------------------------------------------+
 |  |logo79| |    Activar o desactivar bomba de refrigerante de alta presión         |
 +-----------+-----------------------------------------------------------------------+
