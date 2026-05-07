@@ -468,7 +468,7 @@ La orientación descripta en la figura anterior se realiza con las siguientes ro
 
 
 .. figure:: images/rotsG18.png
-   :width: 260
+   :width: 270
    
    Efecto de la función *ROTS X* :math:`\gamma` *Z* :math:`\alpha`.
 
