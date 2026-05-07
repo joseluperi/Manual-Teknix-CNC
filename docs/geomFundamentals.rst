@@ -456,7 +456,7 @@ formará un ángulo igual a :math:`\beta` respecto al eje original Y (ver convec
 En las siguientes figuras se muestra el efecto de la función *ROTS* de acuerdo al plano de trabajo vigente.
 
 .. figure:: images/rotsG17.png
-   :width: 250
+   :width: 240
    
    Efecto de la función *ROTS X* :math:`\beta` *Y* :math:`\alpha`.
 
@@ -468,7 +468,7 @@ La orientación descripta en la figura anterior se realiza con las siguientes ro
 
 
 .. figure:: images/rotsG18.png
-   :width: 250
+   :width: 260
    
    Efecto de la función *ROTS X* :math:`\gamma` *Z* :math:`\alpha`.
 
