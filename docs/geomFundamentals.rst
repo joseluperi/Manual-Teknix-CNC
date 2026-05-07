@@ -447,27 +447,42 @@ Estas funciones permiten alinear al plano de trabajo en el espacio a través del
 Tienen el efecto de rotar el plano pero no modifican la posición del origen. 
 
 Admiten como máximo dos valores, ya que un tercer valor conduciría a una sobre restricción.
-Por ejemplo si se programa *ROTS X*:math:`\alpha` *Y*:math:`\beta`, la intersección del plano XY girado con el plano original XZ, formará un ángulo igual a
-:math:`\alpha` respecto al eje original X y la intersección del plano XY girado con el plano original YZ, formará un ángulo igual a :math:`\beta` respecto al eje original Y.
+Por ejemplo si estmos trabajando en el plano XY (G17) y se programa *ROTS X*:math:`\beta` *Y*:math:`\alpha`,
+la intersección del plano rotado con el plano original XZ, formará un ángulo igual a
+:math:`\alpha` respecto al eje original X y la intersección del plano rotado con el plano original YZ,
+formará un ángulo igual a :math:`\beta` respecto al eje original Y (ver conveción de signos en imágenes.
 
-En la siguiente figura se muestra el efecto de la función *ROTS* cuando se la utiliza con dos argumentos en las diferentes combinaciones.
+En las siguientes figuras se muestra el efecto de la función *ROTS* de acuerdo al plano de trabajo vigente.
 
-.. figure:: images/rotationEffecRots.png
-   :width: 550
+.. figure:: images/rotsG17.png
+   :width: 250
    
-   Efecto de funciones  a) *ROTS X*:math:`\alpha` *Y*:math:`\beta`  b) *ROTS Z*:math:`\gamma` *X*:math:`\alpha`  c) *ROTS Y*:math:`\beta` *Z*:math:`\gamma`
+   Efecto de la función *ROTS X* :math:`\beta` *Y* :math:`\alpha` en plano G17
 
 La orientación descripta en la figura anterior se realiza con las siguientes rotaciones:
 
-   *ROTS X*:math:`\alpha` *Y*:math:`\beta`
+   *ROTS X* :math:`\beta` *Y* :math:`\alpha`
       a) Rotación alrededor del eje Y un ángulo :math:`\alpha`
       b) Rotación alrededor del eje X' un ángulo necesario para formar el ángulo :math:`\beta`
 
-   *ROTS Z*:math:`\gamma` *X*:math:`\alpha`
+
+.. figure:: images/rotsG18.png
+   :width: 250
+   
+   Efecto de la función *ROTS X* :math:`\gamma` *Z* :math:`\alpha` en plano G18
+
+
+   *ROTS X* :math:`\gamma` *Z* :math:`\alpha`
       a) Rotación alrededor del eje X un ángulo :math:`\gamma`
       b) Rotación alrededor del eje Z' un ángulo necesario para formar el ángulo :math:`\alpha`
 
-   *ROTS Y*:math:`\beta` *Z*:math:`\gamma`
+
+.. figure:: images/rotsG19.png
+   :width: 250
+   
+   Efecto de la función *ROTS Y* :math:`\gamma` *Y* :math:`\beta` en plano G19
+
+   *ROTS Y* :math:`\gamma` *Z* :math:`\beta`
       a) Rotación alrededor del eje Z un ángulo :math:`\beta`
       b) Rotación alrededor del eje Y' un ángulo necesario para formar el ángulo :math:`\gamma`
 
